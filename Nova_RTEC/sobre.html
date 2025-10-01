@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre - RTEC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .help-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <!-- Top Navigation -->
+        <nav class="bg-gray-100 py-2">
+            <div class="container mx-auto px-4 flex justify-end">
+                <ul class="flex space-x-6 text-sm">
+                    <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
+                    <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Navigation -->
+        <nav class="py-4">
+            <div class="container mx-auto px-4 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="inicio.html" class="block">
+                        <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+                    </a>
+                </div>
+
+                <!-- Menu Items -->
+                <ul class="hidden md:flex space-x-8">
+                    <li><a href="descarte.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">DESCARTE</a></li>
+                    <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">AGENDAMENTO</a></li>
+                    <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">COLETORES</a></li>
+                    <li><a href="sobre.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">SOBRE</a></li>
+                    <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">FEEDBACKS</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sobre Section -->
+    <main class="min-h-screen py-12" style="background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);">
+        <div class="container mx-auto px-4">
+            <section class="max-w-5xl mx-auto bg-white rounded-2xl p-12 shadow-2xl">
+                <h2 class="text-4xl font-bold text-center text-green-600 mb-8">SOBRE</h2>
+                <p class="text-gray-600 text-lg text-center max-w-3xl mx-auto leading-relaxed mb-12">
+                    A reciclagem adequada de resíduos eletrônicos é fundamental para reduzir a poluição do solo, da água e do ar, causada pela presença de substâncias tóxicas em sua composição. Nossa missão é facilitar o descarte responsável e promover a sustentabilidade ambiental.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-green-50 p-8 rounded-xl text-center shadow info-card">
+                        <i class="fas fa-recycle text-4xl mb-4 text-green-600"></i>
+                        <h3 class="text-xl font-semibold mb-2">Reciclagem Responsável</h3>
+                        <p class="opacity-90">Processamos resíduos eletrônicos de forma segura e ambientalmente correta.</p>
+                    </div>
+                    <div class="bg-green-50 p-8 rounded-xl text-center shadow info-card">
+                        <i class="fas fa-leaf text-4xl mb-4 text-green-600"></i>
+                        <h3 class="text-xl font-semibold mb-2">Sustentabilidade</h3>
+                        <p class="opacity-90">Contribuímos para um futuro mais verde e sustentável para todos.</p>
+                    </div>
+                    <div class="bg-green-50 p-8 rounded-xl text-center shadow info-card">
+                        <i class="fas fa-users text-4xl mb-4 text-green-600"></i>
+                        <h3 class="text-xl font-semibold mb-2">Comunidade</h3>
+                        <p class="opacity-90">Conectamos pessoas e empresas em prol do meio ambiente.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Help Button -->
+    <a href="faq.html" class="help-btn bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-question-circle" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+        </svg>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-green-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-youtube text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </a>
+                </div>
+                <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
+                <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

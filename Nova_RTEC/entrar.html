@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Login</title>
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+  * {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    body, html {
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Menu sempre no topo */
+    header {
+        position: relative;
+        z-index: 10;
+        background-color: #fff;
+    }
+
+    /* SVG bolhas como background fixo */
+    .background-blobs {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Centraliza geral */
+        z-index: -1;
+    }
+
+
+    /* Formulário responsivo centralizado */
+    .form-container {
+        position: relative;
+        max-width: 320px;
+        width: 90%;
+        margin: 120px auto;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 1;
+    }
+
+    h2 {
+        color: #03af5c;
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    /* Botão */
+    .container {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    button {
+        outline: none;
+        height: 40px;
+        width: 130px;
+        border-radius: 40px;
+        background: #fff;
+        border: 2px solid #1ECD97;
+        color: #1ECD97;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    button:hover {
+        color: white;
+        background: #1ECD97;
+    }
+
+    .forgot-password {
+        display: block;
+        margin-top: 10px;
+        color: #1ECD97;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .forgot-password:hover {
+        text-decoration: underline;
+    }
+
+    /* RESPONSIVO */
+    @media only screen and (max-width: 480px) {
+        nav.main-nav,
+        nav.user-nav {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .form-container {
+            margin: 80px auto;
+        }
+
+        .menu-items li {
+            margin: 10px 0;
+        }
+    }
+
+    /*MENU TOGGLE*/
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #1ECD97;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        z-index: 20;
+    }
+
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
+        }
+
+        .menu-items {
+            display: none;
+            flex-direction: column;
+            background-color: white;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 15;
+        }
+
+        .menu-items.active {
+            display: flex;
+        }
+
+        .main-nav {
+            position: relative;
+            flex-direction: column;
+        }
+
+        .social-icons {
+            display: none;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .background-blobs {
+            display: none;
+        }
+    }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="user-nav">
+            <ul>
+                <li><a href="entrar.html">Entrar</a></li>
+                <li><a href="cadastro.html">Cadastre-se</a></li>
+            </ul>
+        </nav>
+        <nav class="main-nav">
+
+
+            <ul class="logo-container">
+                <li><a href="inicio.html" class="logo-link"><img src="logo.png" alt="Logo da Empresa" class="logo"></a></li>
+            </ul>
+
+            <!-- Botão hamburguer -->
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="menu-items">
+                <li><a href="descarte.html">DESCARTE</a></li>
+                <li><a href="agendamento.html">AGENDAMENTO</a></li>
+                <li><a href="coletores.html">COLETORES</a></li>
+                <li><a href="sobre.html">SOBRE</a></li>
+                <li><a href="feedback.html">FEEDBACKS</a></li>
+            </ul>
+            <ul class="social-icons">
+                <li><a href= "https://www.instagram.com/fatecfrancodarocha/#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                <li><a href= "https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"><i class="fab fa-youtube" target="_blank"></i></a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    
+    <svg class="background-blobs" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bolha principal -->
+        <path fill="#B4EBA7" fill-opacity="0.6" d="M400,320Q370,400,290,380Q210,360,200,290Q190,220,260,180Q330,140,370,200Q410,260,400,320Z"/>
+      
+        <!-- Duas bolhas redondas bem próximas -->
+        <circle cx="450" cy="200" r="60" fill="#3DBF96" fill-opacity="0.6"/>
+        <circle cx="500" cy="230" r="60" fill="#3DBF96" fill-opacity="0.6"/>
+      </svg>
+      
+
+    <!-- Formulário de Login -->
+    <div class="form-container">
+        <h2>LOGIN</h2>
+        <form id="login-form">
+            <input type="text" id="username" name="username" placeholder="Usuário" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <!-- Botão de login -->
+            <div class="container">
+                <button id="button">Entrar</button>
+            </div>
+            <!-- Link de "Esqueci a senha" -->
+            <a href="recuperar-senha.html" class="forgot-password">Esqueci a senha?</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Função para o botão de login
+            $("#button").click(function(event) {
+                event.preventDefault();  // Impede o envio do formulário
+
+                // Obter os valores dos campos de login
+                var username = $("#username").val();
+                var password = $("#password").val();
+
+                // Validar se os campos estão preenchidos corretamente
+                if (username === "usuario" && password === "senha123") {
+                    // Se os dados estiverem corretos, redireciona para a página 'descarte.html'
+                    window.location.href = "descarte.html";  // Substitua com a URL da sua página de destino
+                } else {
+                    // Caso contrário, exibe uma mensagem e recarrega a página
+                    alert("Usuário ou senha incorretos!");
+                    location.reload();  // Isso recarrega a página
+                }
+            });
+
+            // Função para o link "Esqueci a senha"
+            $(".forgot-password").click(function(event) {
+                // Simulando uma navegação para a página de recuperação de senha
+                window.location.href = "recuperar-senha.html";  // Substitua com a URL real da sua página de recuperação de senha
+            });
+        });
+
+        // Toggle do menu hamburguer
+        $("#menu-toggle").click(function () {
+            $(".menu-items").toggleClass("active");
+        });
+
+    </script>
+
+<footer>
+    <p>&copy; 2024 RTEC</p>
+</footer>
+
+</body>
+</html>

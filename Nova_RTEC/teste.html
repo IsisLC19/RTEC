@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realizar Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen gradient-bg flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-lg">
+    <nav class="bg-gray-100 py-2">
+      <div class="container mx-auto px-4 flex justify-end">
+        <ul class="flex space-x-6 text-sm">
+          <li><a href="entrar.html" class="text-gray-600 hover:text-green-600 transition-all">Entrar</a></li>
+          <li><a href="cadastro.html" class="text-gray-600 hover:text-green-600 transition-all">Cadastre-se</a></li>
+        </ul>
+      </div>
+    </nav>
+    <nav class="py-4">
+      <div class="container mx-auto px-4 flex items-center justify-between">
+        <!-- Logo -->
+        <div>
+          <a href="inicio.html"><img src="logo.png" alt="Logo da Empresa" class="h-12 w-auto"></a>
+        </div>
+        <!-- Menu -->
+        <ul class="hidden md:flex space-x-8">
+          <li><a href="descarte.html" class="text-gray-700 hover:text-green-600 font-medium">DESCARTE</a></li>
+          <li><a href="agendamento.html" class="text-gray-700 hover:text-green-600 font-medium">AGENDAMENTO</a></li>
+          <li><a href="coletores.html" class="text-gray-700 hover:text-green-600 font-medium">COLETORES</a></li>
+          <li><a href="sobre.html" class="text-gray-700 hover:text-green-600 font-medium">SOBRE</a></li>
+          <li><a href="feedback.html" class="text-gray-700 hover:text-green-600 font-medium">FEEDBACKS</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Formulário -->
+  <main class="flex-grow flex items-center justify-center px-4">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+      <h1 class="text-3xl font-bold text-center text-green-600 mb-2">Login</h1>
+      <p class="text-center text-gray-600 mb-6">Entre na sua conta RTEC</p>
+      <form id="login-form" class="space-y-4">
+        <input type="text" id="username" placeholder="Usuário" required class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-green-500">
+        <input type="password" id="password" placeholder="Senha" required class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-green-500">
+        <button id="button" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">Entrar</button>
+      </form>
+      <a href="recuperar-senha.html" class="block text-center text-green-600 mt-4 hover:underline">Esqueci a senha?</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-green-800 text-white py-6 text-center">
+    <p>&copy; 2024 RTEC - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    document.getElementById("button").addEventListener("click", function(event) {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      if (username === "usuario" && password === "senha123") {
+        window.location.href = "descarte.html";
+      } else {
+        alert("Usuário ou senha incorretos!");
+      }
+    });
+  </script>
+</body>
+</html>

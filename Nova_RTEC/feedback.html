@@ -1,9 +1,11 @@
-<html lang="pt-BR"> 
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feedback - RTEC</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="icon" href="logo.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -48,100 +50,190 @@
 
     .feedback-box {
       background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
+      padding: 40px; 
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      max-width: 450px;
+      max-width: 650px; 
       margin: auto;
     }
 
-    .stars {
-      font-size: 2.5rem;
+    /* Estilo para as Estrelas */
+    .stars i {
+      font-size: 2.2rem;
       color: #ccc;
       cursor: pointer;
-      text-align: center;
-      margin: 20px 0;
+      transition: color 0.2s;
     }
-
-    .stars .fa-star.checked {
+    .stars i.checked {
       color: #ffc107;
     }
 
-    .rating-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      margin: 0 10px 20px;
-      color: #333;
+    /* Estilo para Recomendações */
+    .rating-option {
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 0 5px;
+    }
+
+    .rating-option:hover {
+        transform: scale(1.1);
+    }
+
+    .recommend-rating .rating-option.selected {
+      background-color: #e0f2f1;
+      border-color: #047857;
+      transform: scale(1.05);
+    }
+
+    /* Estilo para Botões de (Tags) - MULTI-SELEÇÃO */
+    .tag-option {
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid #d1d5db; /* gray-300 */
+        background-color: #f3f4f6; /* gray-100 */
+        user-select: none;
+    }
+
+    .tag-option:hover:not(.selected) {
+        background-color: #e5e7eb;
+    }
+
+    .best-tag.selected {
+        background-color: #10b981;
+        color: white;
+        border-color: #059669;
+    }
+
+    .worst-tag.selected {
+        background-color: #ef4444;
+        color: white;
+        border-color: #dc2626;
+    }
+    
+    .submit-button {
+      background-color: #10b981;
+      transition: all 0.3s;
     }
 </style>
 </head>
 <body class="min-h-screen gradient-bg flex flex-col">
 
-<!-- Header -->
 <header class="bg-white shadow-lg">
-<nav class="bg-gray-100 py-2">
-<div class="container mx-auto px-4 flex justify-end">
-<ul class="flex space-x-6 text-sm">
-<li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
-<li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
-</ul>
-</div>
-</nav>
-
-<nav class="py-4">
-    <div class="container mx-auto px-4 flex items-center justify-between">
-        <div class="flex-shrink-0">
-            <a href="sobre.html" class="block">
-                <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
-            </a>
+    <nav class="bg-gray-100 py-2">
+        <div class="container mx-auto px-4 flex justify-end">
+            <ul class="flex space-x-6 text-sm">
+                <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
+                <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <ul class="hidden md:flex space-x-8">
-            <!--<li><a href="descarte.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">DESCARTE</a></li>-->
-            <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">AGENDAMENTO</a></li>
-            <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">COLETORES</a></li>
-            <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">SOBRE</a></li>
-            <li><a href="feedback.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">FEEDBACKS</a></li>
-        </ul>
-    </div>
-</nav>
+    <nav class="py-4">
+        <div class="container mx-auto px-4 flex items-center justify-between">
+            <div class="flex-shrink-0">
+                <a href="sobre.html" class="block">
+                    <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+                </a>
+            </div>
+
+            <ul class="hidden md:flex space-x-8">
+                <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">AGENDAMENTO</a></li>
+                <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">COLETORES</a></li>
+                <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">SOBRE</a></li>
+                <li><a href="feedback.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">FEEDBACKS</a></li>
+            </ul>
+        </div>
+    </nav>
 </header>
 
-<!-- Feedback -->
 <main class="flex-grow flex items-center justify-center py-10 px-4">
   <div class="feedback-box fade-in">
-    <h1 class="text-2xl font-semibold mb-4 text-center">Deixe seu Feedback</h1>
-    <p class="text-center mb-4">Qual nota você daria para sua experiência na plataforma?</p>
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Sua Opinião Ajuda o Planeta!</h1>
+    
+    <form id="feedbackForm" onsubmit="handleFeedback(event)" class="space-y-8">
 
-    <div class="stars" id="star-rating">
-      <i class="fas fa-star" data-value="1"></i>
-      <i class="fas fa-star" data-value="2"></i>
-      <i class="fas fa-star" data-value="3"></i>
-      <i class="fas fa-star" data-value="4"></i>
-      <i class="fas fa-star" data-value="5"></i>
-    </div>
+        <div>
+            <h2 class="text-xl font-semibold mb-4 text-left">Qual nota você dá para a plataforma?</h2>
+            <div class="stars flex justify-center space-x-3" id="star-rating">
+                <i class="fas fa-star" data-value="1"></i>
+                <i class="fas fa-star" data-value="2"></i>
+                <i class="fas fa-star" data-value="3"></i>
+                <i class="fas fa-star" data-value="4"></i>
+                <i class="fas fa-star" data-value="5"></i>
+            </div>
+            <div class="rating-labels text-xs flex justify-between px-10">
+                <span class="text-red-500">Insatisfeito</span> 
+                <span class="text-green-600">Excelente</span>
+            </div>
+        </div>
 
-    <div class="rating-labels">
-      <span>Ruim</span>
-      <span>Ótima</span>
-    </div>
+        <hr class="border-gray-200 my-8">
 
-    <div class="text-center">
-      <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition btn-hover">Enviar Feedback</button>
-    </div>
+        <div class="recommend-rating">
+            <h2 class="text-xl font-semibold mb-4 text-left">Você recomendaria a RTEC a um amigo?</h2>
+            <div class="flex justify-center items-center space-x-12">
+                <div class="rating-option text-xl font-bold text-green-700" data-category="recomendar" data-value="sim" onclick="selectRating(this)">
+                    <i class="fas fa-thumbs-up fa-2x mb-1"></i>
+                    <p class="text-sm mt-1">SIM</p>
+                </div>
+                <div class="rating-option text-xl font-bold text-red-700" data-category="recomendar" data-value="nao" onclick="selectRating(this)">
+                    <i class="fas fa-thumbs-down fa-2x mb-1"></i>
+                    <p class="text-sm mt-1">NÃO</p>
+                </div>
+            </div>
+        </div>
+        
+        <hr class="border-gray-200 my-8">
+
+        <div class="attribute-rating">
+            <h2 class="text-xl font-semibold mb-4 text-left">Destaque o que mais e o que menos chamou sua atenção (Opcional):</h2>
+            
+            <div class="mb-6 border p-4 rounded-lg bg-gray-50 text-left mx-auto">
+                <h3 class="text-lg font-bold mb-3 text-green-700 text-center">O que você mais gostou:</h3>
+                <div class="flex flex-col space-y-2" id="best-attribute">
+                    <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Design" onclick="selectTag(this)">Design Visual</button>
+                    <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Rapidez" onclick="selectTag(this)">Rapidez da Navegação</button>
+                    <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Informacao" onclick="selectTag(this)">Clareza das Info</button>
+                    <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Servico" onclick="selectTag(this)">Facilidade do Agendamento</button>
+                </div>
+            </div>
+
+            <div class="border p-4 rounded-lg bg-gray-50 text-left mx-auto">
+                <h3 class="text-lg font-bold mb-3 text-red-700 text-center">O que podemos melhorar:</h3>
+                <div class="flex flex-col space-y-2" id="worst-attribute">
+                    <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Design" onclick="selectTag(this)">Design Visual</button>
+                    <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Rapidez" onclick="selectTag(this)">Rapidez da Navegação</button>
+                    <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Informacao" onclick="selectTag(this)">Clareza das Info</button>
+                    <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Servico" onclick="selectTag(this)">Facilidade do Agendamento</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center pt-4">
+            <button type="submit" id="submitButton"
+                    class="submit-button text-white px-10 py-3 rounded-full hover:bg-green-700 transition btn-hover font-bold text-lg shadow-md">
+                <i class="fas fa-paper-plane mr-2"></i>Enviar Avaliação
+            </button>
+            <p id="submissionStatus" class="mt-4 text-sm font-medium text-gray-700 hidden">Obrigado pelo seu feedback! Ele foi registrado anonimamente.</p>
+        </div>
+    </form>
   </div>
 </main>
 
-<!-- Help Button -->
 <a href="#" onclick="toggleFAQ()" class="fixed bottom-6 right-6 bg-green-600 hover:bg-eco-dark text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110">
-    <svg xmlns="<http://www.w3.org/2000/svg>" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
         <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
     </svg>
 </a>
 
-<!-- FAQ Modal -->
 <div id="faqModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-96 overflow-y-auto p-6">
         <div class="flex justify-between items-center mb-6">
@@ -167,7 +259,6 @@
     </div>
 </div>
 
-<!-- Footer -->
 <footer class="bg-green-800 text-white py-12">
     <div class="container mx-auto px-4">
         <div class="text-center">
@@ -191,20 +282,129 @@
 </footer>
 
 <script>
-  const stars = document.querySelectorAll('#star-rating i');
-  stars.forEach(star => {
-    star.addEventListener('click', () => {
-      const value = star.getAttribute('data-value');
-      stars.forEach(s => s.classList.remove('checked'));
-      for (let i = 0; i < value; i++) {
-        stars[i].classList.add('checked');
-      }
+    // Variáveis globais para armazenar as avaliações
+    let generalRating = 0;
+    let recommendRating = null; 
+    let bestAttributes = []; 
+    let worstAttributes = []; 
+
+    const submissionStatus = document.getElementById('submissionStatus');
+    const submitButton = document.getElementById('submitButton');
+    const feedbackForm = document.getElementById('feedbackForm');
+    const stars = document.querySelectorAll('#star-rating i');
+    const starContainer = document.getElementById('star-rating');
+
+    // --- FUNÇÕES DE ESTRELAS ---
+
+    function updateStarVisual(rating) {
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('checked');
+            } else {
+                star.classList.remove('checked');
+            }
+        });
+    }
+
+    // CLICK (Define a seleção permanente)
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const value = parseInt(star.getAttribute('data-value'));
+            generalRating = value; 
+            updateStarVisual(generalRating);
+        });
     });
-  });
 
-  function toggleFAQ() { document.getElementById('faqModal').classList.toggle('hidden'); }
+    // MOUSEOVER (Acende as estrelas temporariamente)
+    stars.forEach(star => {
+        star.addEventListener('mouseover', () => {
+            const value = parseInt(star.getAttribute('data-value'));
+            updateStarVisual(value);
+        });
+    });
+
+    // MOUSEOUT (Restaura a seleção permanente)
+    starContainer.addEventListener('mouseout', () => {
+        updateStarVisual(generalRating);
+    });
+
+    // --- FUNÇÕES DE RECOMENDAÇÃO ---
+
+    function selectRating(element) {
+        const value = element.getAttribute('data-value');
+        const parent = element.parentElement;
+
+        parent.querySelectorAll('.rating-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+
+        element.classList.add('selected');
+        recommendRating = value;
+    }
+
+    // --- FUNÇÕES DE TAGS (MULTI-SELEÇÃO) ---
+
+    function selectTag(element) {
+        const category = element.getAttribute('data-category');
+        const value = element.getAttribute('data-value');
+        
+        const isSelected = element.classList.toggle('selected');
+        
+        if (category === 'melhor') {
+            if (isSelected) {
+                bestAttributes.push(value);
+            } else {
+                bestAttributes = bestAttributes.filter(attr => attr !== value);
+            }
+        } else if (category === 'pior') {
+            if (isSelected) {
+                worstAttributes.push(value);
+            } else {
+                worstAttributes = worstAttributes.filter(attr => attr !== value);
+            }
+        }
+    }
+
+    // --- FUNÇÃO DE ENVIO ---
+
+    function handleFeedback(event) {
+        event.preventDefault();
+        
+        // Verifica APENAS os campos obrigatórios: Estrelas e Recomendar
+        if (generalRating === 0) {
+            alert('Por favor, complete a Avaliação Geral (Estrelas).');
+            return;
+        }
+        if (recommendRating === null) {
+            alert('Por favor, complete a Intenção de Recomendar.');
+            return;
+        }
+        
+        // Simulação de envio
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
+        submitButton.disabled = true;
+
+        // Log dos dados capturados (apenas no console)
+        console.log("--- Feedback Coletado (Anônimo) ---");
+        console.log("1. Avaliação Geral (Estrelas):", generalRating);
+        console.log("2. Recomendar:", recommendRating);
+        console.log("3. O que você mais gostou:", bestAttributes); 
+        console.log("4. O que podemos melhorar:", worstAttributes); 
+        console.log("-----------------------------------");
+        
+        setTimeout(() => {
+            submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Avaliações Enviadas!';
+            submitButton.classList.remove('submit-button');
+            submitButton.classList.add('bg-green-500'); 
+            submissionStatus.innerHTML = 'Obrigado pelo seu feedback! Ele foi registrado anonimamente.';
+            submissionStatus.classList.remove('hidden');
+            
+        }, 2000);
+    }
+
+    // --- FUNÇÃO DE FAQ ---
+    function toggleFAQ() { document.getElementById('faqModal').classList.toggle('hidden'); }
     document.getElementById('faqModal').addEventListener('click', function(e){ if(e.target===this) toggleFAQ(); });
-
 </script>
 </body>
 </html>

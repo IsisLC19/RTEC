@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - RTEC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="img/logo.png" type="image/x-icon">
+   
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+        }
+
+        .report-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .help-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .progress-bar {
+            transition: width 0.8s ease-in-out;
+        }
+
+        .filter-active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .table-row:hover {
+            background-color: #f0fdf4;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <!-- Header -->
+  <header class="bg-gray-200 shadow-lg">
+    <nav class="bg-gray-100 py-2">
+    <div class="container mx-auto px-4 flex justify-end">
+        
+        <div class="relative inline-block" id="profileDropdownContainer">
+            
+            <img 
+                src="https://via.placeholder.com/40/10b981/ffffff?text=U" 
+                alt="Usuário" 
+                id="profileButton"
+                class="h-10 w-10 rounded-full object-cover cursor-pointer border-2 border-green-600 hover:border-green-800 transition"
+                onclick="toggleProfileDropdown()"
+            >
+            
+            <div id="profileDropdown" class="absolute right-0 mt-2 w-48 rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-50 hidden">
+                <div class="py-1">
+                    <p class="px-4 py-2 text-sm text-gray-700 font-semibold border-b">Nome do Usuário</p>
+                    <a href="coletores.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i class="fas fa-chart-line mr-2"></i>Dashboard
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i class="fas fa-cog mr-2"></i>Configurações
+                    </a>
+                    <a href="#" onclick="fazerLogout(event)" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 border-t mt-1">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+</nav>
+
+    <nav class="py-4">
+      <div class="container mx-auto px-4 flex items-center justify-between">
+        <a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
+        <ul class="hidden md:flex space-x-8">
+         <!--- <li><a href="agendamento.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">AGENDAMENTO</a></li>
+          <li><a href="coletores.html" class="nav-link">COLETORES</a></li>
+          <li><a href="sobre.html" class="nav-link">SOBRE</a></li>-->
+          <li><a href="feedback.html" class="nav-link">FEEDBACKS</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+     <!-- Main Content -->
+    <main class="min-h-screen py-8 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <!-- Page Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Relatórios de Resíduos Eletrônicos</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Acompanhe as doações recebidas e o aproveitamento dos materiais para fins educacionais</p>
+            </div>
+
+            <!-- Filter Tabs and PDF Button -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+                <div class="bg-white rounded-lg p-2 shadow-md">
+                    <button onclick="showReport('donations')" id="donationsTab" class="filter-active px-6 py-3 rounded-lg font-medium transition-all duration-300">
+                        <i class="fas fa-donate mr-2"></i>Doações Recebidas
+                    </button>
+                    <button onclick="showReport('educational')" id="educationalTab" class="px-6 py-3 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition-all duration-300">
+                        <i class="fas fa-graduation-cap mr-2"></i>Material Educacional
+                    </button>
+                </div>
+                
+                <button onclick="generatePDF()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium shadow-md transition-all duration-300 flex items-center">
+                    <i class="fas fa-file-pdf mr-2"></i>Gerar PDF
+                </button>
+            </div>
+
+            <!-- Donations Report -->
+            <div id="donationsReport" class="report-section">
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl p-6 shadow-lg report-card transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm font-medium">Total de Doações</p>
+                                <p class="text-3xl font-bold text-green-600">1,247</p>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i class="fas fa-box text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-green-500 text-sm font-medium">+12% este mês</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-lg report-card transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm font-medium">Itens Processados</p>
+                                <p class="text-3xl font-bold text-blue-600">892</p>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <i class="fas fa-check-circle text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-blue-500 text-sm font-medium">+8% este mês</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-lg report-card transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm font-medium">Doações do Mês</p>
+                                <p class="text-3xl font-bold text-purple-600">342</p>
+                            </div>
+                            <div class="bg-purple-100 p-3 rounded-full">
+                                <i class="fas fa-users text-purple-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-purple-500 text-sm font-medium">+15% este mês</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-lg report-card transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm font-medium">Coletado</p>
+                                <p class="text-3xl font-bold text-orange-600">56</p>
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded-full">
+                                <i class="fas fa-x text-orange-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-orange-500 text-sm font-medium">+2% este mês</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Types Chart -->
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Tipos de Resíduos Doados</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Computadores</span>
+                                <span class="text-gray-600 font-medium">35%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-green-500 h-3 rounded-full progress-bar" style="width: 35%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Celulares</span>
+                                <span class="text-gray-600 font-medium">28%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-blue-500 h-3 rounded-full progress-bar" style="width: 28%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Televisores</span>
+                                <span class="text-gray-600 font-medium">18%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-purple-500 h-3 rounded-full progress-bar" style="width: 18%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Outros</span>
+                                <span class="text-gray-600 font-medium">19%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 19%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Trend -->
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Tendência Mensal</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-700">Janeiro</span>
+                                <span class="text-green-600 font-bold">89 doações</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-700">Fevereiro</span>
+                                <span class="text-green-600 font-bold">102 doações</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-700">Março</span>
+                                <span class="text-green-600 font-bold">127 doações</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-700">Abril</span>
+                                <span class="text-green-600 font-bold">145 doações</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-700">Maio</span>
+                                <span class="text-green-600 font-bold">163 doações</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Donations Table -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-xl font-bold text-gray-800">Doações Recentes</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Doador</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="table-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">15/05/2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">João Silva</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Computador Desktop</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2 unidades</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Processado</span>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">14/05/2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Maria Santos</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Celular</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">3 unidades</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pendente</span>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">13/05/2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Empresa TechCorp</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Notebooks</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">15 unidades</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Processado</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Materials Report -->
+            <div id="educationalReport" class="report-section hidden">
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 max-w-2xl mx-auto">
+                    <div class="bg-white rounded-xl p-6 shadow-lg report-card transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm font-medium">Itens para Ensino</p>
+                                <p class="text-3xl font-bold text-indigo-600">456</p>
+                            </div>
+                            <div class="bg-indigo-100 p-3 rounded-full">
+                                <i class="fas fa-chalkboard-teacher text-indigo-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-indigo-500 text-sm font-medium">36% do total</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-lg report-card transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm font-medium">Kits Montados</p>
+                                <p class="text-3xl font-bold text-red-600">89</p>
+                            </div>
+                            <div class="bg-red-100 p-3 rounded-full">
+                                <i class="fas fa-tools text-red-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-red-500 text-sm font-medium">+12 este mês</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Educational Usage Chart -->
+                <div class="max-w-2xl mx-auto mb-8">
+                    <!-- Usage by Type -->
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Uso por Categoria</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Laboratórios de Informática</span>
+                                <span class="text-gray-600 font-medium">42%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-indigo-500 h-3 rounded-full progress-bar" style="width: 42%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Aulas de Robótica</span>
+                                <span class="text-gray-600 font-medium">25%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-teal-500 h-3 rounded-full progress-bar" style="width: 25%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Projetos de Eletrônica</span>
+                                <span class="text-gray-600 font-medium">20%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-pink-500 h-3 rounded-full progress-bar" style="width: 20%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-700">Demonstrações</span>
+                                <span class="text-gray-600 font-medium">13%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-red-500 h-3 rounded-full progress-bar" style="width: 13%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Educational Materials Table -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-xl font-bold text-gray-800">Materiais Destinados ao Ensino</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Escola Destino</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finalidade</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="table-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">12/05/2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Computador Desktop</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Escola Municipal Santos</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Laboratório de Informática</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Entregue</span>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">10/05/2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Componentes Eletrônicos</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Instituto Técnico Norte</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Aulas de Robótica</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Em Preparo</span>
+                                    </td>
+                                </tr>
+                                <tr class="table-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">08/05/2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Tablets</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Escola Rural Esperança</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Ensino Digital</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Entregue</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Help Button -->
+    <button class="help-btn bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-lg">
+        <i class="fas fa-question text-xl"></i>
+    </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        function showReport(reportType) {
+            // Hide all reports
+            document.getElementById('donationsReport').classList.add('hidden');
+            document.getElementById('educationalReport').classList.add('hidden');
+            
+            // Remove active class from all tabs
+            document.getElementById('donationsTab').classList.remove('filter-active');
+            document.getElementById('educationalTab').classList.remove('filter-active');
+            document.getElementById('donationsTab').classList.add('text-gray-600', 'hover:bg-gray-100');
+            document.getElementById('educationalTab').classList.add('text-gray-600', 'hover:bg-gray-100');
+            
+            // Show selected report and activate tab
+            if (reportType === 'donations') {
+                document.getElementById('donationsReport').classList.remove('hidden');
+                document.getElementById('donationsTab').classList.add('filter-active');
+                document.getElementById('donationsTab').classList.remove('text-gray-600', 'hover:bg-gray-100');
+            } else {
+                document.getElementById('educationalReport').classList.remove('hidden');
+                document.getElementById('educationalTab').classList.add('filter-active');
+                document.getElementById('educationalTab').classList.remove('text-gray-600', 'hover:bg-gray-100');
+            }
+        }
+
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            // Get current active report
+            const isDonationsActive = !document.getElementById('donationsReport').classList.contains('hidden');
+            const reportTitle = isDonationsActive ? 'Relatório de Doações de Resíduos Eletrônicos' : 'Relatório de Material Educacional';
+            
+            // Add header
+            pdf.setFontSize(20);
+            pdf.setFont(undefined, 'bold');
+            pdf.text('RTEC - Sistema de Gestão de Resíduos', 105, 20, { align: 'center' });
+            
+            pdf.setFontSize(16);
+            pdf.text(reportTitle, 105, 35, { align: 'center' });
+            
+            // Add date
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'normal');
+            const currentDate = new Date().toLocaleDateString('pt-BR');
+            pdf.text(`Gerado em: ${currentDate}`, 20, 50);
+            
+            let yPosition = 70;
+            
+            if (isDonationsActive) {
+                // Donations report data
+                pdf.setFontSize(14);
+                pdf.setFont(undefined, 'bold');
+                pdf.text('Resumo Geral', 20, yPosition);
+                yPosition += 15;
+                
+                pdf.setFontSize(11);
+                pdf.setFont(undefined, 'normal');
+                pdf.text('• Total de Doações: 1,247 (+12% este mês)', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Itens Processados: 892 (+8% este mês)', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Doadores Ativos: 342 (+15% este mês)', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Valor Estimado: R$ 89,450 (+22% este mês)', 25, yPosition);
+                yPosition += 20;
+                
+                // Types breakdown
+                pdf.setFontSize(14);
+                pdf.setFont(undefined, 'bold');
+                pdf.text('Tipos de Resíduos Doados', 20, yPosition);
+                yPosition += 15;
+                
+                pdf.setFontSize(11);
+                pdf.setFont(undefined, 'normal');
+                pdf.text('• Computadores: 35%', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Celulares: 28%', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Televisores: 18%', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Outros: 19%', 25, yPosition);
+                yPosition += 20;
+                
+                // Recent donations
+                pdf.setFontSize(14);
+                pdf.setFont(undefined, 'bold');
+                pdf.text('Doações Recentes', 20, yPosition);
+                yPosition += 15;
+                
+                pdf.setFontSize(10);
+                pdf.setFont(undefined, 'normal');
+                const donationsData = [
+                    ['15/05/2024', 'João Silva', 'Computador Desktop', '2 unidades', 'Processado'],
+                    ['14/05/2024', 'Maria Santos', 'Celular', '3 unidades', 'Pendente'],
+                    ['13/05/2024', 'Empresa TechCorp', 'Notebooks', '15 unidades', 'Processado']
+                ];
+                
+                // Table headers
+                pdf.text('Data', 20, yPosition);
+                pdf.text('Doador', 45, yPosition);
+                pdf.text('Tipo', 85, yPosition);
+                pdf.text('Qtd', 125, yPosition);
+                pdf.text('Status', 150, yPosition);
+                yPosition += 8;
+                
+                // Table data
+                donationsData.forEach(row => {
+                    pdf.text(row[0], 20, yPosition);
+                    pdf.text(row[1], 45, yPosition);
+                    pdf.text(row[2], 85, yPosition);
+                    pdf.text(row[3], 125, yPosition);
+                    pdf.text(row[4], 150, yPosition);
+                    yPosition += 6;
+                });
+                
+            } else {
+                // Educational report data
+                pdf.setFontSize(14);
+                pdf.setFont(undefined, 'bold');
+                pdf.text('Resumo Geral', 20, yPosition);
+                yPosition += 15;
+                
+                pdf.setFontSize(11);
+                pdf.setFont(undefined, 'normal');
+                pdf.text('• Itens para Ensino: 456 (36% do total)', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Kits Montados: 89 (+12 este mês)', 25, yPosition);
+                yPosition += 20;
+                
+                // Usage breakdown
+                pdf.setFontSize(14);
+                pdf.setFont(undefined, 'bold');
+                pdf.text('Uso por Categoria', 20, yPosition);
+                yPosition += 15;
+                
+                pdf.setFontSize(11);
+                pdf.setFont(undefined, 'normal');
+                pdf.text('• Laboratórios de Informática: 42%', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Aulas de Robótica: 25%', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Projetos de Eletrônica: 20%', 25, yPosition);
+                yPosition += 8;
+                pdf.text('• Demonstrações: 13%', 25, yPosition);
+                yPosition += 20;
+                
+                // Educational materials table
+                pdf.setFontSize(14);
+                pdf.setFont(undefined, 'bold');
+                pdf.text('Materiais Destinados ao Ensino', 20, yPosition);
+                yPosition += 15;
+                
+                pdf.setFontSize(10);
+                pdf.setFont(undefined, 'normal');
+                const educationalData = [
+                    ['12/05/2024', 'Computador Desktop', 'Escola Municipal Santos', 'Lab. Informática', 'Entregue'],
+                    ['10/05/2024', 'Componentes Eletrônicos', 'Instituto Técnico Norte', 'Aulas Robótica', 'Em Preparo'],
+                    ['08/05/2024', 'Tablets', 'Escola Rural Esperança', 'Ensino Digital', 'Entregue']
+                ];
+                
+                // Table headers
+                pdf.text('Data', 20, yPosition);
+                pdf.text('Item', 45, yPosition);
+                pdf.text('Escola', 85, yPosition);
+                pdf.text('Finalidade', 125, yPosition);
+                pdf.text('Status', 160, yPosition);
+                yPosition += 8;
+                
+                // Table data
+                educationalData.forEach(row => {
+                    pdf.text(row[0], 20, yPosition);
+                    pdf.text(row[1], 45, yPosition);
+                    pdf.text(row[2], 85, yPosition);
+                    pdf.text(row[3], 125, yPosition);
+                    pdf.text(row[4], 160, yPosition);
+                    yPosition += 6;
+                });
+            }
+            
+            // Add footer
+            pdf.setFontSize(8);
+            pdf.text('RTEC - Relatório gerado automaticamente pelo sistema', 105, 280, { align: 'center' });
+            
+            // Save PDF
+            const fileName = isDonationsActive ? 'relatorio-doacoes.pdf' : 'relatorio-material-educacional.pdf';
+            pdf.save(fileName);
+        }
+
+        // Initialize progress bars animation
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // ... (Suas outras funções, como showCategory, openNewMaterialModal, etc.)
+
+// --- Funções do Dropdown de Perfil ---
+
+// 1. Alterna a visibilidade (hidden/block) do menu
+function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    dropdown.classList.toggle('hidden');
+}
+
+// 2. Função de Logout (comportamento de "Sair")
+function fazerLogout(event) {
+    event.preventDefault(); // Impede que o link navegue para '#'
+
+    // Lógica de logout:
+    // 1. Limpar dados da sessão/token (se existirem)
+    localStorage.removeItem('userToken'); 
+    sessionStorage.removeItem('userData');
+
+    // 2. Notificar o usuário ou backend (opcional)
+    alert('Sessão encerrada com sucesso.'); 
+
+    // 3. Redirecionar para a página de login
+    window.location.href = 'entrar.html'; 
+}
+
+
+// 3. Fechar o menu se o usuário clicar FORA dele (Melhoria de UX)
+document.addEventListener('click', (e) => {
+    const container = document.getElementById('profileDropdownContainer');
+    const dropdown = document.getElementById('profileDropdown');
+
+    // Se o clique não foi dentro do container do dropdown E ele não está escondido...
+    if (container && dropdown && !container.contains(e.target) && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+    }
+});
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b781b6720b261c',t:'MTc1OTk0NjEwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

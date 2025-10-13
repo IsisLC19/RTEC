@@ -23,6 +23,62 @@
     @keyframes slideIn { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
     .fade-in { animation: fadeIn 0.8s ease-out; }
     @keyframes fadeIn { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Estilos adicionais para o chatbot */
+        #chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        #chat-button {
+            background-color: #10b981;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-size: 24px;
+        }
+        #chat-window-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex; /* DEVE SER 'flex' quando VISÍVEL */
+            flex-direction: column;
+            background-color: white;
+            z-index: 1000;
+        }
+        #chat-header {
+            background-color: #10b981;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #chat-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: #f4f4f9;
+        }
+        .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+        .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+        .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+        #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+        #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+        #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+
   </style>
 </head>
 <body class="min-h-screen bg-gray-50">
@@ -41,7 +97,6 @@
       <div class="container mx-auto px-4 flex items-center justify-between">
         <a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
         <ul class="hidden md:flex space-x-8">
-          <!--<li><a href="descarte.html" class="nav-link">DESCARTE</a></li>-->
           <li><a href="agendamento.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">AGENDAMENTO</a></li>
           <li><a href="coletores.html" class="nav-link">COLETORES</a></li>
           <li><a href="sobre.html" class="nav-link">SOBRE</a></li>
@@ -102,12 +157,7 @@
                 <input type="time" id="horario" name="horario" required class="input-focus w-full px-4 py-3 border rounded-lg">
               </div>
             </div>
-            <div>
-              <label for="observacoes" class="block text-sm font-semibold text-gray-700 mb-2">
-                <i class="fas fa-comment mr-2 text-green-600"></i>Observações
-              </label>
-              <textarea id="observacoes" name="observacoes" rows="3" class="input-focus w-full px-4 py-3 border rounded-lg"></textarea>
-            </div>
+            
             <button type="submit" class="btn-hover w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-4 px-8 rounded-lg">
               <i class="fas fa-calendar-check mr-2"></i>Agendar Coleta
             </button>
@@ -149,39 +199,28 @@
   </div>
 
 
-
-<!-- Help Button -->
-<a href="#" onclick="toggleFAQ()" class="fixed bottom-6 right-6 bg-green-600 hover:bg-eco-dark text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110">
-    <svg xmlns="<http://www.w3.org/2000/svg>" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
-    </svg>
-</a>
-
-<!-- FAQ Modal -->
-<div id="faqModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-96 overflow-y-auto p-6">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">Perguntas Frequentes</h2>
-            <button onclick="toggleFAQ()" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        <div class="space-y-4">
-            <div class="border-b pb-4">
-                <h3 class="font-semibold text-gray-800 mb-2">Como funciona o agendamento?</h3>
-                <p class="text-gray-600">Preencha o formulário com suas informações e nossa equipe entrará em contato para confirmar a coleta.</p>
-            </div>
-            <div class="border-b pb-4">
-                <h3 class="font-semibold text-gray-800 mb-2">Quais tipos de resíduos vocês coletam?</h3>
-                <p class="text-gray-600">Coletamos eletrônicos, recicláveis, orgânicos e materiais perigosos como pilhas e baterias.</p>
-            </div>
-            <div>
-                <h3 class="font-semibold text-gray-800 mb-2">A coleta é gratuita?</h3>
-                <p class="text-gray-600">Sim! Nosso serviço de coleta é totalmente gratuito para contribuir com o meio ambiente.</p>
-            </div>
-        </div>
-    </div>
+<!-- FAQ--> 
+    <div id="chat-window-container">
+<div id="chat-header">
+<h3 class="font-bold">Assistente Virtual</h3>
+<button onclick="toggleChat()" class="text-white hover:text-gray-200">
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div id="chat-messages" class="flex flex-col">
+</div>
+<div id="chat-input-area">
+<input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
+<button id="chat-send-btn">
+<i class="fas fa-paper-plane"></i>
+</button>
+</div>
+</div>
+ 
+    <div id="chat-widget">
+<button id="chat-button" onclick="toggleChat()">
+<i class="fas fa-comments"></i>
+</button>
 </div>
 
   <!-- Footer -->
@@ -228,9 +267,99 @@
     function imprimirProtocolo() { window.print(); }
     function novoAgendamento() { document.getElementById('modalProtocolo').classList.add('hidden'); }
 
-    function toggleFAQ() { document.getElementById('faqModal').classList.toggle('hidden'); }
-    document.getElementById('faqModal').addEventListener('click', function(e){ if(e.target===this) toggleFAQ(); });
+
+     // Função para controlar a visibilidade do seu modal de FAQ
+        function toggleFAQ() {
+            const faqModal = document.getElementById('faqModal');
+            faqModal.classList.toggle('hidden');
+        }
+ 
+ 
+        // =======================================================
+        //          INÍCIO DO JAVASCRIPT DO CHATBOT              
+        // =======================================================
+ 
+        // Elementos da interface do chat
+        const chatWindowContainer = document.getElementById('chat-window-container');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('chat-user-input');
+        const sendBtn = document.getElementById('chat-send-btn');
+ 
+        
+        // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
+        function toggleChat() {
+            // Verifica se a janela está FECHADA (display: none)
+            if (chatWindowContainer.style.display === 'none') {
+                // Abre a janela para 'flex'
+                chatWindowContainer.style.display = 'flex';
+                
+                // Adiciona mensagem inicial apenas se for a primeira vez
+                if (chatMessages.children.length === 0) {
+                    addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+                }
+            } else {
+                // Se estiver ABERTA, fecha definindo o display para 'none'
+                chatWindowContainer.style.display = 'none';
+            }
+        }
+        
+        
+        // Função para adicionar uma mensagem na janela do chat
+        function addMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            // Rolar para a última mensagem
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+ 
+        // Função para enviar mensagem ao backend
+        async function sendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === '') return;
+ 
+            // Exibe a mensagem do usuário na tela
+            addMessage(messageText, 'user');
+            userInput.value = '';
+ 
+            try {
+                // Envia a mensagem para o servidor Flask
+                const response = await fetch('http://127.0.0.1:5000/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: messageText })
+                });
+ 
+                if (!response.ok) {
+                    throw new Error('Erro na comunicação com o servidor.');
+                }
+ 
+                const data = await response.json();
+                // Exibe a resposta do bot na tela
+                addMessage(data.reply, 'bot');
+ 
+            } catch (error) {
+                console.error('Erro:', error);
+                addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+            }
+        }
+ 
+        // Event Listeners para o input e botão de envio
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+ 
+        // Define o estado inicial do chat para FECHADO (display: none)
+        document.addEventListener('DOMContentLoaded', () => {
+            chatWindowContainer.style.display = 'none';
+        });
+
   </script>
 </body>
 </html>
-

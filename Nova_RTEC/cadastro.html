@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - RTEC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="img/logo.png" type="image/x-icon">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'); 
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    }
+
+    .nav-link:hover {
+      color: #10b981;
+      transform: translateY(-1px);
+    }
+
+    .help-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .help-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .form-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      width: 350px;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    /* Estilos adicionais para o chatbot */
+        #chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        #chat-button {
+            background-color: #10b981;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-size: 24px;
+        }
+        #chat-window-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex; /* DEVE SER 'flex' quando VISÍVEL */
+            flex-direction: column;
+            background-color: white;
+            z-index: 1000;
+        }
+        #chat-header {
+            background-color: #10b981;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #chat-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: #f4f4f9;
+        }
+        .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+        .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+        .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+        #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+        #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+        #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <!-- Header -->
+  <header class="bg-white shadow-lg">
+    <!-- Top Navigation -->
+    <nav class="bg-gray-100 py-2">
+      <div class="container mx-auto px-4 flex justify-end">
+        <ul class="flex space-x-6 text-sm">
+          <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
+          <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Navigation -->
+    <nav class="py-4">
+      <div class="container mx-auto px-4 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+          <a href="sobre.html" class="block">
+            <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+          </a>
+        </div>
+
+        <!-- Menu Items -->
+        <ul class="hidden md:flex space-x-8">
+          <!--<li><a href="descarte.html" class="nav-link text-gray-700 font-medium hover:text-green-600">DESCARTE</a></li>-->
+          <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600">AGENDAMENTO</a></li>
+          <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
+          <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
+          <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="gradient-bg min-h-screen py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-white">Cadastro</h1>
+        <p class="text-lg text-white opacity-90">Crie sua conta e faça parte da RTEC</p>
+      </div>
+
+      <!-- Aqui vai o formulário -->
+      <!-- Caixa do formulário -->
+        <div class="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-8">
+            <form class="flex flex-col space-y-4">
+                <!-- Nome -->
+                <input type="text" placeholder="Nome" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+
+                <!-- Sobrenome -->
+                <input type="text" placeholder="Sobrenome" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+
+                <!-- Email -->
+                <input type="email" placeholder="E-mail" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+
+                <!-- Telefone -->
+                <input type="tel" placeholder="Telefone" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+
+                <!-- Senha -->
+                <input type="password" placeholder="Senha" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+
+                <!-- Confirmar senha -->
+                <input type="password" placeholder="Confirmar senha" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+
+                <!-- Botão -->
+                <button type="submit" 
+                        class="bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 rounded-lg hover:scale-105 transition-transform duration-300">
+                Cadastrar
+                </button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+ 
+<!-- FAQ--> 
+    <div id="chat-window-container">
+<div id="chat-header">
+<h3 class="font-bold">Assistente Virtual</h3>
+<button onclick="toggleChat()" class="text-white hover:text-gray-200">
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div id="chat-messages" class="flex flex-col">
+</div>
+<div id="chat-input-area">
+<input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
+<button id="chat-send-btn">
+<i class="fas fa-paper-plane"></i>
+</button>
+</div>
+</div>
+ 
+    <div id="chat-widget">
+<button id="chat-button" onclick="toggleChat()">
+<i class="fas fa-comments"></i>
+</button>
+</div>
+
+
+  <!-- Footer -->
+  <footer class="bg-green-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="text-center">
+        <!-- Social Media Icons -->
+        <div class="flex justify-center space-x-6 mb-6">
+          <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
+             class="text-white hover:text-green-300 transition transform hover:scale-110">
+            <i class="fab fa-instagram text-2xl"></i>
+          </a>
+          <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"
+             class="text-white hover:text-green-300 transition transform hover:scale-110">
+            <i class="fab fa-youtube text-2xl"></i>
+          </a>
+          <a href="https://fatecfrancodarocha.cps.sp.gov.br/" class="text-white hover:text-green-300 transition transform hover:scale-110">
+            <i class="fas fa-globe text-2xl"></i>
+          </a>
+        </div>
+
+        <!-- Copyright -->
+        <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
+        <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+     // Função para controlar a visibilidade do seu modal de FAQ
+        function toggleFAQ() {
+            const faqModal = document.getElementById('faqModal');
+            faqModal.classList.toggle('hidden');
+        }
+ 
+ 
+        // =======================================================
+        //          INÍCIO DO JAVASCRIPT DO CHATBOT              
+        // =======================================================
+ 
+        // Elementos da interface do chat
+        const chatWindowContainer = document.getElementById('chat-window-container');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('chat-user-input');
+        const sendBtn = document.getElementById('chat-send-btn');
+ 
+        
+        // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
+        function toggleChat() {
+            // Verifica se a janela está FECHADA (display: none)
+            if (chatWindowContainer.style.display === 'none') {
+                // Abre a janela para 'flex'
+                chatWindowContainer.style.display = 'flex';
+                
+                // Adiciona mensagem inicial apenas se for a primeira vez
+                if (chatMessages.children.length === 0) {
+                    addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+                }
+            } else {
+                // Se estiver ABERTA, fecha definindo o display para 'none'
+                chatWindowContainer.style.display = 'none';
+            }
+        }
+        
+        
+        // Função para adicionar uma mensagem na janela do chat
+        function addMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            // Rolar para a última mensagem
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+ 
+        // Função para enviar mensagem ao backend
+        async function sendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === '') return;
+ 
+            // Exibe a mensagem do usuário na tela
+            addMessage(messageText, 'user');
+            userInput.value = '';
+ 
+            try {
+                // Envia a mensagem para o servidor Flask
+                const response = await fetch('http://127.0.0.1:5000/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: messageText })
+                });
+ 
+                if (!response.ok) {
+                    throw new Error('Erro na comunicação com o servidor.');
+                }
+ 
+                const data = await response.json();
+                // Exibe a resposta do bot na tela
+                addMessage(data.reply, 'bot');
+ 
+            } catch (error) {
+                console.error('Erro:', error);
+                addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+            }
+        }
+ 
+        // Event Listeners para o input e botão de envio
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+ 
+        // Define o estado inicial do chat para FECHADO (display: none)
+        document.addEventListener('DOMContentLoaded', () => {
+            chatWindowContainer.style.display = 'none';
+        });
+  </script>
+  
+</body>
+</html>

@@ -102,13 +102,16 @@
         #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
         #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 
+    /* Adicionado este trecho ao seu CSS existente */
+    #abrirModalConsentimento {
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body class="min-h-screen bg-gray-50">
 
-  <!-- Header -->
   <header class="bg-white shadow-lg">
-    <!-- Top Navigation -->
     <nav class="bg-gray-100 py-2">
       <div class="container mx-auto px-4 flex justify-end">
         <ul class="flex space-x-6 text-sm">
@@ -118,19 +121,15 @@
       </div>
     </nav>
 
-    <!-- Main Navigation -->
     <nav class="py-4">
       <div class="container mx-auto px-4 flex items-center justify-between">
-        <!-- Logo -->
         <div class="flex-shrink-0">
           <a href="sobre.html" class="block">
             <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
           </a>
         </div>
 
-        <!-- Menu Items -->
         <ul class="hidden md:flex space-x-8">
-          <!--<li><a href="descarte.html" class="nav-link text-gray-700 font-medium hover:text-green-600">DESCARTE</a></li>-->
           <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600">AGENDAMENTO</a></li>
           <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
           <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
@@ -140,7 +139,6 @@
     </nav>
   </header>
 
-  <!-- Main Content -->
   <main class="gradient-bg min-h-screen py-16">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
@@ -148,35 +146,36 @@
         <p class="text-lg text-white opacity-90">Crie sua conta e faça parte da RTEC</p>
       </div>
 
-      <!-- Aqui vai o formulário -->
-      <!-- Caixa do formulário -->
-        <div class="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-8">
+      <div class="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-8">
             <form class="flex flex-col space-y-4">
-                <!-- Nome -->
                 <input type="text" placeholder="Nome" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <!-- Sobrenome -->
                 <input type="text" placeholder="Sobrenome" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <!-- Email -->
                 <input type="email" placeholder="E-mail" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <!-- Telefone -->
                 <input type="tel" placeholder="Telefone" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <!-- Senha -->
                 <input type="password" placeholder="Senha" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <!-- Confirmar senha -->
                 <input type="password" placeholder="Confirmar senha" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <!-- Botão -->
+                <div>
+                    <input type="checkbox" id="consentimento" name="consentimento" required class="mr-2">
+                    <label for="consentimento" class="text-sm text-gray-600">
+                        Eu li, entendi e concordo com as 
+                        <a href="#" id="abrirModalConsentimento" class="text-green-600 hover:underline">
+                            Práticas de Segurança e Consentimento de Uso de Dados
+                        </a>.
+                    </label>
+                </div>
+
                 <button type="submit" 
                         class="bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 rounded-lg hover:scale-105 transition-transform duration-300">
                 Cadastrar
@@ -187,9 +186,39 @@
     </div>
   </main>
 
+ <div id="modalConsentimento" style="display: none;" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl w-11/12 md:max-w-2xl p-6 md:p-8 relative">
+        <button id="fecharModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Nossa Transparência e Segurança com Você</h2>
+        <div class="text-gray-700 space-y-4 max-h-[60vh] overflow-y-auto pr-4">
+            <p>Para nós, a sua segurança e privacidade são prioridades. Queremos que você entenda de forma clara como cuidamos dos seus dados e como nosso site funciona.</p>
+            
+            <h4 class="font-semibold text-lg">1. Nosso Compromisso com a Segurança:</h4>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Proteção de Dados:</strong> Usamos medidas de segurança, como criptografia e controle de acesso, para proteger suas informações contra acessos não autorizados, perdas ou fraudes.</li>
+                <li><strong>Confidencialidade:</strong> Jamais venderemos ou alugaremos seus dados pessoais. Eles são usados exclusivamente para o funcionamento do nosso serviço.</li>
+            </ul>
+            
+            <h4 class="font-semibold text-lg">2. Como Usamos Seus Dados (Seu Consentimento):</h4>
+            <p>Ao criar sua conta, coletamos algumas informações para que o serviço funcione bem. Veja para quê:</p>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Dados de Cadastro (Nome, E-mail):</strong> Usamos para identificar você, permitir o acesso à sua conta e enviar comunicações importantes sobre o serviço.</li>
+                <li><strong>Dados de Navegação (IP, páginas visitadas):</strong> Usamos de forma anônima para entender como nosso site é utilizado, melhorar sua experiência e garantir a segurança da plataforma contra atividades suspeitas.</li>
+            </ul>
+
+            <h4 class="font-semibold text-lg">3. Suas Responsabilidades:</h4>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Senha Segura:</strong> Sua senha é pessoal e intransferível. Crie uma senha forte e não a compartilhe com ninguém.</li>
+                <li><strong>Uso Consciente:</strong> Utilize nosso site de forma ética e legal, respeitando os outros usuários.</li>
+            </ul>
+        </div>
+    </div>
+</div>
  
-<!-- FAQ--> 
-    <div id="chat-window-container">
+<div id="chat-window-container">
 <div id="chat-header">
 <h3 class="font-bold">Assistente Virtual</h3>
 <button onclick="toggleChat()" class="text-white hover:text-gray-200">
@@ -213,11 +242,9 @@
 </div>
 
 
-  <!-- Footer -->
   <footer class="bg-green-800 text-white py-12">
     <div class="container mx-auto px-4">
       <div class="text-center">
-        <!-- Social Media Icons -->
         <div class="flex justify-center space-x-6 mb-6">
           <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
              class="text-white hover:text-green-300 transition transform hover:scale-110">
@@ -232,7 +259,6 @@
           </a>
         </div>
 
-        <!-- Copyright -->
         <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
         <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
       </div>
@@ -257,6 +283,34 @@
         const userInput = document.getElementById('chat-user-input');
         const sendBtn = document.getElementById('chat-send-btn');
  
+        // =======================================================
+        //          INÍCIO DO JAVASCRIPT DO MODAL DE CONSENTIMENTO (Adicionado)
+        // =======================================================
+        const modal = document.getElementById('modalConsentimento');
+        const abrirLink = document.getElementById('abrirModalConsentimento');
+        const fecharBtn = document.getElementById('fecharModal');
+
+        // Ação: Quando o usuário clicar no link, ABRIR a janela
+        abrirLink.onclick = function(event) {
+            event.preventDefault(); // Impede o link de navegar
+            modal.style.display = "flex";
+        }
+
+        // Ação: Quando o usuário clicar no 'x', FECHAR a janela
+        fecharBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Ação: Quando o usuário clicar FORA da janela, FECHAR também
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // =======================================================
+        //          CONTINUAÇÃO DO JAVASCRIPT DO CHATBOT
+        // =======================================================
         
         // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
         function toggleChat() {

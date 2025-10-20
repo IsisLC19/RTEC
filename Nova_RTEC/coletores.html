@@ -34,18 +34,6 @@
         transform: translateY(-1px);
     }
 
-    .help-btn {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 1000;
-        transition: all 0.3s ease;
-    }
-
-    .help-btn:hover {
-        transform: scale(1.1);
-    }
-
     .fade-in {
         animation: fadeIn 0.8s ease-out;
     }
@@ -64,113 +52,320 @@
         background: linear-gradient(135deg, #10b981, #059669);
     }
 
-    /* Estilos adicionais para o chatbot */
-        #chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        #chat-button {
-            background-color: #10b981;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            font-size: 24px;
-        }
-        #chat-window-container {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border-radius: 15px;
-            overflow: hidden;
-            display: flex; /* DEVE SER 'flex' quando VISÍVEL */
-            flex-direction: column;
-            background-color: white;
-            z-index: 1000;
-        }
-        #chat-header {
-            background-color: #10b981;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #chat-messages {
-            flex-grow: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            background-color: #f4f4f9;
-        }
-        .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
-        .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
-        .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
-        #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
-        #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
-        #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+    /* Estilos do chatbot */
+    #chat-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    #chat-button {
+        background-color: #10b981;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        font-size: 24px;
+    }
+    #chat-window-container {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        width: 350px;
+        height: 500px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 15px;
+        overflow: hidden;
+        display: flex; /* DEVE SER 'flex' quando VISÍVEL */
+        flex-direction: column;
+        background-color: white;
+        z-index: 1000;
+    }
+    #chat-header {
+        background-color: #10b981;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chat-messages {
+        flex-grow: 1;
+        padding: 1rem;
+        overflow-y: auto;
+        background-color: #f4f4f9;
+    }
+    .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+    .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+    .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+    #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+    #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+    #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 
+    /* === AJUSTES RESPONSIVOS DO CHATBOT === */
+    @media (max-width: 420px) { /* Telas pequenas (celulares) */
+      #chat-window-container {
+        width: calc(100vw - 20px);
+        height: 70vh;
+        right: 10px;
+        bottom: 80px;
+      }
+      #chat-widget {
+        right: 10px;
+        bottom: 10px;
+      }
+      #chat-button {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    /* === ESTILIZAÇÃO DO MENU MOBILE (BASE) === */
+    #mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(8px);
+      box-shadow: -8px 0 20px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.4s ease-out;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    #mobile-menu-header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    #mobile-menu .nav-list-mobile {
+      padding: 1.5rem 1rem;
+      flex-grow: 1;
+    }
+
+    #mobile-menu .nav-list-mobile li a {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #374151;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      position: relative;
+    }
+
+    #mobile-menu .nav-list-mobile li a:hover {
+      background-color: #ecfdf5;
+      color: #047857;
+      transform: translateX(5px);
+    }
+    
+    #mobile-menu .nav-list-mobile li .active-link-mobile {
+      background-color: #d1fae5;
+      color: #047857;
+      font-weight: 700;
+      border-left: 4px solid #10b981;
+      padding-left: 1rem;
+    }
+
+    /* ================================================= */
+    /* === NOVOS ESTILOS DO MENU MOBILE (ADICIONADOS) == */
+    /* ================================================= */
+    .mobile-menu-footer {
+      padding: 1rem;
+      margin-top: auto; /* Empurra para o final */
+      border-top: 1px solid #e5e7eb;
+      background-color: #f9fafb; /* Um fundo levemente diferente */
+    }
+    .mobile-menu-footer .btn-mobile-login {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 1rem; /* Padding ajustado */
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-mobile-primary {
+      background-color: #10b981;
+      color: white;
+    }
+    .btn-mobile-primary:hover {
+      background-color: #059669;
+    }
+    .btn-mobile-secondary {
+      background-color: #f3f4f6;
+      color: #374151;
+      margin-top: 0.5rem;
+    }
+    .btn-mobile-secondary:hover {
+      background-color: #e5e7eb;
+    }
 </style>
 
 </head>
 <body class="min-h-screen bg-gray-50">
-<!-- Header -->
-<header class="bg-white shadow-lg">
-<!-- Top Navigation -->
-<nav class="bg-gray-100 py-2">
-<div class="container mx-auto px-4 flex justify-end">
-<ul class="flex space-x-6 text-sm">
-<li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
-<li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
-</ul>
-</div>
-</nav>
 
-    <!-- Main Navigation -->
-    <nav class="py-4">
-        <div class="container mx-auto px-4 flex items-center justify-between">
-            <!-- Logo -->
-            <div class="flex-shrink-0">
-                <a href="sobre.html" class="block">
-                    <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
-                </a>
-            </div>
+<header class="bg-white shadow-lg relative z-50">
+  <nav class="bg-gray-100 py-2">
+    <div class="container mx-auto px-4 flex justify-end">
+      <ul class="flex space-x-6 text-sm">
+        <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
+        <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
+      </ul>
+    </div>
+  </nav>
 
-            <!-- Menu Items -->
-            <ul class="hidden md:flex space-x-8">
-                <!--<li><a href="descarte.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">DESCARTE</a></li>-->
-                <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">AGENDAMENTO</a></li>
-                <li><a href="coletores.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">COLETORES</a></li>
-                <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">SOBRE</a></li>
-                <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">FEEDBACKS</a></li>
-            </ul>
-        </div>
-    </nav>
+  <nav class="py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+      <div class="flex-shrink-0">
+        <a href="sobre.html" class="block">
+          <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+        </a>
+      </div>
+
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">AGENDAMENTO</a></li>
+        <li><a href="coletores.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">COLETORES</a></li>
+        <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">SOBRE</a></li>
+        <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600 transition-all duration-300">FEEDBACKS</a></li>
+      </ul>
+
+      <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
+        <i class="fas fa-bars fa-xl"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 
-<!-- Main Content -->
+<div id="mobile-menu" class="hidden">
+  <div id="mobile-menu-header">
+    <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
+    <button id="close-menu-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+      <i class="fas fa-times fa-lg"></i>
+    </button>
+  </div>
+  
+  <ul class="nav-list-mobile">
+    <li><a href="agendamento.html">AGENDAMENTO</a></li>
+    <li><a href="coletores.html" class="active-link-mobile">COLETORES</a></li>
+    <li><a href="sobre.html">SOBRE</a></li>
+    <li><a href="feedback.html">FEEDBACKS</a></li>
+  </ul>
+
+  <div class="mobile-menu-footer">
+    <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
+      <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+    </a>
+    <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
+      <i class="fas fa-user-plus mr-2"></i>Cadastre-se
+    </a>
+  </div>
+</div>
+
+<div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
 <main class="gradient-bg min-h-screen py-12">
     <div class="container mx-auto px-4">
-        <!-- Page Title -->
         <div class="text-center mb-12 fade-in">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Resíduos para Coleta</h1>
-            <p class="text-xl text-white opacity-90">Confira os materiais disponíveis para coleta</p>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Resíduos para Coleta</h1>
+            <p class="text-lg md:text-xl text-white opacity-90">Confira os materiais disponíveis para coleta</p>
         </div>
 
-        <!-- Table Container -->
         <div class="max-w-4xl mx-auto">
             <div class="table-container rounded-2xl shadow-2xl overflow-hidden fade-in">
-                <!-- Table -->
-                <div class="overflow-x-auto">
+                
+                <div class="block md:hidden">
+                  <div class="bg-white p-4 space-y-4">
+                    
+                    <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+                      <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center">
+                          <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-box text-green-600"></i>
+                          </div>
+                          <span class="font-medium text-gray-900 text-lg">PAPELÃO</span>
+                        </div>
+                        <span class="status-badge inline-flex px-3 py-1 text-xs font-semibold rounded-full text-white text-right ml-2">
+                          A COLETAR
+                        </span>
+                      </div>
+                      <div class="text-sm text-gray-700">
+                        Quantidade: <span class="font-bold text-xl text-gray-900">24</span> <span class="text-gray-500">unidades</span>
+                      </div>
+                    </div>
+
+                    <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+                      <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center">
+                          <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-desktop text-green-600"></i>
+                          </div>
+                          <span class="font-medium text-gray-900 text-lg">COMPUTADORES</span>
+                        </div>
+                        <span class="status-badge inline-flex px-3 py-1 text-xs font-semibold rounded-full text-white text-right ml-2">
+                          A COLETAR
+                        </span>
+                      </div>
+                      <div class="text-sm text-gray-700">
+                        Quantidade: <span class="font-bold text-xl text-gray-900">12</span> <span class="text-gray-500">unidades</span>
+                      </div>
+                    </div>
+
+                    <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+                      <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center">
+                          <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-mobile-alt text-green-600"></i>
+                          </div>
+                          <span class="font-medium text-gray-900 text-lg">CELULARES</span>
+                        </div>
+                        <span class="status-badge inline-flex px-3 py-1 text-xs font-semibold rounded-full text-white text-right ml-2">
+                          A COLETAR
+                        </span>
+                      </div>
+                      <div class="text-sm text-gray-700">
+                        Quantidade: <span class="font-bold text-xl text-gray-900">17</span> <span class="text-gray-500">unidades</span>
+                      </div>
+                    </div>
+
+                    <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+                      <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center">
+                          <div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-battery-half text-green-600"></i>
+                          </div>
+                          <span class="font-medium text-gray-900 text-lg">PILHAS</span>
+                        </div>
+                        <span class="status-badge inline-flex px-3 py-1 text-xs font-semibold rounded-full text-white text-right ml-2">
+                          A COLETAR
+                        </span>
+                      </div>
+                      <div class="text-sm text-gray-700">
+                        Quantidade: <span class="font-bold text-xl text-gray-900">9</span> <span class="text-gray-500">unidades</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="hidden md:block overflow-x-auto">
                     <table class="w-full">
                         <thead class="bg-green-600 text-white">
                             <tr>
@@ -281,8 +476,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Action Button -->
                 <div class="bg-gray-50 px-6 py-4 text-center">
                     <button onclick="window.location.href='agendamento.html'"
                             class="btn-hover bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
@@ -294,41 +487,38 @@
     </div>
 </main>
 
-<!-- FAQ--> 
-    <div id="chat-window-container">
-<div id="chat-header">
-<h3 class="font-bold">Assistente Virtual</h3>
-<button onclick="toggleChat()" class="text-white hover:text-gray-200">
-<i class="fas fa-times"></i>
-</button>
-</div>
-<div id="chat-messages" class="flex flex-col">
-</div>
-<div id="chat-input-area">
-<input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
-<button id="chat-send-btn">
-<i class="fas fa-paper-plane"></i>
-</button>
-</div>
-</div>
- 
-    <div id="chat-widget">
-<button id="chat-button" onclick="toggleChat()">
-<i class="fas fa-comments"></i>
-</button>
+<div id="chat-window-container">
+  <div id="chat-header">
+    <h3 class="font-bold">Assistente Virtual</h3>
+    <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div id="chat-messages" class="flex flex-col">
+  </div>
+  <div id="chat-input-area">
+    <input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
+    <button id="chat-send-btn">
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </div>
 </div>
 
-<!-- Footer -->
+<div id="chat-widget">
+  <button id="chat-button" onclick="toggleChat()">
+    <i class="fas fa-comments"></i>
+  </button>
+</div>
+
 <footer class="bg-green-800 text-white py-12">
     <div class="container mx-auto px-4">
         <div class="text-center">
-            <!-- Social Media Icons -->
             <div class="flex justify-center space-x-6 mb-6">
-                <a href="<https://www.instagram.com/fatecfrancodarocha/>" target="_blank"
+                <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
                    class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
                     <i class="fab fa-instagram text-2xl"></i>
                 </a>
-                <a href="<https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A>" target="_blank"
+                <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"
                    class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
                     <i class="fab fa-youtube text-2xl"></i>
                 </a>
@@ -337,7 +527,6 @@
                 </a>
             </div>
 
-            <!-- Copyright -->
             <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
             <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
         </div>
@@ -345,97 +534,152 @@
 </footer>
 
 <script>
-     // Função para controlar a visibilidade do seu modal de FAQ
-        function toggleFAQ() {
-            const faqModal = document.getElementById('faqModal');
-            faqModal.classList.toggle('hidden');
-        }
+     // Função para controlar a visibilidade do seu modal de FAQ (se existir)
+     function toggleFAQ() {
+         const faqModal = document.getElementById('faqModal');
+         if (faqModal) { // Verifica se o elemento existe
+           faqModal.classList.toggle('hidden');
+         }
+     }
  
  
-        // =======================================================
-        //          INÍCIO DO JAVASCRIPT DO CHATBOT              
-        // =======================================================
+     // =======================================================
+     //         INÍCIO DO JAVASCRIPT DO CHATBOT             
+     // =======================================================
  
-        // Elementos da interface do chat
-        const chatWindowContainer = document.getElementById('chat-window-container');
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('chat-user-input');
-        const sendBtn = document.getElementById('chat-send-btn');
+     // Elementos da interface do chat
+     const chatWindowContainer = document.getElementById('chat-window-container');
+     const chatMessages = document.getElementById('chat-messages');
+     const userInput = document.getElementById('chat-user-input');
+     const sendBtn = document.getElementById('chat-send-btn');
  
-        
-        // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
-        function toggleChat() {
-            // Verifica se a janela está FECHADA (display: none)
-            if (chatWindowContainer.style.display === 'none') {
-                // Abre a janela para 'flex'
-                chatWindowContainer.style.display = 'flex';
-                
-                // Adiciona mensagem inicial apenas se for a primeira vez
-                if (chatMessages.children.length === 0) {
-                    addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+     
+     // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
+     function toggleChat() {
+         if (!chatWindowContainer) return; // Proteção
+         
+         if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
+             chatWindowContainer.style.display = 'flex';
+             if (chatMessages && chatMessages.children.length === 0) {
+                 addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+             }
+         } else {
+             chatWindowContainer.style.display = 'none';
+         }
+     }
+     
+     
+     // Função para adicionar uma mensagem na janela do chat
+     function addMessage(message, sender) {
+        if (!chatMessages) return; // Proteção
+         const messageElement = document.createElement('div');
+         messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+         messageElement.textContent = message;
+         chatMessages.appendChild(messageElement);
+         chatMessages.scrollTop = chatMessages.scrollHeight;
+     }
+ 
+     // Função para enviar mensagem ao backend
+     async function sendMessage() {
+        if (!userInput) return; // Proteção
+         const messageText = userInput.value.trim();
+         if (messageText === '') return;
+ 
+         addMessage(messageText, 'user');
+         userInput.value = '';
+ 
+         try {
+             const response = await fetch('http://127.0.0.1:5000/ask', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({ message: messageText })
+             });
+ 
+             if (!response.ok) {
+                 throw new Error('Erro na comunicação com o servidor.');
+             }
+ 
+             const data = await response.json();
+             addMessage(data.reply, 'bot');
+ 
+         } catch (error) {
+             console.error('Erro:', error);
+             addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+         }
+     }
+ 
+     // Event Listeners para o input e botão de envio
+     if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+     if(userInput) userInput.addEventListener('keypress', function(event) {
+         if (event.key === 'Enter') {
+             sendMessage();
+         }
+     });
+ 
+     // =======================================================
+     //     INÍCIO DO SCRIPT DO MENU MOBILE E CHATBOT LOAD
+     // =======================================================
+ 
+     document.addEventListener('DOMContentLoaded', () => {
+         
+         // --- SCRIPT DO MENU HAMBURGER ---
+         const menuBtn = document.getElementById('menu-btn');
+         const closeMenuBtn = document.getElementById('close-menu-btn');
+         const mobileMenu = document.getElementById('mobile-menu');
+         const menuOverlay = document.getElementById('menu-overlay');
+         
+         if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) {
+             const menuIcon = menuBtn.querySelector('i');
+
+             // Função para abrir o menu
+             const openMobileMenu = () => {
+                 mobileMenu.classList.remove('hidden');
+                 setTimeout(() => mobileMenu.classList.add('active'), 10); // Pequeno delay para transição
+                 menuOverlay.classList.remove('hidden');
+                 document.body.style.overflow = 'hidden';
+                 if(menuIcon) {
+                   menuIcon.classList.remove('fa-bars');
+                   menuIcon.classList.add('fa-times');
+                 }
+             };
+
+             // Função para fechar o menu
+             const closeMobileMenu = () => {
+                 mobileMenu.classList.remove('active');
+                 mobileMenu.addEventListener('transitionend', () => {
+                     if (!mobileMenu.classList.contains('active')) {
+                         mobileMenu.classList.add('hidden');
+                     }
+                 }, { once: true });
+                 menuOverlay.classList.add('hidden');
+                 document.body.style.overflow = '';
+                 if(menuIcon) {
+                   menuIcon.classList.remove('fa-times');
+                   menuIcon.classList.add('fa-bars');
+                 }
+             };
+
+             menuBtn.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('hidden')) {
+                    openMobileMenu();
+                } else {
+                    closeMobileMenu();
                 }
-            } else {
-                // Se estiver ABERTA, fecha definindo o display para 'none'
-                chatWindowContainer.style.display = 'none';
-            }
-        }
-        
-        
-        // Função para adicionar uma mensagem na janela do chat
-        function addMessage(message, sender) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
-            messageElement.textContent = message;
-            chatMessages.appendChild(messageElement);
-            // Rolar para a última mensagem
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
- 
-        // Função para enviar mensagem ao backend
-        async function sendMessage() {
-            const messageText = userInput.value.trim();
-            if (messageText === '') return;
- 
-            // Exibe a mensagem do usuário na tela
-            addMessage(messageText, 'user');
-            userInput.value = '';
- 
-            try {
-                // Envia a mensagem para o servidor Flask
-                const response = await fetch('http://127.0.0.1:5000/ask', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ message: messageText })
-                });
- 
-                if (!response.ok) {
-                    throw new Error('Erro na comunicação com o servidor.');
-                }
- 
-                const data = await response.json();
-                // Exibe a resposta do bot na tela
-                addMessage(data.reply, 'bot');
- 
-            } catch (error) {
-                console.error('Erro:', error);
-                addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
-            }
-        }
- 
-        // Event Listeners para o input e botão de envio
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        });
- 
-        // Define o estado inicial do chat para FECHADO (display: none)
-        document.addEventListener('DOMContentLoaded', () => {
-            chatWindowContainer.style.display = 'none';
-        });
+             });
+             closeMenuBtn.addEventListener('click', closeMobileMenu);
+             menuOverlay.addEventListener('click', closeMobileMenu);
+         } else {
+             console.error("Erro: Elementos do menu mobile não encontrados.");
+         }
+         // --- FIM DO SCRIPT DO MENU ---
+
+         // --- CÓDIGO ORIGINAL DO CHATBOT (Define estado inicial) ---
+         if (chatWindowContainer) {
+           chatWindowContainer.style.display = 'none';
+         }
+     });
 </script>
 </body>
 </html>

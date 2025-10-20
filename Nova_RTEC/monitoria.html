@@ -95,7 +95,7 @@
   <nav class="bg-gray-100 py-2">
     <div class="container mx-auto px-4 flex justify-end">
         <div class="relative inline-block" id="profileDropdownContainer">
-            <img src="https://via.placeholder.com/40/10b981/ffffff?text=U" alt="Usuário" id="profileButton" class="h-10 w-10 rounded-full object-cover cursor-pointer border-2 border-green-600 hover:border-green-800 transition" onclick="toggleProfileDropdown()">
+            <img src="img/usuario.png" alt="Usuário" id="profileButton" class="h-10 w-10 rounded-full object-cover cursor-pointer border-2 border-green-600 hover:border-green-800 transition" onclick="toggleProfileDropdown()">
             <div id="profileDropdown" class="absolute right-0 mt-2 w-48 rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-50 hidden">
                 <div class="py-1">
                     <p class="px-4 py-2 text-sm text-gray-700 font-semibold border-b">Nome do Usuário</p>
@@ -113,8 +113,7 @@
       <a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
       <ul class="hidden md:flex space-x-8">
          <li><a href="coletores.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">MONITOR</a></li> 
-         <li><a href="relatorios.html" class="nav-link text-gray-700 font-medium hover:text-green-600">RELATÓRIOS</a></li> 
-         <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
+         <li><a href="relatorios.html" class="nav-link text-gray-700 font-medium hover:text-green-600">RELATÓRIOS</a></li>
       </ul>
       <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
         <i class="fas fa-bars fa-xl"></i>
@@ -264,6 +263,195 @@
                 </div>
             </div>
         </div>
+
+<!-- ÁREA DE SEPARAÇÃO -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+  <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Área de Separação</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Materiais para Aula -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover flex flex-col justify-between">
+      <div>
+        <h3 class="text-2xl font-semibold text-green-700 mb-4 flex items-center">
+          <i class="fas fa-chalkboard-teacher mr-2 text-green-600"></i>Materiais para Aula
+        </h3>
+        <p class="text-gray-600 mb-6">Selecione os materiais usados nas aulas ou atividades práticas.</p>
+        <table class="w-full text-sm text-gray-700 border-t">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="py-3 px-4 text-left font-semibold">Material</th>
+              <th class="py-3 px-4 text-left font-semibold">Quantidade</th>
+              <th class="py-3 px-4 text-left font-semibold">Data</th>
+            </tr>
+          </thead>
+          <tbody id="aulaTable">
+            <tr>
+              <td class="py-2 px-4">Mouse USB</td>
+              <td class="py-2 px-4">10</td>
+              <td class="py-2 px-4">20/10/2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button onclick="openAulaModal()" class="mt-6 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-bold shadow-md transition-all duration-300 flex items-center justify-center">
+        <i class="fas fa-plus mr-2"></i>Registrar Material de Aula
+      </button>
+    </div>
+
+    <!-- Materiais para Coleta -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover flex flex-col justify-between">
+      <div>
+        <h3 class="text-2xl font-semibold text-yellow-700 mb-4 flex items-center">
+          <i class="fas fa-recycle mr-2 text-yellow-600"></i>Materiais para Coleta
+        </h3>
+        <p class="text-gray-600 mb-6">Adicione os materiais que precisam ser coletados ou estão aguardando separação.</p>
+        <table class="w-full text-sm text-gray-700 border-t">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="py-3 px-4 text-left font-semibold">Material</th>
+              <th class="py-3 px-4 text-left font-semibold">Status</th>
+            </tr>
+          </thead>
+          <tbody id="coletaTable">
+            <tr>
+              <td class="py-2 px-4">Televisores antigos</td>
+              <td class="py-2 px-4"><span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full">Aguardando</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button onclick="openColetaModal()" class="mt-6 bg-yellow-600 hover:bg-yellow-700 text-white py-2 rounded-lg font-bold shadow-md transition-all duration-300 flex items-center justify-center">
+        <i class="fas fa-plus mr-2"></i>Registrar Material de Coleta
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Materiais para Aula -->
+<div id="aulaModal" class="fixed inset-0 hidden z-[102] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+  <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold text-green-700 flex items-center"><i class="fas fa-chalkboard-teacher mr-2"></i>Registrar Material de Aula</h3>
+      <button onclick="closeAulaModal()" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
+    </div>
+    <form id="aulaForm" class="space-y-4">
+      <div>
+        <label class="font-semibold text-gray-700">Material</label>
+        <select id="aulaMaterial" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-green-500" required>
+          <option value="">Selecione um material</option>
+          <option value="CPU">CPU</option>
+          <option value="Placa-mãe">Placa-mãe</option>
+          <option value="HD">HD</option>
+          <option value="SSD">SSD</option>
+          <option value="Fonte de alimentação">Fonte de alimentação</option>
+          <option value="Memória RAM">Memória RAM</option>
+          <option value="Mouse">Mouse</option>
+          <option value="Teclado">Teclado</option>
+          <option value="Monitor">Monitor</option>
+          <option value="Cabos e conectores">Cabos e conectores</option>
+        </select>
+      </div>
+      <div>
+        <label class="font-semibold text-gray-700">Quantidade</label>
+        <input type="number" id="aulaQtd" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-green-500" required>
+      </div>
+      <div class="text-right">
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Materiais para Coletar -->
+<div id="coletaModal" class="fixed inset-0 hidden z-[102] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+  <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold text-yellow-700 flex items-center">
+        <i class="fas fa-recycle mr-2"></i>Registrar Material de Coleta
+      </h3>
+      <button onclick="closeColetaModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form id="coletaForm" class="space-y-4">
+      <div>
+        <label class="font-semibold text-gray-700">Tipo de Material</label>
+        <select id="coletaMaterial" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-yellow-500" required>
+          <option value="">Selecione um tipo</option>
+          <option value="CPU">CPU</option>
+          <option value="Celulares">Celulares</option>
+          <option value="Placa-mãe">Placa-mãe</option>
+          <option value="HD">HD</option>
+          <option value="SSD">SSD</option>
+          <option value="Fonte de alimentação">Fonte de alimentação</option>
+          <option value="Memória RAM">Memória RAM</option>
+          <option value="Placa de vídeo">Placa de vídeo</option>
+          <option value="Gabinete">Gabinete</option>
+          <option value="Monitor">Monitor</option>
+          <option value="Mouse">Mouse</option>
+          <option value="Teclado">Teclado</option>
+          <option value="Impressora">Impressora</option>
+          <option value="Notebook">Notebook</option>
+          <option value="Cabo de energia">Cabo de energia</option>
+          <option value="Cabo HDMI/VGA">Cabo HDMI/VGA</option>
+          <option value="Roteador">Roteador</option>
+          <option value="Switch">Switch</option>
+          <option value="Televisão">Televisão</option>
+          <option value="Papelão">Papelão</option>
+          <option value="Pilhas">Pilhas</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="font-semibold text-gray-700">Status</label>
+        <select id="coletaStatus" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-yellow-500" disabled>
+          <option value="A Coletar" selected>A Coletar</option>
+        </select>
+      </div>
+
+      <div class="text-right">
+        <button type="submit" class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition font-semibold">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- RELATORIOS ANTERIORES-->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Relatórios Anteriores</h2>
+    
+    <!--CAMPO DAS IDEIAS-->
+    <div class="bg-white rounded-xl shadow p-6 space-y-4">
+        <!-- Relatório 1 -->
+        <div class="flex justify-between items-center border-b pb-3">
+            <div>
+                <p class="text-lg font-semibold text-gray-700">Relatório de Informática - Maio/2025</p>
+                <p class="text-sm text-gray-500">Gerado em: 20/05/2025</p>
+            </div>
+            <a href="relatorios/relatorio-informatica-maio-2025.pdf" target="_blank"
+               class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition flex items-center text-sm">
+                <i class="fas fa-file-pdf mr-2"></i>Visualizar
+            </a>
+        </div>
+
+        <!-- Relatório 2 -->
+        <div class="flex justify-between items-center border-b pb-3">
+            <div>
+                <p class="text-lg font-semibold text-gray-700">Relatório de Áudio/Video - Abril/2025</p>
+                <p class="text-sm text-gray-500">Gerado em: 25/04/2025</p>
+            </div>
+            <a href="relatorios/relatorio-audio-video-abril-2025.pdf" target="_blank"
+               class="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition flex items-center text-sm">
+                <i class="fas fa-file-pdf mr-2"></i>Visualizar
+            </a>
+        </div>
+
+        <!-- Adicione mais relatórios conforme necessário -->
+    </div>
+</section>
+
     </main>
 
     <div id="newMaterialModal" class="fixed inset-0 hidden z-[101] flex items-center justify-center p-4" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);">
@@ -341,6 +529,50 @@
             if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) { const i = menuBtn.querySelector('i'); const o = () => { mobileMenu.classList.remove('hidden'); setTimeout(() => mobileMenu.classList.add('active'), 10); menuOverlay.classList.remove('hidden'); document.body.style.overflow = 'hidden'; if(i) { i.classList.remove('fa-bars'); i.classList.add('fa-times'); } }; menuBtn.addEventListener('click', () => { if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) { o(); } else { window.closeMobileMenu(); } }); closeMenuBtn.addEventListener('click', window.closeMobileMenu); menuOverlay.addEventListener('click', window.closeMobileMenu); } else { console.error("Erro menu mobile."); }
             showCategory('green'); 
         });
+
+
+        // --- Modais de Aula ---
+  function openAulaModal() { document.getElementById('aulaModal').classList.remove('hidden'); }
+  function closeAulaModal() { document.getElementById('aulaModal').classList.add('hidden'); }
+
+  document.getElementById('aulaForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const mat = document.getElementById('aulaMaterial').value;
+    const qtd = document.getElementById('aulaQtd').value;
+    const data = new Date().toLocaleDateString('pt-BR');
+    document.getElementById('aulaTable').innerHTML += 
+      `<tr><td class='py-2 px-4'>${mat}</td><td class='py-2 px-4'>${qtd}</td><td class='py-2 px-4'>${data}</td></tr>`;
+    closeAulaModal();
+    e.target.reset();
+  });
+
+  // --- Modais de Coleta ---
+  function openColetaModal() {
+    document.getElementById('coletaModal').classList.remove('hidden');
+  }
+  
+  function closeColetaModal() {
+    document.getElementById('coletaModal').classList.add('hidden');
+  }
+
+  document.getElementById('coletaForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const mat = document.getElementById('coletaMaterial').value;
+    const status = 'A Coletar'; // status fixo
+    const badgeColor = 'bg-yellow-100 text-yellow-700';
+
+    // adiciona o material na tabela
+    document.getElementById('coletaTable').innerHTML += 
+      `<tr>
+        <td class='py-2 px-4'>${mat}</td>
+        <td class='py-2 px-4'>
+          <span class='px-2 py-1 text-xs rounded-full ${badgeColor}'>${status}</span>
+        </td>
+      </tr>`;
+
+    closeColetaModal();
+    e.target.reset();
+  });
     </script>
 </body>
 </html>

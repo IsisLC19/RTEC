@@ -50,6 +50,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- Estilos do Chatbot --- */
         #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         #chat-button { background-color: #10b981; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 24px; }
         #chat-window-container { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; background-color: white; z-index: 1000; }
@@ -61,39 +62,184 @@
         #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
         #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
         #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+
+        /* === AJUSTES RESPONSIVOS DO CHATBOT === */
+        @media (max-width: 420px) { /* Telas pequenas (celulares) */
+          #chat-window-container {
+            width: calc(100vw - 20px);
+            height: 70vh;
+            right: 10px;
+            bottom: 80px;
+          }
+          #chat-widget {
+            right: 10px;
+            bottom: 10px;
+          }
+          #chat-button {
+            width: 50px;
+            height: 50px;
+          }
+        }
+
+        /* === ESTILIZAÇÃO DO MENU MOBILE (BASE) === */
+        #mobile-menu {
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 80%;
+          max-width: 300px;
+          height: 100vh;
+          background-color: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(8px);
+          box-shadow: -8px 0 20px rgba(0,0,0,0.2);
+          transform: translateX(100%);
+          transition: transform 0.4s ease-out;
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+        }
+
+        #mobile-menu.active {
+          transform: translateX(0);
+        }
+
+        #mobile-menu-header {
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid #e5e7eb;
+        }
+
+        #mobile-menu .nav-list-mobile {
+          padding: 1.5rem 1rem;
+          flex-grow: 1;
+        }
+
+        #mobile-menu .nav-list-mobile li a {
+          display: block;
+          padding: 0.75rem 1rem;
+          margin-bottom: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: 500;
+          color: #374151;
+          border-radius: 0.5rem;
+          transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+          position: relative;
+        }
+
+        #mobile-menu .nav-list-mobile li a:hover {
+          background-color: #ecfdf5;
+          color: #047857;
+          transform: translateX(5px);
+        }
+        
+        #mobile-menu .nav-list-mobile li .active-link-mobile {
+          background-color: #d1fae5;
+          color: #047857;
+          font-weight: 700;
+          border-left: 4px solid #10b981;
+          padding-left: 1rem;
+        }
+
+        /* ================================================= */
+        /* === NOVOS ESTILOS DO MENU MOBILE (ADICIONADOS) == */
+        /* ================================================= */
+        .mobile-menu-footer {
+          padding: 1rem;
+          margin-top: auto; /* Empurra para o final */
+          border-top: 1px solid #e5e7eb;
+          background-color: #f9fafb; /* Um fundo levemente diferente */
+        }
+        .mobile-menu-footer .btn-mobile-login {
+          display: block;
+          width: 100%;
+          text-align: center;
+          padding: 0.75rem 1rem; /* Padding ajustado */
+          border-radius: 0.5rem;
+          font-weight: 600;
+          transition: all 0.2s ease;
+        }
+        .btn-mobile-primary {
+          background-color: #10b981;
+          color: white;
+        }
+        .btn-mobile-primary:hover {
+          background-color: #059669;
+        }
+        .btn-mobile-secondary {
+          background-color: #f3f4f6;
+          color: #374151;
+          margin-top: 0.5rem;
+        }
+        .btn-mobile-secondary:hover {
+          background-color: #e5e7eb;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 flex flex-col">
 
-  <header class="bg-white shadow-lg">
-    <nav class="bg-gray-100 py-2">
-      <div class="container mx-auto px-4 flex justify-end">
-        <ul class="flex space-x-6 text-sm">
-          <li><a href="entrar.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600 transition-all duration-300">Entrar</a></li>
-          <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
-        </ul>
-      </div>
-    </nav>
-    <nav class="py-4">
-      <div class="container mx-auto px-4 flex items-center justify-between">
-        <div class="flex-shrink-0"><a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto"></a></div>
-        <ul class="hidden md:flex space-x-8">
-          <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600">AGENDAMENTO</a></li>
-          <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
-          <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
-          <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+<header class="bg-white shadow-lg relative z-50">
+  <nav class="bg-gray-100 py-2">
+    <div class="container mx-auto px-4 flex justify-end">
+      <ul class="flex space-x-6 text-sm">
+        <li><a href="entrar.html" class="nav-link text-green-600 font-bold transition-all duration-300">Entrar</a></li>
+        <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <main class="flex-grow flex items-center justify-center py-10 px-4 gradient-bg">
-        <div class="form-container rounded-2xl shadow-2xl p-8 w-full max-w-md fade-in">
+  <nav class="py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+      <div class="flex-shrink-0"><a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto"></a></div>
+      
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600">AGENDAMENTO</a></li>
+        <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
+        <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
+        <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
+      </ul>
+
+      <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
+        <i class="fas fa-bars fa-xl"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div id="mobile-menu" class="hidden">
+  <div id="mobile-menu-header">
+    <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
+    <button id="close-menu-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+      <i class="fas fa-times fa-lg"></i>
+    </button>
+  </div>
+  
+  <ul class="nav-list-mobile">
+    <li><a href="agendamento.html">AGENDAMENTO</a></li>
+    <li><a href="coletores.html">COLETORES</a></li>
+    <li><a href="sobre.html">SOBRE</a></li>
+    <li><a href="feedback.html">FEEDBACKS</a></li>
+  </ul>
+
+  <div class="mobile-menu-footer">
+    <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
+      <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+    </a>
+    <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
+      <i class="fas fa-user-plus mr-2"></i>Cadastre-se
+    </a>
+  </div>
+</div>
+
+<div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
+<main class="flex-grow flex items-center justify-center py-10 px-4 gradient-bg">
+        <div class="form-container rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md fade-in">
             <div class="text-center mb-8">
                 <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-user text-white text-2xl"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-gray-800 mb-2">Bem-vindo de volta!</h2>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Bem-vindo de volta!</h2>
                 <p class="text-gray-600">Entre na sua conta para continuar</p>
             </div>
 
@@ -153,6 +299,7 @@
     <div id="chat-widget">
         <button id="chat-button" onclick="toggleChat()"><i class="fas fa-comments"></i></button>
     </div>
+    
     <footer class="bg-green-800 text-white py-12">
         <div class="container mx-auto px-4">
             <div class="text-center">
@@ -168,6 +315,7 @@
     </footer>
 
     <script>
+        // Função para o olho da senha
         function togglePassword() {
             const passwordInput = document.getElementById('passwordInput');
             const eyeIcon = document.getElementById('eyeIcon');
@@ -180,45 +328,41 @@
             }
         }
 
-        // ===============================================
-        //          FUNÇÃO DE LOGIN MODIFICADA
-        // ===============================================
+        // Função de Login
         function handleLogin(event) {
-    event.preventDefault();
+            event.preventDefault();
 
-    const email = document.getElementById('emailInput').value.trim();
-    const password = document.getElementById('passwordInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
 
-    const button = event.target.querySelector('button[type="submit"]');
-    const originalText = button.innerHTML;
+            const button = event.target.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
 
-    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Entrando...';
-    button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Entrando...';
+            button.disabled = true;
 
-    // Credenciais
-    const users = [
-        { email: "funcionario@gmail.com", password: "1234", redirect: "funcionario.html" },
-        { email: "monitor@gmail.com", password: "5678", redirect: "monitoria.html" }
-    ];
+            const users = [
+                { email: "funcionario@gmail.com", password: "1234", redirect: "funcionario.html" },
+                { email: "monitor@gmail.com", password: "5678", redirect: "monitoria.html" }
+            ];
 
-    setTimeout(() => {
-        const user = users.find(u => u.email === email && u.password === password);
+            setTimeout(() => {
+                const user = users.find(u => u.email === email && u.password === password);
 
-        if (user) {
-            alert('Login realizado com sucesso! Redirecionando...');
-            localStorage.setItem("usuarioLogado", "true");
-            window.location.href = user.redirect;
-        } else {
-            alert('Usuário ou senha incorretos!');
-            button.innerHTML = originalText;
-            button.disabled = false;
+                if (user) {
+                    alert('Login realizado com sucesso! Redirecionando...');
+                    localStorage.setItem("usuarioLogado", "true");
+                    window.location.href = user.redirect;
+                } else {
+                    alert('Usuário ou senha incorretos!');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }
+            }, 1500);
         }
-    }, 1500);
-}
-
 
         // =======================================================
-        //          CÓDIGO DO CHATBOT (sem alterações)            
+        //               CÓDIGO DO CHATBOT
         // =======================================================
         const chatWindowContainer = document.getElementById('chat-window-container');
         const chatMessages = document.getElementById('chat-messages');
@@ -226,9 +370,10 @@
         const sendBtn = document.getElementById('chat-send-btn');
         
         function toggleChat() {
+            if (!chatWindowContainer) return;
             if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
                 chatWindowContainer.style.display = 'flex';
-                if (chatMessages.children.length === 0) {
+                if (chatMessages && chatMessages.children.length === 0) {
                     addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
                 }
             } else {
@@ -237,49 +382,109 @@
         }
         
         function addMessage(message, sender) {
+            if (!chatMessages) return;
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
             messageElement.textContent = message;
             chatMessages.appendChild(messageElement);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
- 
+    
         async function sendMessage() {
+            if (!userInput) return;
             const messageText = userInput.value.trim();
             if (messageText === '') return;
- 
+    
             addMessage(messageText, 'user');
             userInput.value = '';
- 
+    
             try {
                 const response = await fetch('http://127.0.0.1:5000/ask', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: messageText })
                 });
- 
+    
                 if (!response.ok) throw new Error('Erro na comunicação com o servidor.');
- 
+    
                 const data = await response.json();
                 addMessage(data.reply, 'bot');
- 
+    
             } catch (error) {
                 console.error('Erro:', error);
                 addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
             }
         }
- 
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        });
- 
-        document.addEventListener('DOMContentLoaded', () => {
-            chatWindowContainer.style.display = 'none';
-        });
 
+        // =======================================================
+        //     INÍCIO DO SCRIPT DO MENU MOBILE E CHATBOT LOAD
+        // =======================================================
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- SCRIPT DO MENU HAMBURGER (ATUALIZADO) ---
+            const menuBtn = document.getElementById('menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOverlay = document.getElementById('menu-overlay');
+            
+            if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) {
+                const menuIcon = menuBtn.querySelector('i');
+
+                const openMobileMenu = () => {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => mobileMenu.classList.add('active'), 10); 
+                    menuOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    if(menuIcon) {
+                      menuIcon.classList.remove('fa-bars');
+                      menuIcon.classList.add('fa-times');
+                    }
+                };
+
+                const closeMobileMenu = () => {
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.addEventListener('transitionend', () => {
+                        if (!mobileMenu.classList.contains('active')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }, { once: true });
+                    menuOverlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    if(menuIcon) {
+                      menuIcon.classList.remove('fa-times');
+                      menuIcon.classList.add('fa-bars');
+                    }
+                };
+
+                // Lógica de clique atualizada para toggle
+                menuBtn.addEventListener('click', () => {
+                   if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
+                       openMobileMenu();
+                   } else {
+                       closeMobileMenu();
+                   }
+                });
+                closeMenuBtn.addEventListener('click', closeMobileMenu);
+                menuOverlay.addEventListener('click', closeMobileMenu);
+            } else {
+                console.error("Erro: Elementos do menu mobile não encontrados.");
+            }
+            // --- FIM DO SCRIPT DO MENU ---
+
+            // --- CÓDIGO DO CHATBOT (Listeners e Estado Inicial) ---
+            if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+            if(userInput) userInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            if (chatWindowContainer) {
+              chatWindowContainer.style.display = 'none';
+            }
+            // --- FIM DO CÓDIGO DO CHATBOT ---
+        });
     </script>
 </body>
 </html>

@@ -23,223 +23,295 @@
       color: #10b981;
       transform: translateY(-1px);
     }
+    
+    /* Estilos do chatbot */
+    #chat-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    #chat-button {
+        background-color: #10b981;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        font-size: 24px;
+    }
+    #chat-window-container {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        width: 350px;
+        height: 500px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 15px;
+        overflow: hidden;
+        display: flex; /* DEVE SER 'flex' quando VISÍVEL */
+        flex-direction: column;
+        background-color: white;
+        z-index: 1000;
+    }
+    #chat-header {
+        background-color: #10b981;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chat-messages {
+        flex-grow: 1;
+        padding: 1rem;
+        overflow-y: auto;
+        background-color: #f4f4f9;
+    }
+    .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+    .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+    .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+    #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+    #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+    #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 
-    .help-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      z-index: 1000;
-      transition: all 0.3s ease;
+    /* === AJUSTES RESPONSIVOS DO CHATBOT === */
+    @media (max-width: 420px) { /* Telas pequenas (celulares) */
+      #chat-window-container {
+        width: calc(100vw - 20px);
+        height: 70vh;
+        right: 10px;
+        bottom: 80px;
+      }
+      #chat-widget {
+        right: 10px;
+        bottom: 10px;
+      }
+      #chat-button {
+        width: 50px;
+        height: 50px;
+      }
     }
 
-    .help-btn:hover {
-      transform: scale(1.1);
+    /* === ESTILIZAÇÃO DO MENU MOBILE (BASE) === */
+    #mobile-menu {
+      position: fixed; /* Fixa o menu para cobrir toda a tela lateralmente */
+      top: 0;
+      right: 0;
+      width: 80%; /* Ocupa 80% da largura da tela */
+      max-width: 300px; /* Limite de largura para não ficar muito grande em tablets */
+      height: 100vh; /* Altura total da viewport */
+      background-color: rgba(255, 255, 255, 0.98); /* Fundo quase branco com leve transparência */
+      backdrop-filter: blur(8px); /* Efeito de desfoque no fundo */
+      box-shadow: -8px 0 20px rgba(0,0,0,0.2); /* Sombra para dar profundidade */
+      transform: translateX(100%); /* Começa fora da tela (escondido) */
+      transition: transform 0.4s ease-out; /* Transição suave para deslizar */
+      z-index: 100; /* Garante que fique acima de outros elementos */
+      display: flex;
+      flex-direction: column; /* Organiza conteúdo em coluna */
     }
 
-    .form-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -20%);
-      width: 350px;
-      padding: 30px;
-      border-radius: 10px;
+    #mobile-menu.active {
+      transform: translateX(0); /* Desliza para dentro da tela */
+    }
+
+    #mobile-menu-header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb; /* Linha divisória */
+    }
+
+    #mobile-menu .nav-list-mobile {
+      padding: 1.5rem 1rem;
+      flex-grow: 1; /* Permite que a lista cresça e ocupe o espaço restante */
+    }
+
+    #mobile-menu .nav-list-mobile li a {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #374151; /* Cor do texto padrão */
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      position: relative;
+    }
+
+    #mobile-menu .nav-list-mobile li a:hover {
+      background-color: #ecfdf5; /* Fundo verde claro ao passar o mouse */
+      color: #047857; /* Texto verde escuro ao passar o mouse */
+      transform: translateX(5px); /* Leve movimento para a direita */
+    }
+    
+    #mobile-menu .nav-list-mobile li .active-link-mobile {
+      background-color: #d1fae5; /* Fundo mais escuro para o link ativo */
+      color: #047857;
+      font-weight: 700;
+      border-left: 4px solid #10b981; /* Borda esquerda para destaque */
+      padding-left: 1rem; /* Ajusta padding devido à borda */
+    }
+
+    /* ================================================= */
+    /* === NOVOS ESTILOS DO MENU MOBILE (ADICIONADOS) == */
+    /* ================================================= */
+    .mobile-menu-footer {
+      padding: 1rem;
+      margin-top: auto; /* Empurra para o final */
+      border-top: 1px solid #e5e7eb;
+      background-color: #f9fafb; /* Um fundo levemente diferente */
+    }
+    .mobile-menu-footer .btn-mobile-login {
+      display: block;
+      width: 100%;
       text-align: center;
+      padding: 0.75rem 1rem; /* Padding ajustado */
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
     }
-
-    /* Estilos adicionais para o chatbot */
-        #chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        #chat-button {
-            background-color: #10b981;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            font-size: 24px;
-        }
-        #chat-window-container {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border-radius: 15px;
-            overflow: hidden;
-            display: flex; /* DEVE SER 'flex' quando VISÍVEL */
-            flex-direction: column;
-            background-color: white;
-            z-index: 1000;
-        }
-        #chat-header {
-            background-color: #10b981;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #chat-messages {
-            flex-grow: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            background-color: #f4f4f9;
-        }
-        .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
-        .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
-        .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
-        #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
-        #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
-        #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
-
-    /* Adicionado este trecho ao seu CSS existente */
-    #abrirModalConsentimento {
-      cursor: pointer;
+    .btn-mobile-primary {
+      background-color: #10b981;
+      color: white;
     }
-
+    .btn-mobile-primary:hover {
+      background-color: #059669;
+    }
+    .btn-mobile-secondary {
+      background-color: #f3f4f6;
+      color: #374151;
+      margin-top: 0.5rem;
+    }
+    .btn-mobile-secondary:hover {
+      background-color: #e5e7eb;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gray-50">
 
-  <header class="bg-white shadow-lg">
-    <nav class="bg-gray-100 py-2">
-      <div class="container mx-auto px-4 flex justify-end">
-        <ul class="flex space-x-6 text-sm">
-          <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
-          <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Cadastre-se</a></li>
-        </ul>
+<header class="bg-white shadow-lg relative z-50">
+  <nav class="bg-gray-100 py-2">
+    <div class="container mx-auto px-4 flex justify-end">
+      <ul class="flex space-x-6 text-sm">
+        <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
+        <li><a href="cadastro.html" class="nav-link text-green-600 font-bold transition-all duration-300">Cadastre-se</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <nav class="py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+      <div class="flex-shrink-0">
+        <a href="sobre.html" class="block">
+          <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+        </a>
       </div>
-    </nav>
 
-    <nav class="py-4">
-      <div class="container mx-auto px-4 flex items-center justify-between">
-        <div class="flex-shrink-0">
-          <a href="sobre.html" class="block">
-            <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
-          </a>
-        </div>
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600">AGENDAMENTO</a></li>
+        <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
+        <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
+        <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
+      </ul>
 
-        <ul class="hidden md:flex space-x-8">
-          <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600">AGENDAMENTO</a></li>
-          <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
-          <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
-          <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+      <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
+        <i class="fas fa-bars fa-xl"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 
-  <main class="gradient-bg min-h-screen py-16">
+<div id="mobile-menu" class="hidden">
+  <div id="mobile-menu-header">
+    <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
+    <button id="close-menu-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+      <i class="fas fa-times fa-lg"></i>
+    </button>
+  </div>
+  
+  <ul class="nav-list-mobile">
+    <li><a href="agendamento.html">AGENDAMENTO</a></li>
+    <li><a href="coletores.html">COLETORES</a></li>
+    <li><a href="sobre.html">SOBRE</a></li>
+    <li><a href="feedback.html">FEEDBACKS</a></li>
+  </ul>
+
+  <div class="mobile-menu-footer">
+    <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
+      <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+    </a>
+    <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
+      <i class="fas fa-user-plus mr-2"></i>Cadastre-se
+    </a>
+  </div>
+</div>
+
+<div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
+<main class="gradient-bg min-h-screen py-16">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-white">Cadastro</h1>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Cadastro</h1>
         <p class="text-lg text-white opacity-90">Crie sua conta e faça parte da RTEC</p>
       </div>
 
-      <div class="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-8">
-            <form class="flex flex-col space-y-4">
-                <input type="text" placeholder="Nome" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+      <div class="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
+        <form class="flex flex-col space-y-4">
+          <input type="text" placeholder="Nome" 
+               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <input type="text" placeholder="Sobrenome" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+          <input type="text" placeholder="Sobrenome" 
+               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <input type="email" placeholder="E-mail" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+          <input type="email" placeholder="E-mail" 
+               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <input type="tel" placeholder="Telefone" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+          <input type="tel" placeholder="Telefone" 
+               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <input type="password" placeholder="Senha" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+          <input type="password" placeholder="Senha" 
+               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <input type="password" placeholder="Confirmar senha" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+          <input type="password" placeholder="Confirmar senha" 
+               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-                <div>
-                    <input type="checkbox" id="consentimento" name="consentimento" required class="mr-2">
-                    <label for="consentimento" class="text-sm text-gray-600">
-                        Eu li, entendi e concordo com as 
-                        <a href="#" id="abrirModalConsentimento" class="text-green-600 hover:underline">
-                            Práticas de Segurança e Consentimento de Uso de Dados
-                        </a>.
-                    </label>
-                </div>
-
-                <button type="submit" 
-                        class="bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 rounded-lg hover:scale-105 transition-transform duration-300">
-                Cadastrar
-                </button>
-            </form>
-        </div>
+          <button type="submit" 
+                  class="bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 rounded-lg hover:scale-105 transition-transform duration-300">
+          Cadastrar
+          </button>
+        </form>
       </div>
     </div>
   </main>
 
- <div id="modalConsentimento" style="display: none;" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-xl w-11/12 md:max-w-2xl p-6 md:p-8 relative">
-        <button id="fecharModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-            <i class="fas fa-times text-2xl"></i>
-        </button>
-        
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Nossa Transparência e Segurança com Você</h2>
-        <div class="text-gray-700 space-y-4 max-h-[60vh] overflow-y-auto pr-4">
-            <p>Para nós, a sua segurança e privacidade são prioridades. Queremos que você entenda de forma clara como cuidamos dos seus dados e como nosso site funciona.</p>
-            
-            <h4 class="font-semibold text-lg">1. Nosso Compromisso com a Segurança:</h4>
-            <ul class="list-disc list-inside space-y-1">
-                <li><strong>Proteção de Dados:</strong> Usamos medidas de segurança, como criptografia e controle de acesso, para proteger suas informações contra acessos não autorizados, perdas ou fraudes.</li>
-                <li><strong>Confidencialidade:</strong> Jamais venderemos ou alugaremos seus dados pessoais. Eles são usados exclusivamente para o funcionamento do nosso serviço.</li>
-            </ul>
-            
-            <h4 class="font-semibold text-lg">2. Como Usamos Seus Dados (Seu Consentimento):</h4>
-            <p>Ao criar sua conta, coletamos algumas informações para que o serviço funcione bem. Veja para quê:</p>
-            <ul class="list-disc list-inside space-y-1">
-                <li><strong>Dados de Cadastro (Nome, E-mail):</strong> Usamos para identificar você, permitir o acesso à sua conta e enviar comunicações importantes sobre o serviço.</li>
-                <li><strong>Dados de Navegação (IP, páginas visitadas):</strong> Usamos de forma anônima para entender como nosso site é utilizado, melhorar sua experiência e garantir a segurança da plataforma contra atividades suspeitas.</li>
-            </ul>
-
-            <h4 class="font-semibold text-lg">3. Suas Responsabilidades:</h4>
-            <ul class="list-disc list-inside space-y-1">
-                <li><strong>Senha Segura:</strong> Sua senha é pessoal e intransferível. Crie uma senha forte e não a compartilhe com ninguém.</li>
-                <li><strong>Uso Consciente:</strong> Utilize nosso site de forma ética e legal, respeitando os outros usuários.</li>
-            </ul>
-        </div>
+  
+  <div id="chat-window-container">
+    <div id="chat-header">
+      <h3 class="font-bold">Assistente Virtual</h3>
+      <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-</div>
- 
-<div id="chat-window-container">
-<div id="chat-header">
-<h3 class="font-bold">Assistente Virtual</h3>
-<button onclick="toggleChat()" class="text-white hover:text-gray-200">
-<i class="fas fa-times"></i>
-</button>
-</div>
-<div id="chat-messages" class="flex flex-col">
-</div>
-<div id="chat-input-area">
-<input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
-<button id="chat-send-btn">
-<i class="fas fa-paper-plane"></i>
-</button>
-</div>
-</div>
- 
-    <div id="chat-widget">
-<button id="chat-button" onclick="toggleChat()">
-<i class="fas fa-comments"></i>
-</button>
-</div>
+    <div id="chat-messages" class="flex flex-col">
+    </div>
+    <div id="chat-input-area">
+      <input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
+      <button id="chat-send-btn">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+  
+  <div id="chat-widget">
+    <button id="chat-button" onclick="toggleChat()">
+      <i class="fas fa-comments"></i>
+    </button>
+  </div>
 
 
   <footer class="bg-green-800 text-white py-12">
@@ -266,125 +338,152 @@
   </footer>
 
   <script>
-     // Função para controlar a visibilidade do seu modal de FAQ
-        function toggleFAQ() {
-            const faqModal = document.getElementById('faqModal');
-            faqModal.classList.toggle('hidden');
-        }
+     // Função para controlar a visibilidade do seu modal de FAQ (se existir)
+     function toggleFAQ() {
+         const faqModal = document.getElementById('faqModal');
+         if (faqModal) { // Verifica se o elemento existe
+           faqModal.classList.toggle('hidden');
+         }
+     }
  
  
-        // =======================================================
-        //          INÍCIO DO JAVASCRIPT DO CHATBOT              
-        // =======================================================
+     // =======================================================
+     //         INÍCIO DO JAVASCRIPT DO CHATBOT             
+     // =======================================================
  
-        // Elementos da interface do chat
-        const chatWindowContainer = document.getElementById('chat-window-container');
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('chat-user-input');
-        const sendBtn = document.getElementById('chat-send-btn');
+     // Elementos da interface do chat
+     const chatWindowContainer = document.getElementById('chat-window-container');
+     const chatMessages = document.getElementById('chat-messages');
+     const userInput = document.getElementById('chat-user-input');
+     const sendBtn = document.getElementById('chat-send-btn');
  
-        // =======================================================
-        //          INÍCIO DO JAVASCRIPT DO MODAL DE CONSENTIMENTO (Adicionado)
-        // =======================================================
-        const modal = document.getElementById('modalConsentimento');
-        const abrirLink = document.getElementById('abrirModalConsentimento');
-        const fecharBtn = document.getElementById('fecharModal');
+     
+     // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
+     function toggleChat() {
+         if (!chatWindowContainer) return; // Proteção
+         
+         if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
+             chatWindowContainer.style.display = 'flex';
+             if (chatMessages && chatMessages.children.length === 0) {
+                 addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+             }
+         } else {
+             chatWindowContainer.style.display = 'none';
+         }
+     }
+     
+     
+     // Função para adicionar uma mensagem na janela do chat
+     function addMessage(message, sender) {
+        if (!chatMessages) return; // Proteção
+         const messageElement = document.createElement('div');
+         messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+         messageElement.textContent = message;
+         chatMessages.appendChild(messageElement);
+         chatMessages.scrollTop = chatMessages.scrollHeight;
+     }
+ 
+     // Função para enviar mensagem ao backend
+     async function sendMessage() {
+        if (!userInput) return; // Proteção
+         const messageText = userInput.value.trim();
+         if (messageText === '') return;
+ 
+         addMessage(messageText, 'user');
+         userInput.value = '';
+ 
+         try {
+             const response = await fetch('http://127.0.0.1:5000/ask', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({ message: messageText })
+             });
+ 
+             if (!response.ok) {
+                 throw new Error('Erro na comunicação com o servidor.');
+             }
+ 
+             const data = await response.json();
+             addMessage(data.reply, 'bot');
+ 
+         } catch (error) {
+             console.error('Erro:', error);
+             addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+         }
+     }
+ 
+     // Event Listeners para o input e botão de envio
+     if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+     if(userInput) userInput.addEventListener('keypress', function(event) {
+         if (event.key === 'Enter') {
+             sendMessage();
+         }
+     });
+ 
+     // =======================================================
+     //     INÍCIO DO SCRIPT DO MENU MOBILE E CHATBOT LOAD
+     // =======================================================
+ 
+     document.addEventListener('DOMContentLoaded', () => {
+         
+         // --- SCRIPT DO MENU HAMBURGER ---
+         const menuBtn = document.getElementById('menu-btn');
+         const closeMenuBtn = document.getElementById('close-menu-btn');
+         const mobileMenu = document.getElementById('mobile-menu');
+         const menuOverlay = document.getElementById('menu-overlay');
+         
+         if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) {
+             const menuIcon = menuBtn.querySelector('i');
 
-        // Ação: Quando o usuário clicar no link, ABRIR a janela
-        abrirLink.onclick = function(event) {
-            event.preventDefault(); // Impede o link de navegar
-            modal.style.display = "flex";
-        }
+             // Função para abrir o menu
+             const openMobileMenu = () => {
+                 mobileMenu.classList.remove('hidden');
+                 setTimeout(() => mobileMenu.classList.add('active'), 10); // Pequeno delay para transição
+                 menuOverlay.classList.remove('hidden');
+                 document.body.style.overflow = 'hidden';
+                 if(menuIcon) {
+                   menuIcon.classList.remove('fa-bars');
+                   menuIcon.classList.add('fa-times');
+                 }
+             };
 
-        // Ação: Quando o usuário clicar no 'x', FECHAR a janela
-        fecharBtn.onclick = function() {
-            modal.style.display = "none";
-        }
+             // Função para fechar o menu
+             const closeMobileMenu = () => {
+                 mobileMenu.classList.remove('active');
+                 mobileMenu.addEventListener('transitionend', () => {
+                     if (!mobileMenu.classList.contains('active')) {
+                         mobileMenu.classList.add('hidden');
+                     }
+                 }, { once: true });
+                 menuOverlay.classList.add('hidden');
+                 document.body.style.overflow = '';
+                 if(menuIcon) {
+                   menuIcon.classList.remove('fa-times');
+                   menuIcon.classList.add('fa-bars');
+                 }
+             };
 
-        // Ação: Quando o usuário clicar FORA da janela, FECHAR também
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // =======================================================
-        //          CONTINUAÇÃO DO JAVASCRIPT DO CHATBOT
-        // =======================================================
-        
-        // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
-        function toggleChat() {
-            // Verifica se a janela está FECHADA (display: none)
-            if (chatWindowContainer.style.display === 'none') {
-                // Abre a janela para 'flex'
-                chatWindowContainer.style.display = 'flex';
-                
-                // Adiciona mensagem inicial apenas se for a primeira vez
-                if (chatMessages.children.length === 0) {
-                    addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+             menuBtn.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('hidden')) {
+                    openMobileMenu();
+                } else {
+                    closeMobileMenu();
                 }
-            } else {
-                // Se estiver ABERTA, fecha definindo o display para 'none'
-                chatWindowContainer.style.display = 'none';
-            }
-        }
-        
-        
-        // Função para adicionar uma mensagem na janela do chat
-        function addMessage(message, sender) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
-            messageElement.textContent = message;
-            chatMessages.appendChild(messageElement);
-            // Rolar para a última mensagem
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
- 
-        // Função para enviar mensagem ao backend
-        async function sendMessage() {
-            const messageText = userInput.value.trim();
-            if (messageText === '') return;
- 
-            // Exibe a mensagem do usuário na tela
-            addMessage(messageText, 'user');
-            userInput.value = '';
- 
-            try {
-                // Envia a mensagem para o servidor Flask
-                const response = await fetch('http://127.0.0.1:5000/ask', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ message: messageText })
-                });
- 
-                if (!response.ok) {
-                    throw new Error('Erro na comunicação com o servidor.');
-                }
- 
-                const data = await response.json();
-                // Exibe a resposta do bot na tela
-                addMessage(data.reply, 'bot');
- 
-            } catch (error) {
-                console.error('Erro:', error);
-                addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
-            }
-        }
- 
-        // Event Listeners para o input e botão de envio
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        });
- 
-        // Define o estado inicial do chat para FECHADO (display: none)
-        document.addEventListener('DOMContentLoaded', () => {
-            chatWindowContainer.style.display = 'none';
-        });
+             });
+             closeMenuBtn.addEventListener('click', closeMobileMenu);
+             menuOverlay.addEventListener('click', closeMobileMenu);
+         } else {
+             console.error("Erro: Elementos do menu mobile não encontrados.");
+         }
+         // --- FIM DO SCRIPT DO MENU ---
+
+         // --- CÓDIGO ORIGINAL DO CHATBOT (Define estado inicial) ---
+         if (chatWindowContainer) {
+           chatWindowContainer.style.display = 'none';
+         }
+     });
   </script>
   
 </body>

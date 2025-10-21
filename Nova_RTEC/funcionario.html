@@ -73,13 +73,20 @@
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
+    <!-- Leitor em Libras-->
+    <div vw="httpsAcess" class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
 
 <header class="bg-white shadow-lg relative z-50">
   <nav class="bg-gray-100 py-2">
     <div class="container mx-auto px-4 flex justify-end">
         <div class="relative inline-block" id="profileDropdownContainer">
             <img 
-                src="https://via.placeholder.com/40/10b981/ffffff?text=U" 
+                src="img/usuario.png" 
                 alt="Usuário" 
                 id="profileButton"
                 class="h-10 w-10 rounded-full object-cover cursor-pointer border-2 border-green-600 hover:border-green-800 transition"
@@ -109,7 +116,6 @@
       <ul class="hidden md:flex space-x-8">
          <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">DASHBOARD</a></li> 
          <li><a href="#" class="nav-link text-green-600 font-medium border-b-2 border-green-600">RELATÓRIOS</a></li> 
-         <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
       </ul>
       <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
         <i class="fas fa-bars fa-xl"></i>
@@ -199,24 +205,24 @@
                         <h3 class="text-xl font-bold text-gray-800 mb-6">Tipos de Resíduos Doados</h3>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Computadores <span class="text-gray-500 text-sm">[35%]</span></span> </div>
+                                <span class="text-gray-700">Computadores <span class="text-gray-500 text-sm">35%</span></span> </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-green-500 h-3 rounded-full progress-bar" style="width: 35%"></div>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Celulares <span class="text-gray-500 text-sm">[28%]</span></span>
+                                <span class="text-gray-700">Celulares <span class="text-gray-500 text-sm">28%</span></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-blue-500 h-3 rounded-full progress-bar" style="width: 28%"></div>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Televisores <span class="text-gray-500 text-sm">[18%]</span></span>
+                                <span class="text-gray-700">Televisores <span class="text-gray-500 text-sm">18%</span></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-purple-500 h-3 rounded-full progress-bar" style="width: 18%"></div>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Outros <span class="text-gray-500 text-sm">[19%]</span></span>
+                                <span class="text-gray-700">Outros <span class="text-gray-500 text-sm">19%</span></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 19%"></div>
@@ -254,6 +260,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <div class="p-6 border-b border-gray-200">
                         <h3 class="text-xl font-bold text-gray-800">Doações Recentes</h3>
+                    
                     </div>
                     
                     <div class="block md:hidden p-4 space-y-4">
@@ -329,8 +336,152 @@
                         </table>
                     </div>
                 </div>
+
+<!-- ÁREA DE PROTOCOLOS DE AGENDAMENTO -->
+<div class="bg-white rounded-2xl shadow-2xl mt-10 p-6 sm:p-8">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+      <i class="fas fa-clipboard-check text-green-600 mr-2"></i> Protocolos de Coletas
+    </h2>
+    <span class="text-sm text-gray-500">Visualize os protocolos gerados</span>
+  </div>
+
+  <!-- Campo de busca -->
+  <div class="mb-6 flex flex-col sm:flex-row gap-3">
+    <input type="text" id="buscarProtocolo" placeholder="🔍 Buscar protocolo..." 
+      class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-1/2 focus:ring-2 focus:ring-green-500 focus:outline-none">
+  </div>
+
+  <!-- Lista de protocolos -->
+  <div id="listaProtocolos" class="grid md:grid-cols-2 gap-6">
+    <!-- CARD DE PROTOCOLO -->
+    <div class="border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-lg transition">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-bold text-green-700">#RTEC-1023</h3>
+        <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 font-semibold">Agendado</span>
+      </div>
+
+      <div class="text-sm space-y-2">
+        <p><strong class="text-gray-700">Tipo:</strong> Doador</p>
+        <p><strong class="text-gray-700">Resíduo:</strong> Eletrônico</p>
+        <p><strong class="text-gray-700">Data:</strong> 21/10/2025</p>
+        <p><strong class="text-gray-700">Horário:</strong> 14:30</p>
+        <p><strong class="text-gray-700">Local:</strong> Rodovia Luiz Salomão Chama, 240 - Franco da Rocha</p>
+      </div>
+
+      <div class="mt-4 flex justify-end">
+        <button onclick="abrirModalProtocolo('RTEC-1023')" 
+          class="text-sm bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+          <i class="fas fa-eye mr-1"></i> Ver Detalhes
+        </button>
+      </div>
+    </div>
+
+    <!-- Outro exemplo -->
+    <div class="border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-lg transition">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-bold text-green-700">#RTEC-2045</h3>
+        <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-semibold">Em rota</span>
+      </div>
+
+      <div class="text-sm space-y-2">
+        <p><strong class="text-gray-700">Tipo:</strong> Coletor</p>
+        <p><strong class="text-gray-700">Resíduo:</strong> Reciclável</p>
+        <p><strong class="text-gray-700">Data:</strong> 23/10/2025</p>
+        <p><strong class="text-gray-700">Horário:</strong> 09:00</p>
+        <p><strong class="text-gray-700">Local:</strong> Rodovia Luiz Salomão Chama, 240 - Franco da Rocha</p>
+      </div>
+
+      <div class="mt-4 flex justify-end">
+        <button onclick="abrirModalProtocolo('RTEC-2045')" 
+          class="text-sm bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+          <i class="fas fa-eye mr-1"></i> Ver Detalhes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE VISUALIZAÇÃO DO PROTOCOLO (IGUAL AO DE AGENDAMENTO) -->
+<div id="visualizarProtocolo" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+  <button onclick="fecharModalProtocolo()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+    <div class="p-6 md:p-8 text-center">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-clipboard-list text-green-600 text-3xl"></i>
+      </div>
+      <h3 class="text-2xl font-bold text-gray-900 mb-2">Detalhes do Protocolo</h3>
+      <p class="text-gray-600 mb-6">Informações completas da coleta agendada</p>
+
+      <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-6">
+        <div class="text-sm text-gray-600 mb-1">Protocolo:</div>
+        <div id="protocoloNumero" class="text-2xl font-bold text-green-600 font-mono">#RTEC-1023</div>
+      </div>
+
+      <div class="text-left bg-gray-50 rounded-lg p-4 mb-6 space-y-2 text-sm">
+        <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Tipo:</span><span id="protocoloTipo" class="font-medium sm:text-right">Doador</span></div>
+        <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Resíduo:</span><span id="protocoloResiduo" class="font-medium sm:text-right">Eletrônico</span></div>
+        <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Data:</span><span id="protocoloData" class="font-medium sm:text-right">21/10/2025</span></div>
+        <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Horário:</span><span id="protocoloHora" class="font-medium sm:text-right">14:30</span></div>
+        <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 shrink-0">Local:</span><span class="font-medium sm:text-right">Rodovia Luiz Salomão Chama, 240 - Franco da Rocha</span></div>
+      </div>
+
+      <button onclick="fecharModalProtocolo()" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA DE FEEDBACKS DOS USUÁRIOS -->
+<div class="bg-white rounded-xl shadow-lg overflow-hidden mt-10 mb-10">
+  <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+    <h3 class="text-xl font-bold text-gray-800 flex items-center">
+      <i class="fas fa-comment-dots text-green-600 mr-2"></i> Feedbacks dos Usuários
+    </h3>
+    <span class="text-sm text-gray-500">Avaliações recentes</span>
+  </div>
+
+  <div class="divide-y divide-gray-100">
+    <div class="p-6 hover:bg-gray-50 transition">
+      <div class="flex justify-between items-center mb-2">
+        <p class="font-semibold text-gray-800">Ana Beatriz</p>
+        <div class="flex items-center text-yellow-400">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+        </div>
+      </div>
+      <p class="text-sm text-gray-700 mb-2"><strong>Recomendaria:</strong> Sim</p>
+      <div class="flex flex-wrap gap-2 mb-2">
+        <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-800">Design Visual</span>
+        <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-800">Facilidade do Agendamento</span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-800">Rapidez da Navegação</span>
+      </div>
+      <p class="text-xs text-gray-400 mt-3">Enviado em 19/10/2025</p>
+    </div>
+
+    <div class="p-6 hover:bg-gray-50 transition">
+      <div class="flex justify-between items-center mb-2">
+        <p class="font-semibold text-gray-800">Carlos Eduardo</p>
+        <div class="flex items-center text-yellow-400">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+        </div>
+      </div>
+      <p class="text-sm text-gray-700 mb-2"><strong>Recomendaria:</strong> Não</p>
+      <div class="flex flex-wrap gap-2 mb-2">
+        <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-800">Clareza das Info</span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-800">Facilidade do Agendamento</span>
+      </div>
+      <p class="text-xs text-gray-400 mt-3">Enviado em 18/10/2025</p>
+    </div>
+  </div>
+</div>
+
             </div>
 
+        <!-- ÁREA DE MATERIAIS EDUCACIONAIS -->
             <div id="educationalReport" class="report-section hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 max-w-2xl mx-auto">
                     <div class="bg-white rounded-xl p-6 shadow-lg report-card transition-all duration-300">
@@ -354,25 +505,25 @@
                         <h3 class="text-xl font-bold text-gray-800 mb-6">Uso por Categoria</h3>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Laboratórios de Informática <span class="text-gray-500 text-sm">[42%]</span></span>
+                                <span class="text-gray-700">Laboratórios de Informática <span class="text-gray-500 text-sm">42%</span></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-indigo-500 h-3 rounded-full progress-bar" style="width: 42%"></div>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Aulas de Robótica <span class="text-gray-500 text-sm">[25%]</span></span>
+                                <span class="text-gray-700">Aulas de Robótica <span class="text-gray-500 text-sm">25%</span></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-teal-500 h-3 rounded-full progress-bar" style="width: 25%"></div>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Projetos de Eletrônica <span class="text-gray-500 text-sm">[20%]</span></span>
+                                <span class="text-gray-700">Projetos de Eletrônica <span class="text-gray-500 text-sm">20%</span></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-pink-500 h-3 rounded-full progress-bar" style="width: 20%"></div>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-700">Demonstrações <span class="text-gray-500 text-sm">[13%]</span></span>
+                                <span class="text-gray-700">Demonstrações <span class="text-gray-500 text-sm">13%</span></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-red-500 h-3 rounded-full progress-bar" style="width: 13%"></div>
@@ -421,9 +572,7 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Escola Destino</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finalidade</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finalidade</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 </tr>
                             </thead>
@@ -431,7 +580,6 @@
                                 <tr class="table-row">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">12/05/2024</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Computador Desktop</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Escola Municipal Santos</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Laboratório de Informática</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Entregue</span>
@@ -439,9 +587,7 @@
                                 </tr>
                                 <tr class="table-row">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">10/05/2024</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Componentes Eletrônicos</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Instituto Técnico Norte</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Aulas de Robótica</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Componentes Eletrônicos</td>                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Aulas de Robótica</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Em Preparo</span>
                                     </td>
@@ -449,7 +595,6 @@
                                 <tr class="table-row">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">08/05/2024</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Tablets</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Escola Rural Esperança</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Ensino Digital</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Entregue</span>
@@ -460,6 +605,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </main>
 
@@ -651,6 +797,23 @@
             // Garantir que o primeiro relatório (doações) seja exibido ao carregar
             showReport('donations');
         });
+
+          // Simulação de abertura de modal
+            function abrirModalProtocolo(id) {
+                document.getElementById("visualizarProtocolo").classList.remove("hidden");
+                document.getElementById("visualizarProtocolo").classList.add("flex");
+                document.getElementById("protocoloNumero").textContent = "#" + id;
+            }
+            function fecharModalProtocolo() {
+                const modal = document.getElementById("visualizarProtocolo");
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+    </script>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 </body>
 </html>

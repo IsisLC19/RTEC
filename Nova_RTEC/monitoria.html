@@ -157,11 +157,13 @@
                         <button onclick="showCategory('brown')" id="brownTab" class="filter-inactive flex-1 px-4 py-2 rounded-lg font-semibold text-gray-600 bg-gray-100 transition-all duration-300 flex items-center justify-center text-sm"><i class="fas fa-tv mr-2"></i>Áudio/Vídeo</button>
                     </div>
                 </div>
+                <!-- RECICLAGEM DO MÊS -->
                 <div class="bg-white rounded-xl p-4 sm:p-6 shadow-md w-full md:w-auto flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-6"> 
                     <div class="flex items-center space-x-4">
                         <div class="bg-green-100 p-3 rounded-full flex-shrink-0"><i class="fas fa-recycle text-green-600 text-2xl"></i></div>
                         <div><p class="text-base font-medium text-gray-600">Reciclagem do Mês</p><p class="text-3xl font-extrabold text-green-600" id="recyclingRate">87%</p></div>
                     </div>
+                    <!-- CADASTRO DE MATERIAL/CRIAR PDF-->
                     <div class="flex flex-col space-y-3 w-full sm:w-auto">
                         <button onclick="openNewMaterialModal()" class="w-full sm:w-44 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center text-sm"><i class="fas fa-plus mr-2"></i>Cadastrar Material</button>
                         <button id="pdfButtonMonitor" onclick="generatePDF()" class="w-full sm:w-44 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center text-sm"><i class="fas fa-file-pdf mr-2"></i><span id="pdfButtonTextMonitor">Gerar PDF</span></button>
@@ -169,7 +171,7 @@
                 </div>
             </div>
 
-
+            <!-- CATEGORIA DE INFORMATICA - LINHA VERDE-->
             <div id="reportContainer" class="max-w-7xl mx-auto">
                 <div id="greenReport" class="report-section">
                     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">Equipamentos de Informática e Telefonia</h2>
@@ -177,44 +179,110 @@
                         <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg card-hover">
                              <h3 class="text-xl sm:text-2xl font-bold text-gray-700 mb-6 border-b pb-3">Distribuição por Tipo (%)</h3>
                             <div class="space-y-6">
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-desktop text-green-600 mr-3"></i><span class="text-gray-800 font-semibold">Computadores <span class="text-gray-500 text-sm font-normal">[35%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-green-500 h-3 rounded-full progress-bar" style="width: 35%"></div></div></div>
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-laptop text-purple-600 mr-3"></i><span class="text-gray-800 font-semibold">Notebooks <span class="text-gray-500 text-sm font-normal">[22%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-purple-500 h-3 rounded-full progress-bar" style="width: 22%"></div></div></div>
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-mobile-alt text-blue-600 mr-3"></i><span class="text-gray-800 font-semibold">Celulares <span class="text-gray-500 text-sm font-normal">[28%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-blue-500 h-3 rounded-full progress-bar" style="width: 28%"></div></div></div>
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-tablet-alt text-orange-600 mr-3"></i><span class="text-gray-800 font-semibold">Tablets <span class="text-gray-500 text-sm font-normal">[15%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 15%"></div></div></div>
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-desktop text-green-600 mr-3"></i><span class="text-gray-800 font-semibold">Computadores <span class="text-gray-500 text-sm font-normal">35%</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-green-500 h-3 rounded-full progress-bar" style="width: 35%"></div></div></div>
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-laptop text-purple-600 mr-3"></i><span class="text-gray-800 font-semibold">Notebooks <span class="text-gray-500 text-sm font-normal">22%</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-purple-500 h-3 rounded-full progress-bar" style="width: 22%"></div></div></div>
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-mobile-alt text-blue-600 mr-3"></i><span class="text-gray-800 font-semibold">Celulares <span class="text-gray-500 text-sm font-normal">28%</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-blue-500 h-3 rounded-full progress-bar" style="width: 28%"></div></div></div>
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-tablet-alt text-orange-600 mr-3"></i><span class="text-gray-800 font-semibold">Tablets <span class="text-gray-500 text-sm font-normal">15%</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 15%"></div></div></div>
                             </div>
                         </div>
-
+                        
+                        <!-- PROCESSAMENTO RECENTE -->
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                            <div class="bg-green-600 p-6"><h3 class="text-xl sm:text-2xl font-bold text-white flex items-center"><i class="fas fa-clock mr-3"></i>Processamento Recente</h3></div>
-                            <div class="block md:hidden p-4 space-y-4 bg-gray-50 rounded-b-2xl"> <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
-                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Computadores Desktop</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800 whitespace-nowrap">Processado</span></div>
-                                    <div class="flex justify-between text-sm"><span class="text-gray-500">15/05</span><span class="text-gray-700 font-medium">450 kg</span></div>
-                                </div>
-                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
-                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Smartphones</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800 whitespace-nowrap">Em Processo</span></div>
-                                    <div class="flex justify-between text-sm"><span class="text-gray-500">14/05</span><span class="text-gray-700 font-medium">320 kg</span></div>
-                                </div>
-                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
-                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Notebooks</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800 whitespace-nowrap">Processado</span></div>
-                                     <div class="flex justify-between text-sm"><span class="text-gray-500">13/05</span><span class="text-gray-700 font-medium">680 kg</span></div>
-                                </div>
-                                <div class="pt-2 text-center"><a href="#" class="text-sm font-medium text-green-600 hover:text-green-800">Ver Relatório Completo <i class="fas fa-arrow-right ml-1"></i></a></div>
+                            <div class="bg-green-600 p-6">
+                                <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center">
+                                    <i class="fas fa-clock mr-3"></i>Processamento Recente
+                                </h3>
                             </div>
-                            <div class="hidden md:block overflow-x-auto">
+
+                            <!-- Mobile -->
+                            <div class="block md:hidden p-4 space-y-4 bg-gray-50 rounded-b-2xl max-h-96 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-200">
+                                <!-- cards iguais aos anteriores -->
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Computadores Desktop</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">15/05</span>
+                                        <span class="text-gray-700 font-medium">450</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Smartphones</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800 whitespace-nowrap">Em Processo</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">14/05</span>
+                                        <span class="text-gray-700 font-medium">320</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Notebooks</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">13/05</span>
+                                        <span class="text-gray-700 font-medium">680</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Computadores Desktop</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">15/05</span>
+                                        <span class="text-gray-700 font-medium">450</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Smartphones</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800 whitespace-nowrap">Em Processo</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">14/05</span>
+                                        <span class="text-gray-700 font-medium">320</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Notebooks</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">13/05</span>
+                                        <span class="text-gray-700 font-medium">680</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Desktop -->
+                            <div class="hidden md:block max-h-96 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-200">
                                 <table class="w-full min-w-[500px]">
-                                    <thead class="bg-gray-50"><tr><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Material</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Peso (kg)</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th></tr></thead>
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Material</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Quantidade</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                        </tr>
+                                    </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">15/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Computadores Desktop</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">450</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Processado</span></td></tr>
-                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">14/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Smartphones</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">320</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Em Processo</span></td></tr>
-                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">13/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Notebooks</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">680</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Processado</span></td></tr>
+                                        <tr><td class="px-6 py-5 text-sm text-gray-500">15/05</td><td class="px-6 py-5 text-sm font-medium text-gray-900">Computadores Desktop</td><td class="px-6 py-5 text-sm font-semibold text-gray-800">450</td><td class="px-6 py-5"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Processado</span></td></tr>
+                                        <tr><td class="px-6 py-5 text-sm text-gray-500">14/05</td><td class="px-6 py-5 text-sm font-medium text-gray-900">Smartphones</td><td class="px-6 py-5 text-sm font-semibold text-gray-800">320</td><td class="px-6 py-5"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Em Processo</span></td></tr>
+                                        <tr><td class="px-6 py-5 text-sm text-gray-500">13/05</td><td class="px-6 py-5 text-sm font-medium text-gray-900">Notebooks</td><td class="px-6 py-5 text-sm font-semibold text-gray-800">680</td><td class="px-6 py-5"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Processado</span></td></tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="hidden md:block p-4 border-t text-center bg-gray-50 rounded-b-2xl"><a href="#" class="text-sm font-medium text-green-600 hover:text-green-800">Ver Relatório Completo <i class="fas fa-arrow-right ml-1"></i></a></div>
                         </div>
+                  
                     </div>
                 </div>
 
+                <!-- CATEGORIA DE ÁUDIO E VÍDEO - LINHA MARROM-->
                  <div id="brownReport" class="report-section hidden">
                      <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">Equipamentos de Áudio e Vídeo</h2>
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
@@ -234,22 +302,22 @@
                              <div class="block md:hidden p-4 space-y-4 bg-gray-50 rounded-b-2xl">
                                 <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
                                     <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Televisores LCD</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-red-100 text-red-800 whitespace-nowrap">Em Espera</span></div>
-                                    <div class="flex justify-between text-sm"><span class="text-gray-500">15/05</span><span class="text-gray-700 font-medium">280 kg</span></div>
+                                    <div class="flex justify-between text-sm"><span class="text-gray-500">15/05</span></div>
                                 </div>
                                 <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
                                     <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Aparelhos de Som</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800 whitespace-nowrap">Preparando</span></div>
-                                    <div class="flex justify-between text-sm"><span class="text-gray-500">14/05</span><span class="text-gray-700 font-medium">195 kg</span></div>
+                                    <div class="flex justify-between text-sm"><span class="text-gray-500">14/05</span></div>
                                 </div>
                                 <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
                                     <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Câmeras Digitais</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800 whitespace-nowrap">Finalizado</span></div>
-                                     <div class="flex justify-between text-sm"><span class="text-gray-500">13/05</span><span class="text-gray-700 font-medium">150 kg</span></div>
+                                     <div class="flex justify-between text-sm"><span class="text-gray-500">13/05</span></div>
                                 </div>
                                  <div class="pt-2 text-center"><a href="#" class="text-sm font-medium text-yellow-600 hover:text-yellow-800">Ver Relatório Completo <i class="fas fa-arrow-right ml-1"></i></a></div>
                             </div>
                             
                             <div class="hidden md:block overflow-x-auto">
                                 <table class="w-full min-w-[500px]">
-                                    <thead class="bg-gray-50"><tr><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Material</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Peso (kg)</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th></tr></thead>
+                                    <thead class="bg-gray-50"><tr><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Material</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Quantidade</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th></tr></thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">15/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Televisores LCD</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">280</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Em Espera</span></td></tr>
                                         <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">14/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Aparelhos de Som</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">195</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Preparando</span></td></tr>
@@ -264,160 +332,6 @@
             </div>
         </div>
 
-<!-- ÁREA DE SEPARAÇÃO -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-  <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Área de Separação</h2>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    <!-- Materiais para Aula -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover flex flex-col justify-between">
-      <div>
-        <h3 class="text-2xl font-semibold text-green-700 mb-4 flex items-center">
-          <i class="fas fa-chalkboard-teacher mr-2 text-green-600"></i>Materiais para Aula
-        </h3>
-        <p class="text-gray-600 mb-6">Selecione os materiais usados nas aulas ou atividades práticas.</p>
-        <table class="w-full text-sm text-gray-700 border-t">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="py-3 px-4 text-left font-semibold">Material</th>
-              <th class="py-3 px-4 text-left font-semibold">Quantidade</th>
-              <th class="py-3 px-4 text-left font-semibold">Data</th>
-            </tr>
-          </thead>
-          <tbody id="aulaTable">
-            <tr>
-              <td class="py-2 px-4">Mouse USB</td>
-              <td class="py-2 px-4">10</td>
-              <td class="py-2 px-4">20/10/2025</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <button onclick="openAulaModal()" class="mt-6 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-bold shadow-md transition-all duration-300 flex items-center justify-center">
-        <i class="fas fa-plus mr-2"></i>Registrar Material de Aula
-      </button>
-    </div>
-
-    <!-- Materiais para Coleta -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover flex flex-col justify-between">
-      <div>
-        <h3 class="text-2xl font-semibold text-yellow-700 mb-4 flex items-center">
-          <i class="fas fa-recycle mr-2 text-yellow-600"></i>Materiais para Coleta
-        </h3>
-        <p class="text-gray-600 mb-6">Adicione os materiais que precisam ser coletados ou estão aguardando separação.</p>
-        <table class="w-full text-sm text-gray-700 border-t">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="py-3 px-4 text-left font-semibold">Material</th>
-              <th class="py-3 px-4 text-left font-semibold">Status</th>
-            </tr>
-          </thead>
-          <tbody id="coletaTable">
-            <tr>
-              <td class="py-2 px-4">Televisores antigos</td>
-              <td class="py-2 px-4"><span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full">Aguardando</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <button onclick="openColetaModal()" class="mt-6 bg-yellow-600 hover:bg-yellow-700 text-white py-2 rounded-lg font-bold shadow-md transition-all duration-300 flex items-center justify-center">
-        <i class="fas fa-plus mr-2"></i>Registrar Material de Coleta
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- Materiais para Aula -->
-<div id="aulaModal" class="fixed inset-0 hidden z-[102] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-bold text-green-700 flex items-center"><i class="fas fa-chalkboard-teacher mr-2"></i>Registrar Material de Aula</h3>
-      <button onclick="closeAulaModal()" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
-    </div>
-    <form id="aulaForm" class="space-y-4">
-      <div>
-        <label class="font-semibold text-gray-700">Material</label>
-        <select id="aulaMaterial" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-green-500" required>
-          <option value="">Selecione um material</option>
-          <option value="CPU">CPU</option>
-          <option value="Placa-mãe">Placa-mãe</option>
-          <option value="HD">HD</option>
-          <option value="SSD">SSD</option>
-          <option value="Fonte de alimentação">Fonte de alimentação</option>
-          <option value="Memória RAM">Memória RAM</option>
-          <option value="Mouse">Mouse</option>
-          <option value="Teclado">Teclado</option>
-          <option value="Monitor">Monitor</option>
-          <option value="Cabos e conectores">Cabos e conectores</option>
-        </select>
-      </div>
-      <div>
-        <label class="font-semibold text-gray-700">Quantidade</label>
-        <input type="number" id="aulaQtd" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-green-500" required>
-      </div>
-      <div class="text-right">
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold">Salvar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Materiais para Coletar -->
-<div id="coletaModal" class="fixed inset-0 hidden z-[102] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-xl font-bold text-yellow-700 flex items-center">
-        <i class="fas fa-recycle mr-2"></i>Registrar Material de Coleta
-      </h3>
-      <button onclick="closeColetaModal()" class="text-gray-500 hover:text-gray-700">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-
-    <form id="coletaForm" class="space-y-4">
-      <div>
-        <label class="font-semibold text-gray-700">Tipo de Material</label>
-        <select id="coletaMaterial" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-yellow-500" required>
-          <option value="">Selecione um tipo</option>
-          <option value="CPU">CPU</option>
-          <option value="Celulares">Celulares</option>
-          <option value="Placa-mãe">Placa-mãe</option>
-          <option value="HD">HD</option>
-          <option value="SSD">SSD</option>
-          <option value="Fonte de alimentação">Fonte de alimentação</option>
-          <option value="Memória RAM">Memória RAM</option>
-          <option value="Placa de vídeo">Placa de vídeo</option>
-          <option value="Gabinete">Gabinete</option>
-          <option value="Monitor">Monitor</option>
-          <option value="Mouse">Mouse</option>
-          <option value="Teclado">Teclado</option>
-          <option value="Impressora">Impressora</option>
-          <option value="Notebook">Notebook</option>
-          <option value="Cabo de energia">Cabo de energia</option>
-          <option value="Cabo HDMI/VGA">Cabo HDMI/VGA</option>
-          <option value="Roteador">Roteador</option>
-          <option value="Switch">Switch</option>
-          <option value="Televisão">Televisão</option>
-          <option value="Papelão">Papelão</option>
-          <option value="Pilhas">Pilhas</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="font-semibold text-gray-700">Status</label>
-        <select id="coletaStatus" class="w-full mt-1 p-2 border-2 border-gray-200 rounded-lg focus:border-yellow-500" disabled>
-          <option value="A Coletar" selected>A Coletar</option>
-        </select>
-      </div>
-
-      <div class="text-right">
-        <button type="submit" class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition font-semibold">Salvar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
 <!-- RELATORIOS ANTERIORES-->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Relatórios Anteriores</h2>
@@ -430,10 +344,6 @@
                 <p class="text-lg font-semibold text-gray-700">Relatório de Informática - Maio/2025</p>
                 <p class="text-sm text-gray-500">Gerado em: 20/05/2025</p>
             </div>
-            <a href="relatorios/relatorio-informatica-maio-2025.pdf" target="_blank"
-               class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition flex items-center text-sm">
-                <i class="fas fa-file-pdf mr-2"></i>Visualizar
-            </a>
         </div>
 
         <!-- Relatório 2 -->
@@ -442,29 +352,96 @@
                 <p class="text-lg font-semibold text-gray-700">Relatório de Áudio/Video - Abril/2025</p>
                 <p class="text-sm text-gray-500">Gerado em: 25/04/2025</p>
             </div>
-            <a href="relatorios/relatorio-audio-video-abril-2025.pdf" target="_blank"
-               class="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition flex items-center text-sm">
-                <i class="fas fa-file-pdf mr-2"></i>Visualizar
-            </a>
+        </div>
+
+        <!-- Relatório 3 -->
+        <div class="flex justify-between items-center border-b pb-3">
+            <div>
+                <p class="text-lg font-semibold text-gray-700">Relatório de Áudio/Video - Junho/2025</p>
+                <p class="text-sm text-gray-500">Gerado em: 28/06/2025</p>
+            </div>
         </div>
 
         <!-- Adicione mais relatórios conforme necessário -->
     </div>
-</section>
+   </section>
 
     </main>
 
-    <div id="newMaterialModal" class="fixed inset-0 hidden z-[101] flex items-center justify-center p-4" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl m-4"> 
-            <div class="bg-blue-600 p-6 rounded-t-2xl"><div class="flex justify-between items-center"><h2 class="text-xl sm:text-2xl font-bold text-white flex items-center"><i class="fas fa-plus-circle mr-3"></i>Cadastrar Novo Material</h2><button onclick="closeNewMaterialModal()" class="text-white hover:text-gray-200 transition-colors"><i class="fas fa-times text-2xl"></i></button></div></div>
-            <form id="newMaterialForm" class="p-6 sm:p-8 space-y-6 sm:space-y-8">
-                <div><label class="block text-base sm:text-lg font-semibold text-gray-800 mb-2">Tipo de Material</label><input type="text" id="materialType" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-300 focus:outline-none transition-colors text-base sm:text-lg" placeholder="Ex: Smartphone, Tablet, TV, etc." required></div>
-                <div><label class="block text-base sm:text-lg font-semibold text-gray-800 mb-2">Categoria</label><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-green-400 transition-colors has-[:checked]:border-green-500 has-[:checked]:bg-green-50"><input type="radio" name="category" value="green" class="mr-3 h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300" required><i class="fas fa-laptop text-green-600 mr-2"></i><span class="font-medium">Informática e Telefonia</span></label><label class="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-yellow-400 transition-colors has-[:checked]:border-yellow-500 has-[:checked]:bg-yellow-50"><input type="radio" name="category" value="brown" class="mr-3 h-5 w-5 text-yellow-600 focus:ring-yellow-500 border-gray-300" required><i class="fas fa-tv text-yellow-600 mr-2"></i><span class="font-medium">Áudio e Vídeo</span></label></div></div>
-                <div><label class="block text-base sm:text-lg font-semibold text-gray-800 mb-2">Possíveis Problemas <span class="text-gray-500 font-normal text-sm">(Opcional)</span></label><div class="grid grid-cols-2 gap-3 sm:gap-4"><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="bateria"><span>Bateria viciada</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="tela"><span>Tela danificada</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="software"><span>Problemas de software</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="hardware"><span>Falha de hardware</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="obsoleto"><span>Equipamento obsoleto</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="fisico"><span>Dano físico</span></label></div></div>
-                <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg mt-8"><i class="fas fa-check-circle mr-2"></i>Salvar Novo Material</button>
-            </form>
-        </div>
+    <!-- ÁREA DE CADASTRO DE MATERIAIS-->
+<div id="newMaterialModal" class="fixed inset-0 hidden z-[101] flex items-center justify-center p-4" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl m-4"> 
+        <div class="bg-blue-600 p-6 rounded-t-2xl"><div class="flex justify-between items-center"><h2 class="text-xl sm:text-2xl font-bold text-white flex items-center"><i class="fas fa-plus-circle mr-3"></i>Cadastrar Novo Material</h2><button onclick="closeNewMaterialModal()" class="text-white hover:text-gray-200 transition-colors"><i class="fas fa-times text-2xl"></i></button></div></div>
+        <form id="newMaterialForm" class="p-6 sm:p-8 space-y-6 sm:space-y-8">
+            <div>
+                <div>
+    <label class="block text-lg font-semibold text-gray-800 mb-2">Tipo de Material</label>
+    <select id="materialType" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-lg" required>
+        <option value="">Selecione um tipo</option>
+        <option value="CPU">CPU</option>
+        <option value="Celulares">Celulares</option>
+        <option value="Placa-mãe">Placa-mãe</option>
+        <option value="HD">HD</option>
+        <option value="SSD">SSD</option>
+        <option value="Fonte de alimentação">Fonte de alimentação</option>
+        <option value="Memória RAM">Memória RAM</option>
+        <option value="Placa de vídeo">Placa de vídeo</option>
+        <option value="Gabinete">Gabinete</option>
+        <option value="Monitor">Monitor</option>
+        <option value="Mouse">Mouse</option>
+        <option value="Teclado">Teclado</option>
+        <option value="Impressora">Impressora</option>
+        <option value="Notebook">Notebook</option>
+        <option value="Cabo de energia">Cabo de energia</option>
+        <option value="Cabo HDMI/VGA">Cabo HDMI/VGA</option>
+        <option value="Roteador">Roteador</option>
+        <option value="Switch">Switch</option>
+        <option value="Televisão">Televisão</option>
+        <option value="Papelão">Papelão</option>
+        <option value="Pilhas">Pilhas</option>
+    </select>
+</div>
+
+            </div>
+            <div>
+                <label class="block text-base sm:text-lg font-semibold text-gray-800 mb-2">Categoria</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-green-400 transition-colors has-[:checked]:border-green-500 has-[:checked]:bg-green-50">
+                        <input type="radio" name="category" value="green" class="mr-3 h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300" required>
+                        <i class="fas fa-laptop text-green-600 mr-2"></i>
+                        <span class="font-medium">Informática e Telefonia</span>
+                    </label>
+                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-yellow-400 transition-colors has-[:checked]:border-yellow-500 has-[:checked]:bg-yellow-50">
+                        <input type="radio" name="category" value="brown" class="mr-3 h-5 w-5 text-yellow-600 focus:ring-yellow-500 border-gray-300" required>
+                        <i class="fas fa-tv text-yellow-600 mr-2"></i>
+                        <span class="font-medium">Áudio e Vídeo</span>
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-base sm:text-lg font-semibold text-gray-800 mb-2">Destino Final</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-red-400 transition-colors has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
+                        <input type="radio" name="destination" value="coleta" class="mr-3 h-5 w-5 text-red-600 focus:ring-red-500 border-gray-300" required>
+                        <i class="fas fa-trash-alt text-red-600 mr-2"></i>
+                        <span class="font-medium">Para Coleta</span>
+                    </label>
+                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-blue-400 transition-colors has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
+                        <input type="radio" name="destination" value="aula" class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300" required>
+                        <i class="fas fa-chalkboard-teacher text-blue-600 mr-2"></i>
+                        <span class="font-medium">Para Aula</span>
+                    </label>
+                </div>
+            </div>
+            <div><label class="block text-base sm:text-lg font-semibold text-gray-800 mb-2">Possíveis Problemas <span class="text-gray-500 font-normal text-sm">(Opcional)</span></label><div class="grid grid-cols-2 gap-3 sm:gap-4"><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="bateria"><span>Bateria viciada</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="tela"><span>Tela danificada</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="software"><span>Problemas de software</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="hardware"><span>Falha de hardware</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="obsoleto"><span>Equipamento obsoleto</span></label><label class="flex items-center p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors has-[:checked]:bg-blue-100 has-[:checked]:ring-2 has-[:checked]:ring-blue-300"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" name="problems" value="fisico"><span>Dano físico</span></label></div></div>
+            <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg mt-8"><i class="fas fa-check-circle mr-2"></i>Salvar Novo Material</button>
+        </form>
     </div>
+</div>
+
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -487,6 +464,7 @@
                  if(recyclingRateEl) { recyclingRateEl.textContent = '74%'; recyclingRateEl.classList.remove('text-green-600'); recyclingRateEl.classList.add('text-yellow-600'); }
             }
         }
+        // --- Informações do relatório
          async function generatePDF() { 
             const { jsPDF } = window.jspdf; const pdf = new jsPDF('p', 'mm', 'a4'); const pdfButton = document.getElementById('pdfButtonMonitor'); const originalButtonHTML = pdfButton ? pdfButton.innerHTML : '<i class="fas fa-file-pdf mr-2"></i>Gerar PDF';
              if(pdfButton) { pdfButton.disabled = true; pdfButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Gerando...`; }
@@ -504,7 +482,7 @@
             pdf.setFontSize(14); pdf.setFont(undefined, 'bold'); pdf.text('Processamento Recente', 20, yPosition); yPosition += 15;
             pdf.setFontSize(10); pdf.setFont(undefined, 'normal');
             const recentData = isGreenActive ? [['15/05', 'Comp. Desktop', '450', 'Processado'], ['14/05', 'Smartphones', '320', 'Em Processo'], ['13/05', 'Notebooks', '680', 'Processado']] : [['15/05', 'TVs LCD', '280', 'Em Espera'], ['14/05', 'Som', '195', 'Preparando'], ['13/05', 'Câmeras', '150', 'Finalizado']];
-            pdf.text('Data', 20, yPosition); pdf.text('Material', 45, yPosition); pdf.text('Peso (kg)', 110, yPosition); pdf.text('Status', 140, yPosition); yPosition += 8;
+            pdf.text('Data', 20, yPosition); pdf.text('Material', 45, yPosition); pdf.text('Quantidade', 110, yPosition); pdf.text('Status', 140, yPosition); yPosition += 8;
             recentData.forEach(row => { pdf.text(row[0], 20, yPosition); pdf.text(row[1], 45, yPosition); pdf.text(row[2], 110, yPosition); pdf.text(row[3], 140, yPosition); yPosition += 6; });
             pdf.setFontSize(8); pdf.text('RTEC - Relatório gerado automaticamente pelo sistema', 105, 280, { align: 'center' });
             const fileName = isGreenActive ? 'monitor-informatica.pdf' : 'monitor-audio-video.pdf';
@@ -550,29 +528,37 @@
   function openColetaModal() {
     document.getElementById('coletaModal').classList.remove('hidden');
   }
-  
   function closeColetaModal() {
     document.getElementById('coletaModal').classList.add('hidden');
   }
 
   document.getElementById('coletaForm').addEventListener('submit', e => {
     e.preventDefault();
-    const mat = document.getElementById('coletaMaterial').value;
-    const status = 'A Coletar'; // status fixo
-    const badgeColor = 'bg-yellow-100 text-yellow-700';
+    const material = document.getElementById('coletaMaterial').value;
+    const qtd = document.getElementById('coletaQtd').value;
+    const status = 'A Coletar';
+    const badge = `<span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full font-semibold">${status}</span>`;
 
-    // adiciona o material na tabela
-    document.getElementById('coletaTable').innerHTML += 
-      `<tr>
-        <td class='py-2 px-4'>${mat}</td>
-        <td class='py-2 px-4'>
-          <span class='px-2 py-1 text-xs rounded-full ${badgeColor}'>${status}</span>
-        </td>
-      </tr>`;
+    if (qtd < 1) {
+      alert('A quantidade deve ser maior que zero!');
+      return;
+    }
 
-    closeColetaModal();
+    const tabela = document.getElementById('coletaTable');
+    const novaLinha = `
+      <tr>
+        <td class="py-2 px-4">${material}</td>
+        <td class="py-2 px-4">${qtd}</td>
+        <td class="py-2 px-4">${badge}</td>
+      </tr>
+    `;
+    tabela.innerHTML += novaLinha;
+
     e.target.reset();
+    closeColetaModal();
   });
+
+
     </script>
 </body>
 </html>

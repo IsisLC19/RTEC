@@ -87,9 +87,21 @@
              background-color: #eff6ff; /* Azul bem claro */
         }
 
+        html {
+        scroll-behavior: smooth;
+        }
+
+
     </style>
 </head>
 <body class="min-h-screen bg-gray-100">
+    <!-- Leitor em Libras-->
+    <div vw="httpsAcess" class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
 
 <header class="bg-white shadow-lg relative z-50">
   <nav class="bg-gray-100 py-2">
@@ -100,7 +112,9 @@
                 <div class="py-1">
                     <p class="px-4 py-2 text-sm text-gray-700 font-semibold border-b">Nome do Usuário</p>
                     <a href="coletores.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fas fa-desktop mr-2"></i>Monitor</a>
-                     <a href="relatorios.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fas fa-file-alt mr-2"></i>Relatórios</a>
+                    <a href="#relatorios" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i class="fas fa-file-alt mr-2"></i>Relatórios
+                    </a>
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><i class="fas fa-cog mr-2"></i>Configurações</a>
                     <a href="#" onclick="fazerLogout(event)" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 border-t mt-1"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
                 </div>
@@ -113,7 +127,7 @@
       <a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
       <ul class="hidden md:flex space-x-8">
          <li><a href="coletores.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">MONITOR</a></li> 
-         <li><a href="relatorios.html" class="nav-link text-gray-700 font-medium hover:text-green-600">RELATÓRIOS</a></li>
+         <li><a href="#relatorios" class="nav-link text-gray-700 font-medium hover:text-green-600">RELATÓRIOS</a></li>
       </ul>
       <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
         <i class="fas fa-bars fa-xl"></i>
@@ -130,8 +144,7 @@
     </button>
   </div>
   <ul class="nav-list-mobile">
-     <li><a href="coletores.html" class="active-link-mobile">MONITOR</a></li> 
-     <li><a href="relatorios.html">RELATÓRIOS</a></li> 
+     <li><a href="#relatorios">RELATÓRIOS</a></li> 
      <li><a href="feedback.html">FEEDBACKS</a></li>
      <li><a href="#">CONFIGURAÇÕES</a></li>
   </ul>
@@ -283,49 +296,159 @@
                 </div>
 
                 <!-- CATEGORIA DE ÁUDIO E VÍDEO - LINHA MARROM-->
-                 <div id="brownReport" class="report-section hidden">
-                     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">Equipamentos de Áudio e Vídeo</h2>
+                <div id="brownReport" class="report-section">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">
+                        Equipamentos de Áudio e Vídeo
+                    </h2>
+
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                         <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg card-hover">
-                             <h3 class="text-xl sm:text-2xl font-bold text-gray-700 mb-6 border-b pb-3">Distribuição por Tipo (%)</h3>
+                        <!-- Distribuição por Tipo -->
+                        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg card-hover">
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-700 mb-6 border-b pb-3">
+                                Distribuição por Tipo (%)
+                            </h3>
                             <div class="space-y-6">
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-tv text-yellow-600 mr-3"></i><span class="text-gray-800 font-semibold">Televisores <span class="text-gray-500 text-sm font-normal">[40%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-yellow-500 h-3 rounded-full progress-bar" style="width: 40%"></div></div></div>
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-music text-amber-600 mr-3"></i><span class="text-gray-800 font-semibold">Aparelhos de Som <span class="text-gray-500 text-sm font-normal">[25%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-amber-500 h-3 rounded-full progress-bar" style="width: 25%"></div></div></div>
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-compact-disc text-orange-600 mr-3"></i><span class="text-gray-800 font-semibold">DVD/Blu-ray Players <span class="text-gray-500 text-sm font-normal">[20%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 20%"></div></div></div>
-                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-camera text-red-600 mr-3"></i><span class="text-gray-800 font-semibold">Câmeras <span class="text-gray-500 text-sm font-normal">[15%]</span></span></div></div><div class="w-full bg-gray-200 rounded-full h-3"><div class="bg-red-500 h-3 rounded-full progress-bar" style="width: 15%"></div></div></div>
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-tv text-yellow-600 mr-3"></i>
+                                            <span class="text-gray-800 font-semibold">Televisores
+                                                <span class="text-gray-500 text-sm font-normal">40%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div class="bg-yellow-500 h-3 rounded-full progress-bar" style="width: 40%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-music text-amber-600 mr-3"></i>
+                                            <span class="text-gray-800 font-semibold">Aparelhos de Som
+                                                <span class="text-gray-500 text-sm font-normal">25%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div class="bg-amber-500 h-3 rounded-full progress-bar" style="width: 25%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-compact-disc text-orange-600 mr-3"></i>
+                                            <span class="text-gray-800 font-semibold">DVD/Blu-ray Players
+                                                <span class="text-gray-500 text-sm font-normal">20%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 20%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-camera text-red-600 mr-3"></i>
+                                            <span class="text-gray-800 font-semibold">Câmeras
+                                                <span class="text-gray-500 text-sm font-normal">15%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div class="bg-red-500 h-3 rounded-full progress-bar" style="width: 15%"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                            <div class="bg-yellow-600 p-6"><h3 class="text-xl sm:text-2xl font-bold text-white flex items-center"><i class="fas fa-clock mr-3"></i>Processamento Recente</h3></div>
-                            
-                             <div class="block md:hidden p-4 space-y-4 bg-gray-50 rounded-b-2xl">
-                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
-                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Televisores LCD</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-red-100 text-red-800 whitespace-nowrap">Em Espera</span></div>
-                                    <div class="flex justify-between text-sm"><span class="text-gray-500">15/05</span></div>
-                                </div>
-                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
-                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Aparelhos de Som</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800 whitespace-nowrap">Preparando</span></div>
-                                    <div class="flex justify-between text-sm"><span class="text-gray-500">14/05</span></div>
-                                </div>
-                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
-                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800">Câmeras Digitais</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800 whitespace-nowrap">Finalizado</span></div>
-                                     <div class="flex justify-between text-sm"><span class="text-gray-500">13/05</span></div>
-                                </div>
-                                 <div class="pt-2 text-center"><a href="#" class="text-sm font-medium text-yellow-600 hover:text-yellow-800">Ver Relatório Completo <i class="fas fa-arrow-right ml-1"></i></a></div>
+                        <!-- PROCESSAMENTO RECENTE -->
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                            <div class="bg-yellow-600 p-6">
+                                <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center">
+                                    <i class="fas fa-clock mr-3"></i>Processamento Recente
+                                </h3>
                             </div>
-                            
-                            <div class="hidden md:block overflow-x-auto">
+
+                            <!-- Mobile -->
+                            <div class="block md:hidden p-4 space-y-4 bg-gray-50 rounded-b-2xl max-h-96 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-yellow-500 scrollbar-track-gray-200">
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Televisores LCD</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-red-100 text-red-800 whitespace-nowrap">Em Espera</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">15/05</span>
+                                        <span class="text-gray-700 font-medium">280</span>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Aparelhos de Som</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800 whitespace-nowrap">Preparando</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">14/05</span>
+                                        <span class="text-gray-700 font-medium">195</span>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800">Câmeras Digitais</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800 whitespace-nowrap">Finalizado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500">13/05</span>
+                                        <span class="text-gray-700 font-medium">150</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Desktop -->
+                            <div class="hidden md:block max-h-96 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-yellow-500 scrollbar-track-gray-200">
                                 <table class="w-full min-w-[500px]">
-                                    <thead class="bg-gray-50"><tr><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Material</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Quantidade</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th></tr></thead>
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Material</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Quantidade</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                        </tr>
+                                    </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">15/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Televisores LCD</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">280</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Em Espera</span></td></tr>
-                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">14/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Aparelhos de Som</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">195</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Preparando</span></td></tr>
-                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500">13/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900">Câmeras Digitais</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800">150</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Finalizado</span></td></tr>
+                                        <tr>
+                                            <td class="px-6 py-5 text-sm text-gray-500">15/05</td>
+                                            <td class="px-6 py-5 text-sm font-medium text-gray-900">Televisores LCD</td>
+                                            <td class="px-6 py-5 text-sm font-semibold text-gray-800">280</td>
+                                            <td class="px-6 py-5">
+                                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Em Espera</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-5 text-sm text-gray-500">14/05</td>
+                                            <td class="px-6 py-5 text-sm font-medium text-gray-900">Aparelhos de Som</td>
+                                            <td class="px-6 py-5 text-sm font-semibold text-gray-800">195</td>
+                                            <td class="px-6 py-5">
+                                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Preparando</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-5 text-sm text-gray-500">13/05</td>
+                                            <td class="px-6 py-5 text-sm font-medium text-gray-900">Câmeras Digitais</td>
+                                            <td class="px-6 py-5 text-sm font-semibold text-gray-800">150</td>
+                                            <td class="px-6 py-5">
+                                                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Finalizado</span>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="hidden md:block p-4 border-t text-center bg-gray-50 rounded-b-2xl"><a href="#" class="text-sm font-medium text-yellow-600 hover:text-yellow-800">Ver Relatório Completo <i class="fas fa-arrow-right ml-1"></i></a></div>
                         </div>
                     </div>
                 </div>
@@ -333,7 +456,7 @@
         </div>
 
 <!-- RELATORIOS ANTERIORES-->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <section id="relatorios" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Relatórios Anteriores</h2>
     
     <!--CAMPO DAS IDEIAS-->
@@ -472,9 +595,10 @@
 </section>
 
 
-
+    <!-- LEITORE DE LIBRAS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     
     <script>
         // --- FUNÇÕES DE RELATÓRIO E PDF ---

@@ -440,6 +440,36 @@
     </div>
 </div>
 
+<section id="pendingArea" class="mt-16 mb-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="w-full"> 
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center justify-center sm:justify-start">
+      <i class="fas fa-boxes mr-3 text-blue-600"></i>
+      Pendências de Destino
+    </h2>
+        
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div id="pendingColeta" class="bg-white p-5 rounded-xl shadow-md border-t-4 border-red-500">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+          <i class="fas fa-truck-loading mr-2 text-red-500"></i>
+          Aguardando Coleta/Reciclagem
+        </h3>
+        <ul id="listColeta" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-sm"> 
+          <li class="text-gray-500 italic p-1 border-b border-gray-100">Nenhum material pendente para coleta.</li>
+        </ul>
+      </div>
+
+      <div id="pendingAula" class="bg-white p-5 rounded-xl shadow-md border-t-4 border-blue-500">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+          <i class="fas fa-school mr-2 text-blue-500"></i>
+          Aguardando Aula/Reaproveitamento
+        </h3>
+        <ul id="listAula" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-sm"> 
+          <li class="text-gray-500 italic p-1 border-b border-gray-100">Nenhum material pendente para aula.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 
@@ -558,6 +588,58 @@
     closeColetaModal();
   });
 
+  // --- PENDÊNCIA DE DESTINO ---
+  // Função auxiliar para criar o item de lista
+function createPendingListItem(materialType) {
+    const li = document.createElement('li');
+    li.className = 'flex justify-between items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors border-l-4 border-yellow-400';
+    li.innerHTML = `
+        <span class="font-medium text-gray-800">${materialType}</span>
+        <span class="text-sm text-gray-500">Novo Cadastro</span>
+    `;
+    return li;
+}
+
+// Lógica de manipulação do formulário (substitua sua lógica atual de submissão)
+document.getElementById('newMaterialForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // 1. Capturar os dados do formulário
+    const materialType = document.getElementById('materialType').value;
+    const destination = document.querySelector('input[name="destination"]:checked').value;
+    // ... capture outros dados (category, problems, etc.)
+    
+    // 2. Determinar a lista de destino e o elemento "Nenhum material"
+    let listElementId;
+    let emptyMessage;
+
+    if (destination === 'coleta') {
+        listElementId = 'listColeta';
+        emptyMessage = 'Nenhum material pendente para coleta.';
+    } else if (destination === 'aula') {
+        listElementId = 'listAula';
+        emptyMessage = 'Nenhum material pendente para aula.';
+    }
+
+    const list = document.getElementById(listElementId);
+    
+    // Remover a mensagem de "vazio" se ela existir
+    if (list.querySelector('li.italic') && list.querySelector('li.italic').textContent === emptyMessage) {
+        list.innerHTML = '';
+    }
+
+    // 3. Criar e adicionar o novo item à lista
+    const newItem = createPendingListItem(materialType);
+    list.appendChild(newItem);
+
+    // 4. Fechar o modal
+    closeNewMaterialModal(); // Assumindo que você tem uma função para fechar o modal
+    
+    // *** IMPORTANTE: Aqui você deve adicionar sua lógica real de envio para o Backend ***
+    // Ex: fetch('/api/cadastrar_material', { method: 'POST', body: formData })
+    
+    this.reset(); // Opcional: Limpar o formulário após o envio
+});
 
     </script>
 </body>

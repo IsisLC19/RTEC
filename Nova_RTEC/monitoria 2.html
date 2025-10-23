@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor de Materiais - RTEC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class', // <-- Esta é a linha mais importante
+    theme: {
+      extend: {
+        // (Você pode adicionar cores, etc. aqui no futuro)
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="icon" href="img/logo.png" type="image/x-icon">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    body {
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+        /* background-color set via Tailwind */
+    }
+
+    .nav-link:hover {
+        color: #10b981;
+        transform: translateY(-1px);
+    }
+
+    .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+     /* ATUALIZADO: Card hover dark mode */
+    .dark .card-hover:hover {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+
+    .filter-active-green {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white !important;
+        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+    }
+    .filter-active-brown {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white !important;
+        box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4);
+    }
+    .filter-inactive:hover {
+         background-color: #f3f4f6; /* gray-100 */
+    }
+    /* ATUALIZADO: Filter inactive dark mode hover */
+    .dark .filter-inactive:hover {
+        background-color: #374151; /* dark:bg-gray-700 */
+    }
+
+    .progress-bar {
+        transition: width 1.2s ease-in-out;
+    }
+
+    .table-row {
+        transition: all 0.2s ease-in-out;
+    }
+    .table-row:hover {
+        background-color: #f0fdf4; /* green-50 */
+    }
+    /* ATUALIZADO: Table row dark mode hover */
+    .dark .table-row:hover {
+        background-color: #064e3b; /* dark:bg-green-900 */
+    }
+
+
+    /* Estilos do Menu Mobile */
+    #mobile-menu { position: fixed; top: 0; right: 0; width: 80%; max-width: 300px; height: 100vh; background-color: rgba(255, 255, 255, 0.98); backdrop-filter: blur(8px); box-shadow: -8px 0 20px rgba(0,0,0,0.2); transform: translateX(100%); transition: transform 0.4s ease-out; z-index: 100; display: flex; flex-direction: column; }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu {
+        background-color: rgba(31, 41, 55, 0.98); /* dark:bg-gray-800/98 */
+        border-left: 1px solid #374151; /* dark:border-gray-700 */
+    }
+
+    #mobile-menu.active { transform: translateX(0); }
+    #mobile-menu-header { padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu-header {
+        border-bottom-color: #374151; /* dark:border-gray-700 */
+    }
+
+    #mobile-menu .nav-list-mobile { padding: 1.5rem 1rem; flex-grow: 1; }
+    #mobile-menu .nav-list-mobile li a { display: block; padding: 0.75rem 1rem; margin-bottom: 0.5rem; font-size: 1.1rem; font-weight: 500; color: #374151; border-radius: 0.5rem; transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease; position: relative; }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a {
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
+    #mobile-menu .nav-list-mobile li a:hover { background-color: #ecfdf5; color: #047857; transform: translateX(5px); }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a:hover {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #34d399; /* dark:text-green-400 */
+    }
+
+    #mobile-menu .nav-list-mobile li .active-link-mobile { background-color: #d1fae5; color: #047857; font-weight: 700; border-left: 4px solid #10b981; padding-left: 1rem; }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li .active-link-mobile {
+        background-color: #065f46; /* dark:bg-green-800 */
+        color: #6ee7b7; /* dark:text-green-300 */
+        border-left-color: #10b981;
+    }
+
+    .mobile-menu-footer { padding: 1rem; margin-top: auto; border-top: 1px solid #e5e7eb; background-color: #f9fafb; }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .mobile-menu-footer {
+        border-top-color: #374151; /* dark:border-gray-700 */
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+
+    .mobile-menu-footer .btn-mobile-login { display: block; width: 100%; text-align: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s ease; }
+    .btn-mobile-logout { background-color: #fee2e2; color: #b91c1c; margin-top: 0.5rem; }
+    .btn-mobile-logout:hover { background-color: #fecaca; color: #991b1b; }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-logout {
+        background-color: #450a0a; /* dark:bg-red-900 */
+        color: #fca5a5; /* dark:text-red-300 */
+    }
+     .dark .btn-mobile-logout:hover {
+        background-color: #7f1d1d; /* dark:hover:bg-red-800 */
+        color: #fecaca; /* dark:hover:text-red-200 */
+    }
+
+    .btn-mobile-primary { background-color: #10b981; color: white; }
+    .btn-mobile-primary:hover { background-color: #059669; }
+    .btn-mobile-secondary { background-color: #f3f4f6; color: #374151; }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
+    .btn-mobile-secondary:hover { background-color: #e5e7eb; }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary:hover {
+        background-color: #4b5563; /* dark:hover:bg-gray-600 */
+    }
+
+
+    /* Estilo para Radio e Checkbox Marcados no Modal */
+    label:has(input:checked) {
+         border-color: #d1d5db; /* border-gray-300 */
+    }
+    .dark label:has(input:checked) {
+        border-color: #4b5563; /* dark:border-gray-600 */
+    }
+
+    label:has(input[type="radio"]:checked) {
+         border-color: #10b981; /* border-green-500 */
+         background-color: #ecfdf5; /* bg-green-50 */
+    }
+    .dark label:has(input[type="radio"]:checked) {
+        border-color: #34d399; /* dark:border-green-400 */
+        background-color: #064e3b; /* dark:bg-green-900 */
+    }
+
+    label:has(input[type="radio"][value="brown"]:checked) {
+         border-color: #f59e0b; /* border-yellow-500 */
+         background-color: #fffbeb; /* bg-yellow-50 */
+    }
+    .dark label:has(input[type="radio"][value="brown"]:checked) {
+        border-color: #facc15; /* dark:border-yellow-400 */
+        background-color: #78350f; /* dark:bg-yellow-900 */
+    }
+
+     label:has(input[type="checkbox"]:checked) {
+         border-color: #3b82f6; /* border-blue-500 */
+         background-color: #eff6ff; /* bg-blue-50 */
+    }
+     .dark label:has(input[type="checkbox"]:checked) {
+        border-color: #60a5fa; /* dark:border-blue-400 */
+        background-color: #1e3a8a; /* dark:bg-blue-900 */
+     }
+
+     html {
+        scroll-behavior: smooth;
+     }
+
+</style>
+
+<script>
+    // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
+</head>
+<body class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div vw="httpsAcess" class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+
+<header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
+<nav class="bg-gray-100 dark:bg-gray-700 py-2">
+    <div class="container mx-auto px-4 flex justify-end items-center space-x-4">
+        <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
+            <i class="fas fa-sun" id="theme-toggle-icon"></i>
+        </button>
+        <div class="relative inline-block" id="profileDropdownContainer">
+            <img src="img/usuario.png" alt="Usuário" id="profileButton" class="h-10 w-10 rounded-full object-cover cursor-pointer border-2 border-green-600 hover:border-green-800 transition" onclick="toggleProfileDropdown()">
+            <div id="profileDropdown" class="absolute right-0 mt-2 w-48 rounded-lg shadow-xl bg-white dark:bg-gray-700 ring-1 ring-black dark:ring-gray-600 ring-opacity-5 z-50 hidden">
+                <div class="py-1">
+                    <p class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 font-semibold border-b dark:border-gray-600">Nome do Usuário</p>
+                    <a href="monitoria.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"><i class="fas fa-desktop mr-2"></i>Monitor</a>
+                    <a href="#relatorios" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <i class="fas fa-file-alt mr-2"></i>Relatórios
+                    </a>
+                    <a href="configuracoes.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"><i class="fas fa-cog mr-2"></i>Configurações</a>
+                    <a href="#" onclick="fazerLogout(event)" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 hover:text-red-700 dark:hover:text-red-300 border-t dark:border-gray-600 mt-1"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+        <a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
+        <ul class="hidden md:flex space-x-8">
+            <li><a href="monitoria.html" class="nav-link text-green-600 dark:text-green-400 font-medium border-b-2 border-green-600">MONITOR</a></li>
+            <li><a href="#relatorios" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">RELATÓRIOS</a></li>
+        </ul>
+        <button id="menu-btn" class="md:hidden text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50 dark:hover:bg-gray-700">
+            <i class="fas fa-bars fa-xl"></i>
+        </button>
+    </div>
+</nav>
+</header>
+
+<div id="mobile-menu" class="hidden">
+<div id="mobile-menu-header">
+    <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
+    <button id="close-menu-btn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+        <i class="fas fa-times fa-lg"></i>
+    </button>
+</div>
+<ul class="nav-list-mobile">
+     <li><a href="monitoria.html" class="active-link-mobile">MONITOR</a></li>
+     <li><a href="#relatorios">RELATÓRIOS</a></li>
+     <li><a href="configuracoes.html">CONFIGURAÇÕES</a></li>
+     </ul>
+<div class="mobile-menu-footer">
+    <a href="#" onclick="fazerLogout(event); window.closeMobileMenu();" class="btn-mobile-login btn-mobile-logout"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+</div>
+</div>
+
+<div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
+
+    <main class="py-12 sm:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-2">Monitor de Materiais</h1>
+                <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-300">Acompanhe a separação e processamento de materiais eletrônicos por categoria</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 md:gap-8 justify-center items-center md:items-stretch mb-10 px-4">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-md w-full md:w-auto">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-4 text-center">Selecionar Categoria</h3>
+                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                        <button onclick="showCategory('green')" id="greenTab" class="filter-inactive filter-active-green flex-1 px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center text-sm"><i class="fas fa-desktop mr-2"></i>Informática</button>
+                        <button onclick="showCategory('brown')" id="brownTab" class="filter-inactive flex-1 px-4 py-2 rounded-lg font-semibold text-gray-600 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 transition-all duration-300 flex items-center justify-center text-sm"><i class="fas fa-tv mr-2"></i>Áudio/Vídeo</button>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-md w-full md:w-auto flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-green-100 dark:bg-green-900 p-3 rounded-full flex-shrink-0"><i class="fas fa-recycle text-green-600 dark:text-green-400 text-2xl"></i></div>
+                        <div><p class="text-base font-medium text-gray-600 dark:text-gray-300">Reciclagem do Mês</p><p class="text-3xl font-extrabold text-green-600 dark:text-green-400" id="recyclingRate">87%</p></div>
+                    </div>
+                    <div class="flex flex-col space-y-3 w-full sm:w-auto">
+                        <button onclick="openNewMaterialModal()" class="w-full sm:w-44 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center text-sm"><i class="fas fa-plus mr-2"></i>Cadastrar Material</button>
+                        <button id="pdfButtonMonitor" onclick="generatePDF()" class="w-full sm:w-44 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center text-sm"><i class="fas fa-file-pdf mr-2"></i><span id="pdfButtonTextMonitor">Gerar PDF</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reportContainer" class="max-w-7xl mx-auto">
+                <div id="greenReport" class="report-section">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center md:text-left">Equipamentos de Informática e Telefonia</h2>
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg card-hover">
+                             <h3 class="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100 mb-6 border-b dark:border-gray-700 pb-3">Distribuição por Tipo (%)</h3>
+                            <div class="space-y-6">
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-desktop text-green-600 dark:text-green-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">Computadores <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">35%</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-green-500 h-3 rounded-full progress-bar" style="width: 35%"></div></div></div>
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-laptop text-purple-600 dark:text-purple-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">Notebooks <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">22%</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-purple-500 h-3 rounded-full progress-bar" style="width: 22%"></div></div></div>
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-mobile-alt text-blue-600 dark:text-blue-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">Celulares <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">28%</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-blue-500 h-3 rounded-full progress-bar" style="width: 28%"></div></div></div>
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-tablet-alt text-orange-600 dark:text-orange-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">Tablets <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">15%</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 15%"></div></div></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden card-hover">
+                            <div class="bg-green-600 p-6">
+                                <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center">
+                                    <i class="fas fa-clock mr-3"></i>Processamento Recente
+                                </h3>
+                            </div>
+
+                            <div class="block md:hidden p-4 space-y-4 bg-gray-50 dark:bg-gray-700 rounded-b-2xl max-h-96 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-green-500 dark:scrollbar-thumb-green-700 scrollbar-track-gray-200 dark:scrollbar-track-gray-600">
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800 dark:text-white">Computadores Desktop</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500 dark:text-gray-400">15/05</span>
+                                        <span class="text-gray-700 dark:text-gray-300 font-medium">450</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800 dark:text-white">Smartphones</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 whitespace-nowrap">Em Processo</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500 dark:text-gray-400">14/05</span>
+                                        <span class="text-gray-700 dark:text-gray-300 font-medium">320</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800 dark:text-white">Notebooks</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500 dark:text-gray-400">13/05</span>
+                                        <span class="text-gray-700 dark:text-gray-300 font-medium">680</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800 dark:text-white">Computadores Desktop</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500 dark:text-gray-400">15/05</span>
+                                        <span class="text-gray-700 dark:text-gray-300 font-medium">450</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800 dark:text-white">Smartphones</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 whitespace-nowrap">Em Processo</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500 dark:text-gray-400">14/05</span>
+                                        <span class="text-gray-700 dark:text-gray-300 font-medium">320</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-semibold text-gray-800 dark:text-white">Notebooks</span>
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 whitespace-nowrap">Processado</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-500 dark:text-gray-400">13/05</span>
+                                        <span class="text-gray-700 dark:text-gray-300 font-medium">680</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hidden md:block max-h-96 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-green-500 dark:scrollbar-thumb-green-700 scrollbar-track-gray-200 dark:scrollbar-track-gray-600">
+                                <table class="w-full min-w-[500px]">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Data</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Material</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                        <tr class="table-row"><td class="px-6 py-5 text-sm text-gray-500 dark:text-gray-400">15/05</td><td class="px-6 py-5 text-sm font-medium text-gray-900 dark:text-white">Computadores Desktop</td><td class="px-6 py-5 text-sm font-semibold text-gray-800 dark:text-gray-100">450</td><td class="px-6 py-5"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Processado</span></td></tr>
+                                        <tr class="table-row"><td class="px-6 py-5 text-sm text-gray-500 dark:text-gray-400">14/05</td><td class="px-6 py-5 text-sm font-medium text-gray-900 dark:text-white">Smartphones</td><td class="px-6 py-5 text-sm font-semibold text-gray-800 dark:text-gray-100">320</td><td class="px-6 py-5"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">Em Processo</span></td></tr>
+                                        <tr class="table-row"><td class="px-6 py-5 text-sm text-gray-500 dark:text-gray-400">13/05</td><td class="px-6 py-5 text-sm font-medium text-gray-900 dark:text-white">Notebooks</td><td class="px-6 py-5 text-sm font-semibold text-gray-800 dark:text-gray-100">680</td><td class="px-6 py-5"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Processado</span></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="brownReport" class="report-section hidden">
+                     <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center md:text-left">Equipamentos de Áudio e Vídeo</h2>
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                         <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg card-hover">
+                             <h3 class="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-100 mb-6 border-b dark:border-gray-700 pb-3">Distribuição por Tipo (%)</h3>
+                            <div class="space-y-6">
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-tv text-yellow-600 dark:text-yellow-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">Televisores <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">[40%]</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-yellow-500 h-3 rounded-full progress-bar" style="width: 40%"></div></div></div>
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-music text-amber-600 dark:text-amber-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">Aparelhos de Som <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">[25%]</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-amber-500 h-3 rounded-full progress-bar" style="width: 25%"></div></div></div>
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-compact-disc text-orange-600 dark:text-orange-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">DVD/Blu-ray Players <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">[20%]</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-orange-500 h-3 rounded-full progress-bar" style="width: 20%"></div></div></div>
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 shadow-sm"><div class="flex items-center justify-between mb-2"><div class="flex items-center"><i class="fas fa-camera text-red-600 dark:text-red-400 mr-3"></i><span class="text-gray-800 dark:text-gray-100 font-semibold">Câmeras <span class="text-gray-500 dark:text-gray-400 text-sm font-normal">[15%]</span></span></div></div><div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3"><div class="bg-red-500 h-3 rounded-full progress-bar" style="width: 15%"></div></div></div>
+                            </div>
+                        </div>
+
+                         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden card-hover">
+                            <div class="bg-yellow-600 p-6"><h3 class="text-xl sm:text-2xl font-bold text-white flex items-center"><i class="fas fa-clock mr-3"></i>Processamento Recente</h3></div>
+
+                             <div class="block md:hidden p-4 space-y-4 bg-gray-50 dark:bg-gray-700 rounded-b-2xl">
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800 dark:text-white">Televisores LCD</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 whitespace-nowrap">Em Espera</span></div>
+                                    <div class="flex justify-between text-sm"><span class="text-gray-500 dark:text-gray-400">15/05</span></div>
+                                </div>
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800 dark:text-white">Aparelhos de Som</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 whitespace-nowrap">Preparando</span></div>
+                                    <div class="flex justify-between text-sm"><span class="text-gray-500 dark:text-gray-400">14/05</span></div>
+                                </div>
+                                <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800">
+                                    <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-800 dark:text-white">Câmeras Digitais</span><span class="px-3 py-1 text-xs font-bold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 whitespace-nowrap">Finalizado</span></div>
+                                     <div class="flex justify-between text-sm"><span class="text-gray-500 dark:text-gray-400">13/05</span></div>
+                                </div>
+                                 <div class="pt-2 text-center"><a href="#" class="text-sm font-medium text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">Ver Relatório Completo <i class="fas fa-arrow-right ml-1"></i></a></div>
+                            </div>
+
+                            <div class="hidden md:block overflow-x-auto">
+                                <table class="w-full min-w-[500px]">
+                                    <thead class="bg-gray-50 dark:bg-gray-700"><tr><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Data</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Material</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th><th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th></tr></thead>
+                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">15/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Televisores LCD</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">280</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">Em Espera</span></td></tr>
+                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">14/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Aparelhos de Som</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">195</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">Preparando</span></td></tr>
+                                        <tr class="table-row"><td class="px-6 py-5 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">13/05</td><td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Câmeras Digitais</td><td class="px-6 py-5 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">150</td><td class="px-6 py-5 whitespace-nowrap"><span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">Finalizado</span></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="hidden md:block p-4 border-t dark:border-gray-700 text-center bg-gray-50 dark:bg-gray-700 rounded-b-2xl"><a href="#" class="text-sm font-medium text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300">Ver Relatório Completo <i class="fas fa-arrow-right ml-1"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<section id="relatorios" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-6">Relatórios Anteriores</h2>
+
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
+        <div class="flex justify-between items-center border-b dark:border-gray-700 pb-3">
+            <div>
+                <p class="text-lg font-semibold text-gray-700 dark:text-gray-100">Relatório de Informática - Maio/2025</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Gerado em: 20/05/2025</p>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center border-b dark:border-gray-700 pb-3">
+            <div>
+                <p class="text-lg font-semibold text-gray-700 dark:text-gray-100">Relatório de Áudio/Video - Abril/2025</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Gerado em: 25/04/2025</p>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center border-b dark:border-gray-700 pb-3">
+            <div>
+                <p class="text-lg font-semibold text-gray-700 dark:text-gray-100">Relatório de Áudio/Video - Junho/2025</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Gerado em: 28/06/2025</p>
+            </div>
+        </div>
+
+        </div>
+   </section>
+
+<section id="pendingArea" class="mt-16 mb-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="w-full">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center justify-center sm:justify-start">
+        <i class="fas fa-boxes mr-3 text-blue-600 dark:text-blue-400"></i>
+        Pendências de Destino
+    </h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div id="pendingColeta" class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md border-t-4 border-red-500">
+            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-100 mb-3 flex items-center">
+                <i class="fas fa-truck-loading mr-2 text-red-500 dark:text-red-400"></i>
+                Aguardando Coleta/Reciclagem
+            </h3>
+            <ul id="listColeta" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-sm">
+                <li class="text-gray-500 dark:text-gray-400 italic p-1 border-b border-gray-100 dark:border-gray-700">Nenhum material pendente para coleta.</li>
+            </ul>
+        </div>
+
+        <div id="pendingAula" class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md border-t-4 border-blue-500">
+            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-100 mb-3 flex items-center">
+                <i class="fas fa-school mr-2 text-blue-500 dark:text-blue-400"></i>
+                Aguardando Aula/Reaproveitamento
+            </h3>
+            <ul id="listAula" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-sm">
+                <li class="text-gray-500 dark:text-gray-400 italic p-1 border-b border-gray-100 dark:border-gray-700">Nenhum material pendente para aula.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</section>
+
+    </main>
+
+    <div id="newMaterialModal" class="fixed inset-0 hidden z-[101] flex items-center justify-center p-4" style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl m-4">
+        <div class="bg-blue-600 p-6 rounded-t-2xl"><div class="flex justify-between items-center"><h2 class="text-xl sm:text-2xl font-bold text-white flex items-center"><i class="fas fa-plus-circle mr-3"></i>Cadastrar Novo Material</h2><button onclick="closeNewMaterialModal()" class="text-white hover:text-gray-200 transition-colors"><i class="fas fa-times text-2xl"></i></button></div></div>
+        <form id="newMaterialForm" class="p-6 sm:p-8 space-y-6 sm:space-y-8">
+            <div>
+                <div>
+                    <label class="block text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Tipo de Material</label>
+                    <select id="materialType" class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:border-blue-500 focus:outline-none transition-colors text-lg" required>
+                        <option value="">Selecione um tipo</option>
+                        <option value="CPU">CPU</option>
+                        <option value="Celulares">Celulares</option>
+                        <option value="Placa-mãe">Placa-mãe</option>
+                        <option value="HD">HD</option>
+                        <option value="SSD">SSD</option>
+                        <option value="Fonte de alimentação">Fonte de alimentação</option>
+                        <option value="Memória RAM">Memória RAM</option>
+                        <option value="Placa de vídeo">Placa de vídeo</option>
+                        <option value="Gabinete">Gabinete</option>
+                        <option value="Monitor">Monitor</option>
+                        <option value="Mouse">Mouse</option>
+                        <option value="Teclado">Teclado</option>
+                        <option value="Impressora">Impressora</option>
+                        <option value="Notebook">Notebook</option>
+                        <option value="Cabo de energia">Cabo de energia</option>
+                        <option value="Cabo HDMI/VGA">Cabo HDMI/VGA</option>
+                        <option value="Roteador">Roteador</option>
+                        <option value="Switch">Switch</option>
+                        <option value="Televisão">Televisão</option>
+                        <option value="Papelão">Papelão</option>
+                        <option value="Pilhas">Pilhas</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="block text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Categoria</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:text-gray-300 rounded-xl cursor-pointer hover:border-green-400 dark:hover:border-green-500 transition-colors has-[:checked]:border-green-500 has-[:checked]:bg-green-50 dark:has-[:checked]:bg-green-900 dark:has-[:checked]:border-green-400">
+                        <input type="radio" name="category" value="green" class="mr-3 h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800" required>
+                        <i class="fas fa-laptop text-green-600 dark:text-green-400 mr-2"></i>
+                        <span class="font-medium">Informática e Telefonia</span>
+                    </label>
+                    <label class="flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:text-gray-300 rounded-xl cursor-pointer hover:border-yellow-400 dark:hover:border-yellow-500 transition-colors has-[:checked]:border-yellow-500 has-[:checked]:bg-yellow-50 dark:has-[:checked]:bg-yellow-900 dark:has-[:checked]:border-yellow-400">
+                        <input type="radio" name="category" value="brown" class="mr-3 h-5 w-5 text-yellow-600 focus:ring-yellow-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800" required>
+                        <i class="fas fa-tv text-yellow-600 dark:text-yellow-400 mr-2"></i>
+                        <span class="font-medium">Áudio e Vídeo</span>
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Destino Final</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:text-gray-300 rounded-xl cursor-pointer hover:border-red-400 dark:hover:border-red-500 transition-colors has-[:checked]:border-red-500 has-[:checked]:bg-red-50 dark:has-[:checked]:bg-red-900 dark:has-[:checked]:border-red-400">
+                        <input type="radio" name="destination" value="coleta" class="mr-3 h-5 w-5 text-red-600 focus:ring-red-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800" required>
+                        <i class="fas fa-trash-alt text-red-600 dark:text-red-400 mr-2"></i>
+                        <span class="font-medium">Para Coleta</span>
+                    </label>
+                    <label class="flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 dark:text-gray-300 rounded-xl cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 transition-colors has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900 dark:has-[:checked]:border-blue-400">
+                        <input type="radio" name="destination" value="aula" class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800" required>
+                        <i class="fas fa-chalkboard-teacher text-blue-600 dark:text-blue-400 mr-2"></i>
+                        <span class="font-medium">Para Aula</span>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label class="block text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Possíveis Problemas <span class="text-gray-500 dark:text-gray-400 font-normal text-sm">(Opcional)</span></label>
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                    <label class="flex items-center p-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-900 has-[:checked]:ring-2 has-[:checked]:ring-blue-300 dark:has-[:checked]:ring-blue-500"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800 mr-3" name="problems" value="bateria"><span>Bateria viciada</span></label>
+                    <label class="flex items-center p-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-900 has-[:checked]:ring-2 has-[:checked]:ring-blue-300 dark:has-[:checked]:ring-blue-500"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800 mr-3" name="problems" value="tela"><span>Tela danificada</span></label>
+                    <label class="flex items-center p-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-900 has-[:checked]:ring-2 has-[:checked]:ring-blue-300 dark:has-[:checked]:ring-blue-500"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800 mr-3" name="problems" value="software"><span>Problemas de software</span></label>
+                    <label class="flex items-center p-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-900 has-[:checked]:ring-2 has-[:checked]:ring-blue-300 dark:has-[:checked]:ring-blue-500"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800 mr-3" name="problems" value="hardware"><span>Falha de hardware</span></label>
+                    <label class="flex items-center p-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-900 has-[:checked]:ring-2 has-[:checked]:ring-blue-300 dark:has-[:checked]:ring-blue-500"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800 mr-3" name="problems" value="obsoleto"><span>Equipamento obsoleto</span></label>
+                    <label class="flex items-center p-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors has-[:checked]:bg-blue-100 dark:has-[:checked]:bg-blue-900 has-[:checked]:ring-2 has-[:checked]:ring-blue-300 dark:has-[:checked]:ring-blue-500"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-blue-600 focus:ring-blue-500 dark:bg-gray-600 dark:focus:ring-offset-gray-800 mr-3" name="problems" value="fisico"><span>Dano físico</span></label>
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center text-lg mt-8"><i class="fas fa-check-circle mr-2"></i>Salvar Novo Material</button>
+        </form>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        // --- FUNÇÕES DE RELATÓRIO E PDF ---
+        function showCategory(category) {
+            const greenReport = document.getElementById('greenReport'); const brownReport = document.getElementById('brownReport');
+            const greenTab = document.getElementById('greenTab'); const brownTab = document.getElementById('brownTab');
+            const recyclingRateEl = document.getElementById('recyclingRate');
+            // Reset both tabs
+            if(greenTab) {
+                greenTab.classList.remove('filter-active-green');
+                greenTab.classList.add('bg-gray-100', 'text-gray-600', 'filter-inactive', 'dark:bg-gray-700', 'dark:text-gray-300'); // Added dark mode reset
+            }
+            if(brownTab) {
+                brownTab.classList.remove('filter-active-brown');
+                brownTab.classList.add('bg-gray-100', 'text-gray-600', 'filter-inactive', 'dark:bg-gray-700', 'dark:text-gray-300'); // Added dark mode reset
+             }
+
+            if (category === 'green') {
+                if(greenReport) greenReport.classList.remove('hidden'); if(brownReport) brownReport.classList.add('hidden');
+                if(greenTab) {
+                    greenTab.classList.add('filter-active-green');
+                    greenTab.classList.remove('bg-gray-100', 'text-gray-600', 'filter-inactive', 'dark:bg-gray-700', 'dark:text-gray-300'); // Removed dark mode reset
+                 }
+                if(recyclingRateEl) { recyclingRateEl.textContent = '87%'; recyclingRateEl.classList.remove('text-yellow-600', 'dark:text-yellow-400'); recyclingRateEl.classList.add('text-green-600', 'dark:text-green-400'); } // Added dark mode color
+            } else if (category === 'brown') {
+                 if(greenReport) greenReport.classList.add('hidden'); if(brownReport) brownReport.classList.remove('hidden');
+                 if(brownTab) {
+                     brownTab.classList.add('filter-active-brown');
+                     brownTab.classList.remove('bg-gray-100', 'text-gray-600', 'filter-inactive', 'dark:bg-gray-700', 'dark:text-gray-300'); // Removed dark mode reset
+                 }
+                 if(recyclingRateEl) { recyclingRateEl.textContent = '74%'; recyclingRateEl.classList.remove('text-green-600', 'dark:text-green-400'); recyclingRateEl.classList.add('text-yellow-600', 'dark:text-yellow-400'); } // Added dark mode color
+            }
+        }
+        // --- Informações do relatório
+         async function generatePDF() {
+            const { jsPDF } = window.jspdf; const pdf = new jsPDF('p', 'mm', 'a4'); const pdfButton = document.getElementById('pdfButtonMonitor'); const originalButtonHTML = pdfButton ? pdfButton.innerHTML : '<i class="fas fa-file-pdf mr-2"></i>Gerar PDF';
+             if(pdfButton) { pdfButton.disabled = true; pdfButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Gerando...`; }
+            await new Promise(resolve => setTimeout(resolve, 100));
+            const greenTab = document.getElementById('greenTab');
+            const isGreenActive = greenTab ? greenTab.classList.contains('filter-active-green') : true;
+            const reportTitle = isGreenActive ? 'Monitor - Informática e Telefonia' : 'Monitor - Áudio e Vídeo';
+            pdf.setFontSize(20); pdf.setFont(undefined, 'bold'); pdf.text('RTEC - Monitor de Materiais', 105, 20, { align: 'center' });
+            pdf.setFontSize(16); pdf.text(reportTitle, 105, 35, { align: 'center' });
+            pdf.setFontSize(10); pdf.setFont(undefined, 'normal'); const currentDate = new Date().toLocaleDateString('pt-BR'); pdf.text(`Gerado em: ${currentDate}`, 20, 50);
+            let yPosition = 70;
+            pdf.setFontSize(14); pdf.setFont(undefined, 'bold'); pdf.text('Distribuição por Tipo (%)', 20, yPosition); yPosition += 15;
+            pdf.setFontSize(11); pdf.setFont(undefined, 'normal');
+            if(isGreenActive){ pdf.text('• Computadores: 35%', 25, yPosition); yPosition += 8; pdf.text('• Notebooks: 22%', 25, yPosition); yPosition += 8; pdf.text('• Celulares: 28%', 25, yPosition); yPosition += 8; pdf.text('• Tablets: 15%', 25, yPosition); yPosition += 12; }
+            else { pdf.text('• Televisores: 40%', 25, yPosition); yPosition += 8; pdf.text('• Aparelhos de Som: 25%', 25, yPosition); yPosition += 8; pdf.text('• DVD/Blu-ray: 20%', 25, yPosition); yPosition += 8; pdf.text('• Câmeras: 15%', 25, yPosition); yPosition += 12; }
+            pdf.setFontSize(14); pdf.setFont(undefined, 'bold'); pdf.text('Processamento Recente', 20, yPosition); yPosition += 15;
+            pdf.setFontSize(10); pdf.setFont(undefined, 'normal');
+            const recentData = isGreenActive ? [['15/05', 'Comp. Desktop', '450', 'Processado'], ['14/05', 'Smartphones', '320', 'Em Processo'], ['13/05', 'Notebooks', '680', 'Processado']] : [['15/05', 'TVs LCD', '280', 'Em Espera'], ['14/05', 'Som', '195', 'Preparando'], ['13/05', 'Câmeras', '150', 'Finalizado']];
+            pdf.text('Data', 20, yPosition); pdf.text('Material', 45, yPosition); pdf.text('Quantidade', 110, yPosition); pdf.text('Status', 140, yPosition); yPosition += 8;
+            recentData.forEach(row => { pdf.text(row[0], 20, yPosition); pdf.text(row[1], 45, yPosition); pdf.text(row[2], 110, yPosition); pdf.text(row[3], 140, yPosition); yPosition += 6; });
+            pdf.setFontSize(8); pdf.text('RTEC - Relatório gerado automaticamente pelo sistema', 105, 280, { align: 'center' });
+            const fileName = isGreenActive ? 'monitor-informatica.pdf' : 'monitor-audio-video.pdf';
+            try { pdf.save(fileName); } catch (error) { console.error("Erro PDF:", error); alert("Erro ao gerar PDF."); } finally { if(pdfButton) { pdfButton.innerHTML = originalButtonHTML; pdfButton.disabled = false; } }
+        }
+
+        // --- Funções do Modal ---
+        function openNewMaterialModal() { const m = document.getElementById('newMaterialModal'); if(m) m.classList.remove('hidden'); }
+        function closeNewMaterialModal() { const m = document.getElementById('newMaterialModal'); if(m) m.classList.add('hidden'); }
+        
+        // --- Funções do Dropdown de Perfil ---
+        function toggleProfileDropdown() { const d = document.getElementById('profileDropdown'); if (d) d.classList.toggle('hidden'); }
+        function fazerLogout(event) { event.preventDefault(); localStorage.removeItem('userToken'); localStorage.removeItem('userRole'); sessionStorage.removeItem('userData'); alert('Sessão encerrada.'); window.location.href = 'entrar.html'; }
+
+        // --- Script do Menu Mobile e Inicialização ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // ============================================
+            // CÓDIGO DO BOTÃO DE TEMA
+            // ============================================
+            const themeToggleButton = document.getElementById('theme-toggle-button');
+            const themeToggleIcon = document.getElementById('theme-toggle-icon');
+            const updateButtonIcon = () => {
+                if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+                } else {
+                    if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+                }
+            };
+            updateButtonIcon(); // Atualiza ao carregar
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    const isDarkMode = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                    updateButtonIcon();
+                    const themeSwitch = document.getElementById('themeToggle'); 
+                    if(themeSwitch) { themeSwitch.checked = isDarkMode; }
+                });
+            }
+            const themeSwitch = document.getElementById('themeToggle'); // Sincroniza o switch da pág. config
+            if (themeSwitch) {
+                themeSwitch.addEventListener('change', () => {
+                    updateButtonIcon(); 
+                });
+            }
+            // ============================================
+            // FIM DO CÓDIGO DO BOTÃO DE TEMA
+            // ============================================
+
+            const progressBars = document.querySelectorAll('.progress-bar'); progressBars.forEach(bar => { const w = bar.style.width; bar.style.width = '0%'; setTimeout(() => { bar.style.width = w; }, 100); });
+            document.addEventListener('click', (e) => { const c = document.getElementById('profileDropdownContainer'), d = document.getElementById('profileDropdown'); if (c && d && !c.contains(e.target) && !d.classList.contains('hidden')) { d.classList.add('hidden'); } });
+            const menuBtn = document.getElementById('menu-btn'), closeMenuBtn = document.getElementById('close-menu-btn'), mobileMenu = document.getElementById('mobile-menu'), menuOverlay = document.getElementById('menu-overlay');
+            window.closeMobileMenu = () => { if (!mobileMenu || !menuOverlay) return; mobileMenu.classList.remove('active'); mobileMenu.addEventListener('transitionend', () => { if (!mobileMenu.classList.contains('active')) { mobileMenu.classList.add('hidden'); } }, { once: true }); menuOverlay.classList.add('hidden'); document.body.style.overflow = ''; const i = menuBtn ? menuBtn.querySelector('i') : null; if(i) { i.classList.remove('fa-times'); i.classList.add('fa-bars'); } };
+            if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) { const i = menuBtn.querySelector('i'); const o = () => { mobileMenu.classList.remove('hidden'); setTimeout(() => mobileMenu.classList.add('active'), 10); menuOverlay.classList.remove('hidden'); document.body.style.overflow = 'hidden'; if(i) { i.classList.remove('fa-bars'); i.classList.add('fa-times'); } }; menuBtn.addEventListener('click', () => { if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) { o(); } else { window.closeMobileMenu(); } }); closeMenuBtn.addEventListener('click', window.closeMobileMenu); menuOverlay.addEventListener('click', window.closeMobileMenu); } else { console.error("Erro menu mobile."); }
+            showCategory('green');
+        });
+
+
+        // --- PENDÊNCIA DE DESTINO ---
+        // Função auxiliar para criar o item de lista
+        function createPendingListItem(materialType) {
+            const li = document.createElement('li');
+             // Added dark mode classes
+            li.className = 'flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors border-l-4 border-yellow-400 dark:border-yellow-500';
+            li.innerHTML = `
+                <span class="font-medium text-gray-800 dark:text-gray-100">${materialType}</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">Novo Cadastro</span>
+            `;
+            return li;
+        }
+
+        // Função para adicionar item à lista correta
+        function addPendingItem(materialType, destination) {
+             let listElementId;
+             let emptyMessage;
+
+             if (destination === 'coleta') {
+                 listElementId = 'listColeta';
+                 emptyMessage = 'Nenhum material pendente para coleta.';
+             } else if (destination === 'aula') {
+                 listElementId = 'listAula';
+                 emptyMessage = 'Nenhum material pendente para aula.';
+             } else {
+                 return; // Destino inválido
+             }
+
+             const list = document.getElementById(listElementId);
+             if (!list) return;
+
+             // Remover a mensagem de "vazio" se ela existir
+             const emptyLi = list.querySelector('li.italic');
+             if (emptyLi && emptyLi.textContent === emptyMessage) {
+                 list.innerHTML = '';
+             }
+
+             // Criar e adicionar o novo item à lista
+             const newItem = createPendingListItem(materialType);
+             list.appendChild(newItem);
+        }
+
+        // Lógica de manipulação do formulário (substituída a anterior)
+        if (newMaterialForm) { 
+            newMaterialForm.onsubmit = function(e) {
+                e.preventDefault();
+                const materialType = document.getElementById('materialType').value;
+                const categoryRadio = document.querySelector('input[name="category"]:checked');
+                const categoryValue = categoryRadio ? categoryRadio.value : null;
+                const destinationRadio = document.querySelector('input[name="destination"]:checked');
+                const destinationValue = destinationRadio ? destinationRadio.value : null;
+                const problemCheckboxes = document.querySelectorAll('input[name="problems"]:checked');
+                const problems = Array.from(problemCheckboxes).map(cb => cb.value);
+
+                if (!materialType || !categoryValue || !destinationValue) {
+                     alert('Preencha Tipo, Categoria e Destino Final.');
+                     return;
+                }
+                
+                // Log e adição à lista pendente
+                console.log("Novo Material:", { type: materialType, category: categoryValue, destination: destinationValue, problems });
+                addPendingItem(materialType, destinationValue); 
+
+                alert('Material Cadastrado e adicionado à lista de pendências!');
+                closeNewMaterialModal();
+                this.reset();
+            };
+        } else {
+            console.error("Formulário newMaterialForm não encontrado.");
+        }
+
+    </script>
+</body>
+</html>

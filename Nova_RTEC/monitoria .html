@@ -200,13 +200,15 @@
 </script>
 </head>
 <body class="min-h-screen bg-gray-100 dark:bg-gray-900">
+  
+ <!-- Leitor em Libras-->
     <div vw="httpsAcess" class="enabled">
       <div vw-access-button class="active"></div>
       <div vw-plugin-wrapper>
         <div class="vw-plugin-top-wrapper"></div>
       </div>
     </div>
-
+  
 <header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
 <nav class="bg-gray-100 dark:bg-gray-700 py-2">
     <div class="container mx-auto px-4 flex justify-end items-center space-x-4">
@@ -769,5 +771,12 @@
         }
 
     </script>
+   <!-- Leitor em Libras-->
+ <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+  
 </body>
+
 </html>

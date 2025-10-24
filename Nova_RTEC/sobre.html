@@ -133,6 +133,84 @@
     }
     #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 
+
+/*aumentar o tamanho da fonte do site*/
+    .font-controls {
+    position: fixed;
+    top: 390px;
+    right: 10px;
+    z-index: 999;
+    background: #007bff;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    background: none; 
+    padding: 0; 
+    }
+
+    #toggleFontButtons {
+        width: 40px; 
+        height: 40px;
+        line-height: 40px; /* Alinha o texto 'A' verticalmente */
+        padding: 0; /* Remove o padding que estava distorcendo o tamanho */
+        font-size: 18px !important; /* Aumenta a fonte para ficar mais visível */
+        text-align: center; /* Centraliza o texto 'A' */
+    }
+
+    /* Botões menores, acessíveis */
+    .font-controls button {
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; 
+    color: white; 
+    }
+    
+    /* Estilo para os botões A+, A, A- */
+    #fontButtons button {
+        background-color: #3f90ff; /* Um tom diferente ou o mesmo se preferir */
+    }
+
+
+    /* Esconde os botões até o clique */
+    #fontButtons.hidden {
+    display: none;
+    }
+
+    #fontButtons {
+    /* Configura a posição do grupo de botões menores para ficar ACIMA */
+    position: absolute;
+    bottom: 100%; /* Move o elemento para 100% da sua altura acima do botão principal */
+    right: 0; /* Alinha o lado direito dos botões menores com o container principal */
+    display: flex;
+    flex-direction: column-reverse; /* Inverte a ordem para que o A+ fique no topo */
+    gap: 3px;
+    margin-bottom: 5px; /* Adiciona uma pequena margem acima, para não colar no botão 'A' */
+    margin-top: 0; 
+    }
+
+    /* Responsivo: se a tela for muito pequena, diminui ainda mais */
+    @media (max-width: 400px) {
+    /* Mantenha as alterações responsivas aqui */
+    .font-controls {
+        top: 350px;
+        right: 5px;
+        padding: 3;
+    }
+
+    .font-controls button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    #fontButtons {
+        gap: 2px;
+        margin-bottom: 4px;
+    }
+    }
+
 </style>
 <script>
     // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
@@ -150,6 +228,16 @@
       <div vw-plugin-wrapper>
         <div class="vw-plugin-top-wrapper"></div>
       </div>
+    </div>
+
+    <!--aumentar o tamanho da fonte do site!-->
+    <div class="font-controls">
+    <button id="toggleFontButtons" aria-label="Controle de fonte">A</button>
+    <div id="fontButtons" class="hidden">
+        <button onclick="alterarFonte(1)">A+</button>
+        <button onclick="alterarFonte(0)">A</button>
+        <button onclick="alterarFonte(-1)">A-</button>
+    </div>
     </div>
 
     <header class="bg-white dark:bg-gray-800 shadow-lg">
@@ -422,6 +510,24 @@
         // ... (resto do seu código JS específico da página)
 
     }); // Fim do DOMContentLoaded
+
+    // Tamanho da fonte
+let nivelFonte = 1;
+const tamanhos = [87.5, 100, 112.5, 125];
+
+function alterarFonte(nivel) {
+  if (nivel === 0) nivelFonte = 1;
+  else {
+    nivelFonte += nivel;
+    if (nivelFonte < 0) nivelFonte = 0;
+    if (nivelFonte > 3) nivelFonte = 3;
+  }
+  document.documentElement.style.fontSize = tamanhos[nivelFonte] + '%';
+}
+
+document.getElementById('toggleFontButtons').addEventListener('click', () => {
+  document.getElementById('fontButtons').classList.toggle('hidden');
+});
 </script>
  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>

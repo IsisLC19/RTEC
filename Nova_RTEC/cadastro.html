@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro - RTEC</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" href="logo.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="icon" href="img/logo.png" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro - RTEC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class', // <-- Esta é a linha mais importante
+    theme: {
+      extend: {
+        // (Você pode adicionar cores, etc. aqui no futuro)
+      }
+    }
+  }
+</script>
+<link rel="icon" href="logo.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="icon" href="img/logo.png" type="image/x-icon">
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'); 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body {
       font-family: 'Inter', sans-serif;
     }
@@ -23,7 +33,7 @@
       color: #10b981;
       transform: translateY(-1px);
     }
-    
+
     /* Estilos do chatbot */
     #chat-widget {
         position: fixed;
@@ -58,6 +68,11 @@
         background-color: white;
         z-index: 1000;
     }
+     /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-window-container {
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+
     #chat-header {
         background-color: #10b981;
         color: white;
@@ -72,11 +87,33 @@
         overflow-y: auto;
         background-color: #f4f4f9;
     }
+    /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-messages {
+        background-color: #374151; /* dark:bg-gray-700 */
+    }
+
     .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
     .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
     .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+    /* ATUALIZADO: Chatbot dark mode */
+     .dark .bot-message {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
     #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+    /* ATUALIZADO: Chatbot dark mode */
+     .dark #chat-input-area {
+        border-top-color: #4b5563; /* dark:border-gray-600 */
+    }
+
     #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+     /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-user-input {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        border-color: #4b5563;
+        color: white;
+    }
     #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 
     /* === AJUSTES RESPONSIVOS DO CHATBOT === */
@@ -99,24 +136,30 @@
 
     /* === ESTILIZAÇÃO DO MENU MOBILE (BASE) === */
     #mobile-menu {
-      position: fixed; /* Fixa o menu para cobrir toda a tela lateralmente */
+      position: fixed;
       top: 0;
       right: 0;
-      width: 80%; /* Ocupa 80% da largura da tela */
-      max-width: 300px; /* Limite de largura para não ficar muito grande em tablets */
-      height: 100vh; /* Altura total da viewport */
-      background-color: rgba(255, 255, 255, 0.98); /* Fundo quase branco com leve transparência */
-      backdrop-filter: blur(8px); /* Efeito de desfoque no fundo */
-      box-shadow: -8px 0 20px rgba(0,0,0,0.2); /* Sombra para dar profundidade */
-      transform: translateX(100%); /* Começa fora da tela (escondido) */
-      transition: transform 0.4s ease-out; /* Transição suave para deslizar */
-      z-index: 100; /* Garante que fique acima de outros elementos */
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(8px);
+      box-shadow: -8px 0 20px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.4s ease-out;
+      z-index: 100;
       display: flex;
-      flex-direction: column; /* Organiza conteúdo em coluna */
+      flex-direction: column;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu {
+        background-color: rgba(31, 41, 55, 0.98); /* dark:bg-gray-800/98 */
+        border-left: 1px solid #374151; /* dark:border-gray-700 */
     }
 
+
     #mobile-menu.active {
-      transform: translateX(0); /* Desliza para dentro da tela */
+      transform: translateX(0);
     }
 
     #mobile-menu-header {
@@ -124,12 +167,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #e5e7eb; /* Linha divisória */
+      border-bottom: 1px solid #e5e7eb;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu-header {
+        border-bottom-color: #374151; /* dark:border-gray-700 */
     }
 
     #mobile-menu .nav-list-mobile {
       padding: 1.5rem 1rem;
-      flex-grow: 1; /* Permite que a lista cresça e ocupe o espaço restante */
+      flex-grow: 1;
     }
 
     #mobile-menu .nav-list-mobile li a {
@@ -138,24 +185,39 @@
       margin-bottom: 0.5rem;
       font-size: 1.1rem;
       font-weight: 500;
-      color: #374151; /* Cor do texto padrão */
+      color: #374151;
       border-radius: 0.5rem;
       transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
       position: relative;
     }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a {
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
 
     #mobile-menu .nav-list-mobile li a:hover {
-      background-color: #ecfdf5; /* Fundo verde claro ao passar o mouse */
-      color: #047857; /* Texto verde escuro ao passar o mouse */
-      transform: translateX(5px); /* Leve movimento para a direita */
+      background-color: #ecfdf5;
+      color: #047857;
+      transform: translateX(5px);
     }
-    
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a:hover {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #34d399; /* dark:text-green-400 */
+    }
+
     #mobile-menu .nav-list-mobile li .active-link-mobile {
-      background-color: #d1fae5; /* Fundo mais escuro para o link ativo */
+      background-color: #d1fae5;
       color: #047857;
       font-weight: 700;
-      border-left: 4px solid #10b981; /* Borda esquerda para destaque */
-      padding-left: 1rem; /* Ajusta padding devido à borda */
+      border-left: 4px solid #10b981;
+      padding-left: 1rem;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li .active-link-mobile {
+        background-color: #065f46; /* dark:bg-green-800 */
+        color: #6ee7b7; /* dark:text-green-300 */
+        border-left-color: #10b981;
     }
 
     /* ================================================= */
@@ -163,15 +225,21 @@
     /* ================================================= */
     .mobile-menu-footer {
       padding: 1rem;
-      margin-top: auto; /* Empurra para o final */
+      margin-top: auto;
       border-top: 1px solid #e5e7eb;
-      background-color: #f9fafb; /* Um fundo levemente diferente */
+      background-color: #f9fafb;
     }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .mobile-menu-footer {
+        border-top-color: #374151; /* dark:border-gray-700 */
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+
     .mobile-menu-footer .btn-mobile-login {
       display: block;
       width: 100%;
       text-align: center;
-      padding: 0.75rem 1rem; /* Padding ajustado */
+      padding: 0.75rem 1rem;
       border-radius: 0.5rem;
       font-weight: 600;
       transition: all 0.2s ease;
@@ -188,156 +256,228 @@
       color: #374151;
       margin-top: 0.5rem;
     }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
     .btn-mobile-secondary:hover {
       background-color: #e5e7eb;
     }
-  </style>
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary:hover {
+        background-color: #4b5563; /* dark:hover:bg-gray-600 */
+    }
+</style>
+<script>
+    // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
 </head>
-<body class="min-h-screen bg-gray-50">
-
-<header class="bg-white shadow-lg relative z-50">
-  <nav class="bg-gray-100 py-2">
-    <div class="container mx-auto px-4 flex justify-end">
-      <ul class="flex space-x-6 text-sm">
-        <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600 transition-all duration-300">Entrar</a></li>
-        <li><a href="cadastro.html" class="nav-link text-green-600 font-bold transition-all duration-300">Cadastre-se</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <nav class="py-4">
-    <div class="container mx-auto px-4 flex items-center justify-between">
-      <div class="flex-shrink-0">
-        <a href="sobre.html" class="block">
-          <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
-        </a>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900">
+   <!-- Leitor em Libras-->
+    <div vw="httpsAcess" class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
       </div>
-
-      <ul class="hidden md:flex space-x-8">
-        <li><a href="agendamento.html" class="nav-link text-gray-700 font-medium hover:text-green-600">AGENDAMENTO</a></li>
-        <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
-        <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
-        <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
-      </ul>
-
-      <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
-        <i class="fas fa-bars fa-xl"></i>
-      </button>
     </div>
-  </nav>
+
+<header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
+<nav class="bg-gray-100 dark:bg-gray-700 py-2">
+    <div class="container mx-auto px-4 flex justify-end items-center space-x-6">
+        <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
+            <i class="fas fa-sun" id="theme-toggle-icon"></i>
+        </button>
+        <ul class="flex space-x-6 text-sm">
+            <li><a href="entrar.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Entrar</a></li>
+            <li><a href="cadastro.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Cadastre-se</a></li>
+        </ul>
+    </div>
+    </nav>
+
+<nav class="py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+        <div class="flex-shrink-0">
+            <a href="sobre.html" class="block">
+                <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+            </a>
+        </div>
+
+        <ul class="hidden md:flex space-x-8">
+            <li><a href="agendamento.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">AGENDAMENTO</a></li>
+            <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">COLETORES</a></li>
+            <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">SOBRE</a></li>
+            <li><a href="feedback.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">FEEDBACKS</a></li>
+        </ul>
+
+        <button id="menu-btn" class="md:hidden text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50 dark:hover:bg-gray-700">
+            <i class="fas fa-bars fa-xl"></i>
+        </button>
+    </div>
+</nav>
 </header>
 
 <div id="mobile-menu" class="hidden">
-  <div id="mobile-menu-header">
+<div id="mobile-menu-header">
     <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
-    <button id="close-menu-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
-      <i class="fas fa-times fa-lg"></i>
+    <button id="close-menu-btn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+        <i class="fas fa-times fa-lg"></i>
     </button>
-  </div>
-  
-  <ul class="nav-list-mobile">
+</div>
+
+<ul class="nav-list-mobile">
     <li><a href="agendamento.html">AGENDAMENTO</a></li>
     <li><a href="coletores.html">COLETORES</a></li>
     <li><a href="sobre.html">SOBRE</a></li>
     <li><a href="feedback.html">FEEDBACKS</a></li>
-  </ul>
+</ul>
 
-  <div class="mobile-menu-footer">
+<div class="mobile-menu-footer">
     <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
-      <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+        <i class="fas fa-sign-in-alt mr-2"></i>Entrar
     </a>
     <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
-      <i class="fas fa-user-plus mr-2"></i>Cadastre-se
+        <i class="fas fa-user-plus mr-2"></i>Cadastre-se
     </a>
-  </div>
+</div>
 </div>
 
 <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
+
 <main class="gradient-bg min-h-screen py-16">
     <div class="container mx-auto px-4">
-      <div class="text-center mb-12">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Cadastro</h1>
-        <p class="text-lg text-white opacity-90">Crie sua conta e faça parte da RTEC</p>
-      </div>
+        <div class="text-center mb-12">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Cadastro</h1>
+            <p class="text-lg text-white opacity-90">Crie sua conta e faça parte da RTEC</p>
+        </div>
 
-      <div class="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
-        <form class="flex flex-col space-y-4">
-          <input type="text" placeholder="Nome" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+        <div class="max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8">
+            <form class="flex flex-col space-y-4">
+                <input type="text" placeholder="Nome"
+                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-          <input type="text" placeholder="Sobrenome" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                <input type="text" placeholder="Sobrenome"
+                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-          <input type="email" placeholder="E-mail" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                <input type="email" placeholder="E-mail"
+                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-          <input type="tel" placeholder="Telefone" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                <input type="tel" placeholder="Telefone"
+                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-          <input type="password" placeholder="Senha" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                <input type="password" placeholder="Senha"
+                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-          <input type="password" placeholder="Confirmar senha" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                <input type="password" placeholder="Confirmar senha"
+                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
 
-          <button type="submit" 
-                  class="bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 rounded-lg hover:scale-105 transition-transform duration-300">
-          Cadastrar
-          </button>
-        </form>
-      </div>
+                <div> <!-- CAMPO PRATICAS DE SEGURANÇA-->
+                    <input type="checkbox" id="consentimento" name="consentimento" required class="mr-2">
+                    <label for="consentimento" class="text-sm text-gray-600">
+                        Eu li, entendi e concordo com as 
+                        <a href="#" id="abrirModalConsentimento" class="text-green-600 hover:underline">
+                            Práticas de Segurança e Consentimento de Uso de Dados
+                        </a>.
+                    </label>
+                </div>
+
+                <button type="submit"
+                        class="bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 rounded-lg hover:scale-105 transition-transform duration-300">
+                Cadastrar
+                </button>
+            </form>
+        </div>
     </div>
-  </main>
+</main>
 
-  
-  <div id="chat-window-container">
+<!-- PRATICAS DE SEGURANÇA -->
+<div id="modalConsentimento" style="display: none;" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl w-11/12 md:max-w-2xl p-6 md:p-8 relative">
+        <button id="fecharModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Nossa Transparência e Segurança com Você</h2>
+        <div class="text-gray-700 space-y-4 max-h-[60vh] overflow-y-auto pr-4">
+            <p>Para nós, a sua segurança e privacidade são prioridades. Queremos que você entenda de forma clara como cuidamos dos seus dados e como nosso site funciona.</p>
+            
+            <h4 class="font-semibold text-lg">1. Nosso Compromisso com a Segurança:</h4>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Proteção de Dados:</strong> Usamos medidas de segurança, como criptografia e controle de acesso, para proteger suas informações contra acessos não autorizados, perdas ou fraudes.</li>
+                <li><strong>Confidencialidade:</strong> Jamais venderemos ou alugaremos seus dados pessoais. Eles são usados exclusivamente para o funcionamento do nosso serviço.</li>
+            </ul>
+            
+            <h4 class="font-semibold text-lg">2. Como Usamos Seus Dados (Seu Consentimento):</h4>
+            <p>Ao criar sua conta, coletamos algumas informações para que o serviço funcione bem. Veja para quê:</p>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Dados de Cadastro (Nome, E-mail):</strong> Usamos para identificar você, permitir o acesso à sua conta e enviar comunicações importantes sobre o serviço.</li>
+                <li><strong>Dados de Navegação (IP, páginas visitadas):</strong> Usamos de forma anônima para entender como nosso site é utilizado, melhorar sua experiência e garantir a segurança da plataforma contra atividades suspeitas.</li>
+            </ul>
+
+            <h4 class="font-semibold text-lg">3. Suas Responsabilidades:</h4>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Senha Segura:</strong> Sua senha é pessoal e intransferível. Crie uma senha forte e não a compartilhe com ninguém.</li>
+                <li><strong>Uso Consciente:</strong> Utilize nosso site de forma ética e legal, respeitando os outros usuários.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div id="chat-window-container">
     <div id="chat-header">
-      <h3 class="font-bold">Assistente Virtual</h3>
-      <button onclick="toggleChat()" class="text-white hover:text-gray-200">
-        <i class="fas fa-times"></i>
-      </button>
+        <h3 class="font-bold">Assistente Virtual</h3>
+        <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
     <div id="chat-messages" class="flex flex-col">
     </div>
     <div id="chat-input-area">
-      <input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
-      <button id="chat-send-btn">
-        <i class="fas fa-paper-plane"></i>
-      </button>
+        <input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
+        <button id="chat-send-btn">
+            <i class="fas fa-paper-plane"></i>
+        </button>
     </div>
-  </div>
-  
-  <div id="chat-widget">
+</div>
+
+<div id="chat-widget">
     <button id="chat-button" onclick="toggleChat()">
-      <i class="fas fa-comments"></i>
+        <i class="fas fa-comments"></i>
     </button>
-  </div>
+</div>
 
 
-  <footer class="bg-green-800 text-white py-12">
+<footer class="bg-green-800 text-white py-12">
     <div class="container mx-auto px-4">
-      <div class="text-center">
-        <div class="flex justify-center space-x-6 mb-6">
-          <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
-             class="text-white hover:text-green-300 transition transform hover:scale-110">
-            <i class="fab fa-instagram text-2xl"></i>
-          </a>
-          <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"
-             class="text-white hover:text-green-300 transition transform hover:scale-110">
-            <i class="fab fa-youtube text-2xl"></i>
-          </a>
-          <a href="https://fatecfrancodarocha.cps.sp.gov.br/" class="text-white hover:text-green-300 transition transform hover:scale-110">
-            <i class="fas fa-globe text-2xl"></i>
-          </a>
+        <div class="text-center">
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
+                     class="text-white hover:text-green-300 transition transform hover:scale-110">
+                    <i class="fab fa-instagram text-2xl"></i>
+                </a>
+                <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"
+                     class="text-white hover:text-green-300 transition transform hover:scale-110">
+                    <i class="fab fa-youtube text-2xl"></i>
+                </a>
+                <a href="https://fatecfrancodarocha.cps.sp.gov.br/" class="text-white hover:text-green-300 transition transform hover:scale-110">
+                    <i class="fas fa-globe text-2xl"></i>
+                </a>
+            </div>
+
+            <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
+            <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
         </div>
-
-        <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
-        <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
-      </div>
     </div>
-  </footer>
+</footer>
 
-  <script>
+<script>
      // Função para controlar a visibilidade do seu modal de FAQ (se existir)
      function toggleFAQ() {
          const faqModal = document.getElementById('faqModal');
@@ -345,18 +485,18 @@
            faqModal.classList.toggle('hidden');
          }
      }
- 
- 
+
+
      // =======================================================
      //         INÍCIO DO JAVASCRIPT DO CHATBOT             
      // =======================================================
- 
+
      // Elementos da interface do chat
      const chatWindowContainer = document.getElementById('chat-window-container');
      const chatMessages = document.getElementById('chat-messages');
      const userInput = document.getElementById('chat-user-input');
      const sendBtn = document.getElementById('chat-send-btn');
- 
+
      
      // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
      function toggleChat() {
@@ -382,16 +522,16 @@
          chatMessages.appendChild(messageElement);
          chatMessages.scrollTop = chatMessages.scrollHeight;
      }
- 
+
      // Função para enviar mensagem ao backend
      async function sendMessage() {
         if (!userInput) return; // Proteção
          const messageText = userInput.value.trim();
          if (messageText === '') return;
- 
+
          addMessage(messageText, 'user');
          userInput.value = '';
- 
+
          try {
              const response = await fetch('http://127.0.0.1:5000/ask', {
                  method: 'POST',
@@ -400,20 +540,20 @@
                  },
                  body: JSON.stringify({ message: messageText })
              });
- 
+
              if (!response.ok) {
                  throw new Error('Erro na comunicação com o servidor.');
              }
- 
+
              const data = await response.json();
              addMessage(data.reply, 'bot');
- 
+
          } catch (error) {
              console.error('Erro:', error);
              addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
          }
      }
- 
+
      // Event Listeners para o input e botão de envio
      if(sendBtn) sendBtn.addEventListener('click', sendMessage);
      if(userInput) userInput.addEventListener('keypress', function(event) {
@@ -421,11 +561,11 @@
              sendMessage();
          }
      });
- 
+
      // =======================================================
      //     INÍCIO DO SCRIPT DO MENU MOBILE E CHATBOT LOAD
      // =======================================================
- 
+
      document.addEventListener('DOMContentLoaded', () => {
          
          // --- SCRIPT DO MENU HAMBURGER ---
@@ -466,7 +606,7 @@
              };
 
              menuBtn.addEventListener('click', () => {
-                if (mobileMenu.classList.contains('hidden')) {
+                if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
                     openMobileMenu();
                 } else {
                     closeMobileMenu();
@@ -484,7 +624,78 @@
            chatWindowContainer.style.display = 'none';
          }
      });
-  </script>
-  
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        // Função para atualizar o ícone baseado no tema atual
+        const updateButtonIcon = () => {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                // Se dark mode ativo (ou preferência do sistema), mostra a LUA
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+            } else {
+                // Se light mode ativo, mostra o SOL
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+            }
+        };
+
+        // Atualiza o ícone ao carregar a página
+        updateButtonIcon();
+
+        // Adiciona o listener de clique ao botão
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                // Verifica se o modo escuro está ATIVO atualmente
+                const isDarkMode = document.documentElement.classList.toggle('dark');
+
+                // Salva a preferência no localStorage
+                if (isDarkMode) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+
+                // Atualiza o ícone do botão
+                updateButtonIcon();
+
+                // --- Sincronização Extra para a página de Configurações ---
+                // Se existir o switch na página config, atualiza ele também
+                const themeSwitch = document.getElementById('themeToggle');
+                if(themeSwitch) {
+                    themeSwitch.checked = isDarkMode;
+                }
+                // --- Fim da Sincronização ---
+            });
+        }
+
+        // --- Sincronização Extra (se o switch for mudado) ---
+        // Ouve mudanças no switch da página de configurações, se existir
+        const themeSwitch = document.getElementById('themeToggle');
+        if (themeSwitch) {
+            themeSwitch.addEventListener('change', () => {
+                // A lógica do switch já atualiza o localStorage e a classe HTML
+                // Apenas precisamos garantir que o botão do header reflete a mudança
+                updateButtonIcon();
+            });
+        }
+         // --- Fim da Sincronização ---
+
+        // (Cole aqui o restante do seu script JS que estava dentro do DOMContentLoaded,
+        // como a inicialização do menu mobile, chatbot, etc.)
+        // Exemplo:
+        // const menuBtn = document.getElementById('menu-btn');
+        // ... (resto do seu código JS específico da página)
+
+    }); // Fim do DOMContentLoaded
+</script>
+
+ <!-- Leitor em Libras-->
+ <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
 </body>
 </html>

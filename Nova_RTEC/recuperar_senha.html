@@ -271,37 +271,63 @@
         </nav>
     </header>
 
-    <main class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <!-- === RECUPERAR SENHA (OTP) === -->
+<main class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
   <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
-      Recuperar Senha 🔑
-    </h2>
-
+    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4">Recuperar Senha 🔐</h2>
     <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 text-center">
-      Esqueceu sua senha? Digite o e-mail cadastrado que a gente te manda o link pra redefinir.
+      Digite seu e-mail e confirme com o código que enviaremos. Sem link — tudo na mesma página.
     </p>
 
-    <form id="recoverForm" class="space-y-5">
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200">E-mail</label>
-        <input type="email" id="email" name="email" required
-          class="w-full mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
-          placeholder="exemplo@email.com">
-      </div>
-
-      <button type="submit"
-        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-300">
-        Enviar link de recuperação
+    <!-- STEP 1: pedir email/telefone -->
+    <form id="stepEmail" class="space-y-4">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">E-mail cadastrado</label>
+      <input id="recEmail" type="email" required
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="seu@email.com">
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg">
+        Enviar código
       </button>
     </form>
 
-    <div id="feedbackMsg" class="hidden mt-4 text-center text-sm"></div>
+    <!-- STEP 2: inserir código OTP -->
+    <form id="stepOTP" class="hidden space-y-4">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Código (6 dígitos)</label>
+      <input id="otpCode" type="text" inputmode="numeric" maxlength="6"
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="123456">
+      <button id="verifyBtn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
+        Verificar código
+      </button>
+      <div class="flex justify-between text-xs">
+        <button id="resendBtn" type="button" class="text-green-600 hover:underline">Reenviar código</button>
+        <span id="otpCountdown" class="text-gray-500 dark:text-gray-300"> </span>
+      </div>
+    </form>
+
+    <!-- STEP 3: definir nova senha -->
+    <form id="stepReset" class="hidden space-y-4">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nova senha</label>
+      <input id="newPass" type="password" minlength="6" required
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="nova senha">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Confirme a nova senha</label>
+      <input id="confirmPass" type="password" minlength="6" required
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="repita a senha">
+      <button id="resetBtn" type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg">
+        Redefinir senha
+      </button>
+    </form>
+
+    <div id="feedbackMsg" class="mt-4 text-center text-sm hidden"></div>
 
     <p class="text-center text-gray-600 dark:text-gray-300 mt-6">
       <a href="entrar.html" class="text-green-600 hover:underline">Voltar para login</a>
     </p>
   </div>
 </main>
+
 
 
 
@@ -535,28 +561,222 @@ document.getElementById('toggleFontButtons').addEventListener('click', () => {
 });
 
 // RECUPERAÇÃO DE SENHA
-  document.getElementById('recoverForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const feedback = document.getElementById('feedbackMsg');
 
-    if (!email) {
-      feedback.textContent = 'Por favor, insira um e-mail válido.';
-      feedback.className = 'mt-4 text-center text-red-500 text-sm';
-      feedback.classList.remove('hidden');
-      return;
+/*
+  CONFIG:
+  - SIMULATE true: gera código local (útil pra protótipo).
+  - SIMULATE false: faz fetch para o backend nos endpoints:
+      POST /send-otp  { email }
+      POST /verify-otp { email, code }
+      POST /reset-password { email, newPassword, (maybe) tokenFromVerify }
+*/
+const SIMULATE = true; // muda pra false quando tiver backend
+const CODE_TTL_SECONDS = 600; // 10 minutos
+
+const stepEmail = document.getElementById('stepEmail');
+const stepOTP = document.getElementById('stepOTP');
+const stepReset = document.getElementById('stepReset');
+const feedback = document.getElementById('feedbackMsg');
+const recEmail = document.getElementById('recEmail');
+const otpCode = document.getElementById('otpCode');
+const newPass = document.getElementById('newPass');
+const confirmPass = document.getElementById('confirmPass');
+const resendBtn = document.getElementById('resendBtn');
+const otpCountdown = document.getElementById('otpCountdown');
+
+let currentEmail = '';
+let localCode = null;
+let codeExpireAt = null;
+let countdownTimer = null;
+
+function showMsg(text, type='info') {
+  feedback.textContent = text;
+  feedback.classList.remove('hidden');
+  feedback.className = 'mt-4 text-center text-sm';
+  if (type === 'error') feedback.classList.add('text-red-500');
+  else if (type === 'success') feedback.classList.add('text-green-500');
+  else feedback.classList.add('text-blue-500');
+}
+
+// helpers UI
+function goTo(step) {
+  stepEmail.classList.add('hidden');
+  stepOTP.classList.add('hidden');
+  stepReset.classList.add('hidden');
+  feedback.classList.add('hidden');
+  if (step === 1) stepEmail.classList.remove('hidden');
+  if (step === 2) stepOTP.classList.remove('hidden');
+  if (step === 3) stepReset.classList.remove('hidden');
+}
+
+// countdown for resend
+function startCountdown(ttl) {
+  clearInterval(countdownTimer);
+  let remaining = ttl;
+  otpCountdown.textContent = `Expira em ${formatTime(remaining)}`;
+  countdownTimer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(countdownTimer);
+      otpCountdown.textContent = '';
+      resendBtn.disabled = false;
+      resendBtn.classList.remove('opacity-50');
+    } else {
+      otpCountdown.textContent = `Expira em ${formatTime(remaining)}`;
+      resendBtn.disabled = true;
+      resendBtn.classList.add('opacity-50');
     }
+  }, 1000);
+}
 
-    // Simula o envio do e-mail (aqui você colocaria sua chamada pro backend)
-    feedback.textContent = '⏳ Enviando link de recuperação...';
-    feedback.className = 'mt-4 text-center text-blue-500 text-sm';
-    feedback.classList.remove('hidden');
+function formatTime(s) {
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  return `${m}m ${sec}s`;
+}
 
-    setTimeout(() => {
-      feedback.textContent = `✅ Um link de recuperação foi enviado para ${email}.`;
-      feedback.className = 'mt-4 text-center text-green-500 text-sm';
-    }, 2000);
-  });
+// simulate functions (local)
+function generateLocalCode() {
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  localCode = code;
+  codeExpireAt = Date.now() + CODE_TTL_SECONDS * 1000;
+  return code;
+}
+
+function isLocalCodeValid(code) {
+  if (!localCode) return false;
+  if (Date.now() > codeExpireAt) return false;
+  return String(code) === String(localCode);
+}
+
+// event: send code
+stepEmail.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = recEmail.value.trim();
+  if (!email) { showMsg('Coloca um e-mail válido aí.', 'error'); return; }
+  currentEmail = email;
+  showMsg('Enviando código...', 'info');
+
+  if (SIMULATE) {
+    const code = generateLocalCode();
+    console.log('Código gerado (simulado):', code);
+    showMsg(`Código enviado (simulado). Código: ${code} — só visível no console (dev).`, 'success');
+    goTo(2);
+    startCountdown(CODE_TTL_SECONDS);
+    return;
+  }
+
+  // produção: chama backend
+  try {
+    const res = await fetch('/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Erro ao enviar código');
+    showMsg('Código enviado para seu e-mail.', 'success');
+    goTo(2);
+    startCountdown(CODE_TTL_SECONDS);
+  } catch (err) {
+    console.error(err);
+    showMsg('Erro ao enviar código. Tenta de novo.', 'error');
+  }
+});
+
+// resend
+resendBtn.addEventListener('click', async () => {
+  if (!currentEmail) { showMsg('Primeiro insira o e-mail.', 'error'); return; }
+  showMsg('Reenviando código...', 'info');
+  if (SIMULATE) {
+    const code = generateLocalCode();
+    console.log('Código reenviado (simulado):', code);
+    showMsg('Código reenviado (simulado). Checa o console.', 'success');
+    startCountdown(CODE_TTL_SECONDS);
+    return;
+  }
+  try {
+    const res = await fetch('/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentEmail, resend: true })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Erro ao reenviar');
+    showMsg('Código reenviado.', 'success');
+    startCountdown(CODE_TTL_SECONDS);
+  } catch (err) {
+    console.error(err);
+    showMsg('Erro ao reenviar código.', 'error');
+  }
+});
+
+// event: verify code
+stepOTP.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const code = otpCode.value.trim();
+  if (!code || code.length < 6) { showMsg('Insira o código de 6 dígitos.', 'error'); return; }
+
+  if (SIMULATE) {
+    if (isLocalCodeValid(code)) {
+      showMsg('Código válido. Pode redefinir a senha.', 'success');
+      goTo(3);
+    } else {
+      showMsg('Código inválido ou expirado.', 'error');
+    }
+    return;
+  }
+
+  // produção: chama verify
+  try {
+    const res = await fetch('/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentEmail, code })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Código inválido');
+    showMsg('Código verificado. Redefina sua senha.', 'success');
+    goTo(3);
+  } catch (err) {
+    console.error(err);
+    showMsg('Código inválido ou expirado.', 'error');
+  }
+});
+
+// event: reset password
+stepReset.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const p1 = newPass.value;
+  const p2 = confirmPass.value;
+  if (!p1 || p1.length < 6) { showMsg('Senha deve ter pelo menos 6 caracteres.', 'error'); return; }
+  if (p1 !== p2) { showMsg('As senhas não batem.', 'error'); return; }
+
+  showMsg('Redefinindo senha...', 'info');
+  if (SIMULATE) {
+    // só pra dev: "reset" local
+    localCode = null;
+    showMsg('Senha redefinida (simulada). Vai pro login.', 'success');
+    setTimeout(() => { window.location.href = 'entrar.html'; }, 1200);
+    return;
+  }
+
+  try {
+    const res = await fetch('/reset-password', {
+    method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentEmail, newPassword: p1 })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Erro ao resetar senha');
+    showMsg('Senha redefinida com sucesso. Redirecionando...', 'success');
+    setTimeout(() => { window.location.href = 'entrar.html'; }, 1200);
+  } catch (err) {
+    console.error(err);
+    showMsg('Erro ao redefinir senha.', 'error');
+  }
+});
+
 </script>
 
  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>

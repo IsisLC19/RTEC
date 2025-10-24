@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agendamento de Coleta - RTEC</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" href="img/logo.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendamento de Coleta - RTEC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class', // <-- Esta é a linha mais importante
+    theme: {
+      extend: {
+        // (Você pode adicionar cores, etc. aqui no futuro)
+      }
+    }
+  }
+</script>
+<link rel="icon" href="img/logo.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <style>
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', sans-serif; }
     .gradient-bg { background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%); }
-    .form-container { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.95); }
+    /* ATUALIZADO: Fundo do formulário com dark mode */
+    .form-container { 
+        backdrop-filter: blur(10px); 
+        background: rgba(255, 255, 255, 0.95); 
+    }
+    .dark .form-container {
+        background: rgba(31, 41, 55, 0.95); /* dark:bg-gray-800/95 */
+    }
+
     .input-focus:focus { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(16,185,129,0.4); }
     .nav-link:hover { color: #10b981; transform: translateY(-1px); }
@@ -24,15 +42,35 @@
     /* Chatbot */
     #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
     #chat-button {
-      background-color: #10b981; color: white; width: 60px; height: 60px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 24px;
+        background-color: #10b981; color: white; width: 60px; height: 60px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 24px;
     }
     #chat-window-container {
-      position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 15px; overflow: hidden;
-      display: flex; flex-direction: column; background-color: white; z-index: 1000;
+        position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 15px; overflow: hidden;
+        display: flex; flex-direction: column; background-color: white; z-index: 1000;
     }
+    /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-window-container {
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+    .dark #chat-messages {
+        background-color: #374151; /* dark:bg-gray-700 */
+    }
+    .dark #chat-input-area {
+        border-top-color: #4b5563; /* dark:border-gray-600 */
+    }
+    .dark #chat-user-input {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        border-color: #4b5563;
+        color: white;
+    }
+    .dark .bot-message {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
 
     /* === AJUSTES RESPONSIVOS === */
     @media (max-width: 420px) { /* Telas pequenas (celulares) */
@@ -54,24 +92,29 @@
 
     /* === ESTILIZAÇÃO DO MENU MOBILE (BASE) === */
     #mobile-menu {
-      position: fixed; /* Fixa o menu para cobrir toda a tela lateralmente */
+      position: fixed; 
       top: 0;
       right: 0;
-      width: 80%; /* Ocupa 80% da largura da tela */
-      max-width: 300px; /* Limite de largura para não ficar muito grande em tablets */
-      height: 100vh; /* Altura total da viewport */
-      background-color: rgba(255, 255, 255, 0.98); /* Fundo quase branco com leve transparência */
-      backdrop-filter: blur(8px); /* Efeito de desfoque no fundo */
-      box-shadow: -8px 0 20px rgba(0,0,0,0.2); /* Sombra para dar profundidade */
-      transform: translateX(100%); /* Começa fora da tela (escondido) */
-      transition: transform 0.4s ease-out; /* Transição suave para deslizar */
-      z-index: 100; /* Garante que fique acima de outros elementos */
+      width: 80%; 
+      max-width: 300px; 
+      height: 100vh; 
+      background-color: rgba(255, 255, 255, 0.98); 
+      backdrop-filter: blur(8px); 
+      box-shadow: -8px 0 20px rgba(0,0,0,0.2); 
+      transform: translateX(100%); 
+      transition: transform 0.4s ease-out; 
+      z-index: 100; 
       display: flex;
-      flex-direction: column; /* Organiza conteúdo em coluna */
+      flex-direction: column; 
+    }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu {
+        background-color: rgba(31, 41, 55, 0.98); /* dark:bg-gray-800/98 */
+        border-left: 1px solid #374151; /* dark:border-gray-700 */
     }
 
     #mobile-menu.active {
-      transform: translateX(0); /* Desliza para dentro da tela */
+      transform: translateX(0); 
     }
 
     #mobile-menu-header {
@@ -79,12 +122,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #e5e7eb; /* Linha divisória */
+      border-bottom: 1px solid #e5e7eb; 
+    }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu-header {
+        border-bottom-color: #374151; /* dark:border-gray-700 */
     }
 
     #mobile-menu .nav-list-mobile {
       padding: 1.5rem 1rem;
-      flex-grow: 1; /* Permite que a lista cresça e ocupe o espaço restante */
+      flex-grow: 1; 
     }
 
     #mobile-menu .nav-list-mobile li a {
@@ -93,40 +140,61 @@
       margin-bottom: 0.5rem;
       font-size: 1.1rem;
       font-weight: 500;
-      color: #374151; /* Cor do texto padrão */
+      color: #374151; 
       border-radius: 0.5rem;
       transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
       position: relative;
     }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a {
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
 
     #mobile-menu .nav-list-mobile li a:hover {
-      background-color: #ecfdf5; /* Fundo verde claro ao passar o mouse */
-      color: #047857; /* Texto verde escuro ao passar o mouse */
-      transform: translateX(5px); /* Leve movimento para a direita */
+      background-color: #ecfdf5; 
+      color: #047857; 
+      transform: translateX(5px); 
+    }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a:hover {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #34d399; /* dark:text-green-400 */
     }
 
     #mobile-menu .nav-list-mobile li .active-link-mobile {
-      background-color: #d1fae5; /* Fundo mais escuro para o link ativo */
+      background-color: #d1fae5; 
       color: #047857;
       font-weight: 700;
-      border-left: 4px solid #10b981; /* Borda esquerda para destaque */
-      padding-left: 1rem; /* Ajusta padding devido à borda */
+      border-left: 4px solid #10b981; 
+      padding-left: 1rem; 
+    }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li .active-link-mobile {
+        background-color: #065f46; /* dark:bg-green-800 */
+        color: #6ee7b7; /* dark:text-green-300 */
+        border-left-color: #10b981;
     }
 
     /* ================================================= */
-    /* === ESTILOS DO MENU MOBILE (ADICIONADOS) == */
+    /* === NOVOS ESTILOS DO MENU MOBILE (ADICIONADOS) == */
     /* ================================================= */
     .mobile-menu-footer {
       padding: 1rem;
-      margin-top: auto; /* Empurra para o final */
+      margin-top: auto; 
       border-top: 1px solid #e5e7eb;
-      background-color: #f9fafb; /* Um fundo levemente diferente */
+      background-color: #f9fafb; 
     }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .mobile-menu-footer {
+        border-top-color: #374151; /* dark:border-gray-700 */
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+
     .mobile-menu-footer .btn-mobile-login {
       display: block;
       width: 100%;
       text-align: center;
-      padding: 0.75rem 1rem; /* Padding ajustado */
+      padding: 0.75rem 1rem; 
       border-radius: 0.5rem;
       font-weight: 600;
       transition: all 0.2s ease;
@@ -143,14 +211,32 @@
       color: #374151;
       margin-top: 0.5rem;
     }
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
     .btn-mobile-secondary:hover {
       background-color: #e5e7eb;
     }
-  </style>
-</head>
+    /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary:hover {
+        background-color: #4b5563; /* dark:hover:bg-gray-600 */
+    }
 
-  <body class="min-h-screen bg-gray-50">
-    <!-- Leitor de Libras -->
+</style>
+<script>
+    // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900">
+   <!-- Leitor em Libras-->
     <div vw="httpsAcess" class="enabled">
       <div vw-access-button class="active"></div>
       <div vw-plugin-wrapper>
@@ -158,178 +244,182 @@
       </div>
     </div>
 
-<header class="bg-white shadow-lg relative z-50">
-  <nav class="bg-gray-100 py-2">
-    <div class="container mx-auto px-4 flex justify-end">
-      <ul class="flex space-x-6 text-sm">
-        <li><a href="entrar.html" class="nav-link text-gray-600 hover:text-green-600">Entrar</a></li>
-        <li><a href="cadastro.html" class="nav-link text-gray-600 hover:text-green-600">Cadastre-se</a></li>
-      </ul>
+<header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
+<nav class="bg-gray-100 dark:bg-gray-700 py-2">
+    <div class="container mx-auto px-4 flex justify-end items-center space-x-6">
+        <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
+            <i class="fas fa-sun" id="theme-toggle-icon"></i>
+        </button>
+        <ul class="flex space-x-6 text-sm">
+            <li><a href="entrar.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Entrar</a></li>
+            <li><a href="cadastro.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Cadastre-se</a></li>
+        </ul>
     </div>
-  </nav>
+    </nav>
 
-  <nav class="py-4">
+<nav class="py-4">
     <div class="container mx-auto px-4 flex items-center justify-between">
-      <a href="sobre.html"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
-      
-      <ul class="hidden md:flex space-x-8">
-        <li><a href="agendamento.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">AGENDAMENTO</a></li>
-        <li><a href="coletores.html" class="nav-link text-gray-700 font-medium hover:text-green-600">COLETORES</a></li>
-        <li><a href="sobre.html" class="nav-link text-gray-700 font-medium hover:text-green-600">SOBRE</a></li>
-        <li><a href="feedback.html" class="nav-link text-gray-700 font-medium hover:text-green-600">FEEDBACKS</a></li>
-      </ul>
+        <a href="sobre.html"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
+        
+        <ul class="hidden md:flex space-x-8">
+            <li><a href="agendamento.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">AGENDAMENTO</a></li>
+            <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">COLETORES</a></li>
+            <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">SOBRE</a></li>
+            <li><a href="feedback.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">FEEDBACKS</a></li>
+        </ul>
 
-      <button id="menu-btn" class="md:hidden text-green-600 hover:text-green-800 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50">
-        <i class="fas fa-bars fa-xl"></i>
-      </button>
+        <button id="menu-btn" class="md:hidden text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50 dark:hover:bg-gray-700">
+            <i class="fas fa-bars fa-xl"></i>
+        </button>
     </div>
-  </nav>
+</nav>
 </header>
 
 <div id="mobile-menu" class="hidden">
-  <div id="mobile-menu-header">
+<div id="mobile-menu-header">
     <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
-    <button id="close-menu-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
-      <i class="fas fa-times fa-lg"></i>
+    <button id="close-menu-btn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+        <i class="fas fa-times fa-lg"></i>
     </button>
-  </div>
-  
-  <ul class="nav-list-mobile">
+</div>
+
+<ul class="nav-list-mobile">
     <li><a href="agendamento.html" class="active-link-mobile">AGENDAMENTO</a></li>
     <li><a href="coletores.html">COLETORES</a></li>
     <li><a href="sobre.html">SOBRE</a></li>
     <li><a href="feedback.html">FEEDBACKS</a></li>
-  </ul>
+</ul>
 
-  <div class="mobile-menu-footer">
+<div class="mobile-menu-footer">
     <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
-      <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+        <i class="fas fa-sign-in-alt mr-2"></i>Entrar
     </a>
     <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
-      <i class="fas fa-user-plus mr-2"></i>Cadastre-se
+        <i class="fas fa-user-plus mr-2"></i>Cadastre-se
     </a>
-  </div>
+</div>
 </div>
 
 <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
+
 <main class="gradient-bg min-h-screen py-12">
     <div class="container mx-auto px-4">
-      
-      <div class="text-center mb-12 fade-in">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Agendamento de Coleta</h1>
-        <p class="text-lg md:text-xl text-white opacity-90">Agende sua coleta de resíduos de forma rápida e fácil</p>
-      </div>
-      
-      <div class="max-w-2xl mx-auto">
-        <div class="form-container rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 fade-in">
-
-          <div class="mb-6 text-center bg-green-50 border border-green-200 text-green-800 py-3 px-2 rounded-lg">
-            <p class="font-semibold text-lg">📍 Local da Coleta:</p>
-            <p class="text-sm sm:text-base">Rodovia Luiz Salomão Chama, 240 - Vila Ramos, Franco da Rocha - SP - CEP: 07857-050</p>
-          </div>
-
-          <div id="successMessage" class="success-message bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
-            <div class="flex items-center">
-              <i class="fas fa-check-circle mr-2"></i>
-              <span>Agendamento realizado com sucesso! Você receberá uma confirmação em breve.</span>
-            </div>
-          </div>
-
-          <form id="agendamentoForm" class="space-y-6">
-            <div>
-              <i class="fas fa-at mr-2 text-green-600"></i>E-mail
-              <input type="email" placeholder="E-mail" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
-            </div>
-            <div>
-              <label for="tipo-pessoa" class="block text-sm font-semibold text-gray-700 mb-2">
-                <i class="fas fa-user mr-2 text-green-600"></i>Eu sou
-              </label>
-              <select id="tipo-pessoa" name="tipo-pessoa" required class="input-focus w-full px-4 py-3 border rounded-lg">
-                <option value="">Selecione uma opção</option>
-                <option value="coletor">Coletor</option>
-                <option value="doador">Doador</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="tipo-residuo" class="block text-sm font-semibold text-gray-700 mb-2">
-                <i class="fas fa-recycle mr-2 text-green-600"></i>Tipo de Resíduo
-              </label>
-              <select id="tipo-residuo" name="tipo-residuo" required class="input-focus w-full px-4 py-3 border rounded-lg">
-                <option value="">Selecione o tipo de resíduo</option>
-                <option value="eletronico">Eletrônico</option>
-                <option value="reciclavel">Reciclável</option>
-              </select>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6">
-              <div>
-                <label for="data-entrega" class="block text-sm font-semibold text-gray-700 mb-2">
-                  <i class="fas fa-calendar mr-2 text-green-600"></i>Data
-                </label>
-                <input type="date" id="data-entrega" name="data-entrega" required class="input-focus w-full px-4 py-3 border rounded-lg">
-              </div>
-              <div>
-                <label for="horario" class="block text-sm font-semibold text-gray-700 mb-2">
-                  <i class="fas fa-clock mr-2 text-green-600"></i>Horário
-                </label>
-                <input type="time" id="horario" name="horario" required class="input-focus w-full px-4 py-3 border rounded-lg">
-              </div>
-            </div>
-
-            <button type="submit" class="btn-hover w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-4 px-8 rounded-lg">
-              <i class="fas fa-calendar-check mr-2"></i>Agendar Coleta
-            </button>
-          </form>
+        
+        <div class="text-center mb-12 fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Agendamento de Coleta</h1>
+            <p class="text-lg md:text-xl text-white opacity-90">Agende sua coleta de resíduos de forma rápida e fácil</p>
         </div>
-      </div>
-    </div>
-  </main>
+        
+        <div class="max-w-2xl mx-auto">
+            <div class="form-container rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 fade-in">
 
-  <!-- Protocolo-->
-  <div id="modalProtocolo" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+                <div class="mb-6 text-center bg-green-50 dark:bg-gray-700 border border-green-200 dark:border-gray-600 text-green-800 dark:text-gray-300 py-3 px-2 rounded-lg">
+                    <p class="font-semibold text-lg dark:text-white">📍 Local da Coleta:</p>
+                    <p class="text-sm sm:text-base">Rodovia Luiz Salomão Chama, 240 - Vila Ramos, Franco da Rocha - SP - CEP: 07857-050</p>
+                </div>
+
+                <div id="successMessage" class="success-message bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded-lg mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Agendamento realizado com sucesso! Você receberá uma confirmação em breve.</span>
+                    </div>
+                </div>
+
+                <form id="agendamentoForm" class="space-y-6">
+                    <div>
+                      <i class="fas fa-at mr-2 text-green-600"></i>E-mail
+                      <input type="email" placeholder="E-mail" 
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                    </div>
+                    
+                    <div>
+                        <label for="tipo-pessoa" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-user mr-2 text-green-600 dark:text-green-400"></i>Eu sou
+                        </label>
+                        <select id="tipo-pessoa" name="tipo-pessoa" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 rounded-lg">
+                            <option value="">Selecione uma opção</option>
+                            <option value="coletor">Coletor</option>
+                            <option value="doador">Doador</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="tipo-residuo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-recycle mr-2 text-green-600 dark:text-green-400"></i>Tipo de Resíduo
+                        </label>
+                        <select id="tipo-residuo" name="tipo-residuo" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 rounded-lg">
+                            <option value="">Selecione o tipo de resíduo</option>
+                            <option value="eletronico">Eletrônico</option>
+                            <option value="reciclavel">Reciclável</option>
+                        </select>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="data-entrega" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-calendar mr-2 text-green-600 dark:text-green-400"></i>Data
+                            </label>
+                            <input type="date" id="data-entrega" name="data-entrega" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg" style="color-scheme: dark;">
+                        </div>
+                        <div>
+                            <label for="horario" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-clock mr-2 text-green-600 dark:text-green-400"></i>Horário
+                            </label>
+                            <input type="time" id="horario" name="horario" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg" style="color-scheme: dark;">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-hover w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-4 px-8 rounded-lg">
+                        <i class="fas fa-calendar-check mr-2"></i>Agendar Coleta
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="modalProtocolo" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
     <button onclick="fecharModalProtocolo()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
     
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
-      <div class="p-6 md:p-8 text-center">
-        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </div>
-        <h3 class="text-2xl font-bold text-gray-900 mb-2">Coleta Agendada!</h3>
-        <p class="text-gray-600 mb-6">Seu protocolo de identificação:</p>
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full">
+        <div class="p-6 md:p-8 text-center">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Coleta Agendada!</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Seu protocolo de identificação:</p>
 
-        <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-6">
-          <div class="text-sm text-gray-600 mb-1">Protocolo:</div>
-          <div id="numeroProtocolo" class="text-2xl font-bold text-green-600 font-mono"></div>
-        </div>
+            <div class="bg-green-50 dark:bg-gray-700 border-2 border-green-200 dark:border-gray-600 rounded-lg p-4 mb-6">
+                <div class="text-sm text-gray-600 dark:text-gray-300 mb-1">Protocolo:</div>
+                <div id="numeroProtocolo" class="text-2xl font-bold text-green-600 font-mono"></div>
+            </div>
 
-        <div class="text-left bg-gray-50 rounded-lg p-4 mb-6 space-y-2">
-          <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Nome:</span><span id="protocoloNome" class="font-medium sm:text-right"></span></div>
-          <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Data:</span><span id="protocoloData" class="font-medium sm:text-right"></span></div>
-          <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Horário:</span><span id="protocoloHora" class="font-medium sm:text-right"></span></div>
-          <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600">Resíduo:</span><span id="protocoloResiduos" class="font-medium sm:text-right"></span></div>
-        
-          <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 shrink-0">Local:</span><span class="font-medium sm:text-right">Rodovia Luiz Salomão Chama, 240 - Vila Ramos, Franco da Rocha </span></div>
-        </div>
+            <div class="text-left bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 space-y-2">
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Nome:</span><span id="protocoloNome" class="font-medium dark:text-white sm:text-right"></span></div>
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Data:</span><span id="protocoloData" class="font-medium dark:text-white sm:text-right"></span></div>
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Horário:</span><span id="protocoloHora" class="font-medium dark:text-white sm:text-right"></span></div>
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Resíduo:</span><span id="protocoloResiduos" class="font-medium dark:text-white sm:text-right"></span></div>
+            
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300 shrink-0">Local:</span><span class="font-medium dark:text-white sm:text-right">Rodovia Luiz Salomão Chama, 240 - Vila Ramos, Franco da Rocha </span></div>
+            </div>
 
-        <p class="text-sm text-gray-500 mb-6">⚠️ Anote ou tire foto deste protocolo.</p>
-        <div class="space-y-3">
-          <button onclick="imprimirProtocolo()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg">🖨️ Imprimir</button>
-          <button onclick="novoAgendamento()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-lg">➕ Novo</button>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">⚠️ Anote ou tire foto deste protocolo.</p>
+            <div class="space-y-3">
+                <button onclick="imprimirProtocolo()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg">🖨️ Imprimir</button>
+                <button onclick="novoAgendamento()" class="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white font-semibold py-3 px-4 rounded-lg">➕ Novo</button>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <footer class="bg-green-800 text-white py-12 text-center">
+<footer class="bg-green-800 text-white py-12 text-center">
     <p>&copy; 2024 RTEC - Todos os direitos reservados</p>
     <p class="text-green-200 mt-2">Contribuindo para um futuro sustentável</p>
-  </footer>
+</footer>
 
-  <script>
+<script>
     document.addEventListener('DOMContentLoaded', (event) => {
         const menuBtn = document.getElementById('menu-btn');
         const closeMenuBtn = document.getElementById('close-menu-btn'); // Botão de fechar
@@ -346,8 +436,8 @@
                 menuOverlay.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
                 if (menuIcon) {
-                  menuIcon.classList.remove('fa-bars');
-                  menuIcon.classList.add('fa-times');
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-times');
                 }
             };
 
@@ -362,19 +452,19 @@
                 menuOverlay.classList.add('hidden');
                 document.body.style.overflow = '';
                 if (menuIcon) {
-                  menuIcon.classList.remove('fa-times');
-                  menuIcon.classList.add('fa-bars');
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
                 }
             };
 
             // --- LÓGICA DE CLIQUE ATUALIZADA ---
             // Agora o botão de hambúrguer também fecha o menu
             menuBtn.addEventListener('click', () => {
-              if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
-                  openMobileMenu();
-              } else {
-                  closeMobileMenu();
-              }
+                if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
+                    openMobileMenu();
+                } else {
+                    closeMobileMenu();
+                }
             });
 
             closeMenuBtn.addEventListener('click', closeMobileMenu);
@@ -432,10 +522,78 @@
         window.fecharModalProtocolo = fecharModalProtocolo;
         window.novoAgendamento = novoAgendamento;
     });
-  </script>
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        // Função para atualizar o ícone baseado no tema atual
+        const updateButtonIcon = () => {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                // Se dark mode ativo (ou preferência do sistema), mostra a LUA
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+            } else {
+                // Se light mode ativo, mostra o SOL
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+            }
+        };
+
+        // Atualiza o ícone ao carregar a página
+        updateButtonIcon();
+
+        // Adiciona o listener de clique ao botão
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                // Verifica se o modo escuro está ATIVO atualmente
+                const isDarkMode = document.documentElement.classList.toggle('dark');
+
+                // Salva a preferência no localStorage
+                if (isDarkMode) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+
+                // Atualiza o ícone do botão
+                updateButtonIcon();
+
+                // --- Sincronização Extra para a página de Configurações ---
+                // Se existir o switch na página config, atualiza ele também
+                const themeSwitch = document.getElementById('themeToggle');
+                if(themeSwitch) {
+                    themeSwitch.checked = isDarkMode;
+                }
+                // --- Fim da Sincronização ---
+            });
+        }
+
+        // --- Sincronização Extra (se o switch for mudado) ---
+        // Ouve mudanças no switch da página de configurações, se existir
+        const themeSwitch = document.getElementById('themeToggle');
+        if (themeSwitch) {
+            themeSwitch.addEventListener('change', () => {
+                // A lógica do switch já atualiza o localStorage e a classe HTML
+                // Apenas precisamos garantir que o botão do header reflete a mudança
+                updateButtonIcon();
+            });
+        }
+         // --- Fim da Sincronização ---
+
+        // (Cole aqui o restante do seu script JS que estava dentro do DOMContentLoaded,
+        // como a inicialização do menu mobile, chatbot, etc.)
+        // Exemplo:
+        // const menuBtn = document.getElementById('menu-btn');
+        // ... (resto do seu código JS específico da página)
+
+    }); // Fim do DOMContentLoaded
+</script>
+
+
+ <!-- Leitor em Libras-->
+ <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 </html>

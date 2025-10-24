@@ -51,25 +51,33 @@
         box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 15px; overflow: hidden;
         display: flex; flex-direction: column; background-color: white; z-index: 1000;
     }
-    /* ATUALIZADO: Chatbot dark mode */
+    /* Chatbot Dark Mode */
     .dark #chat-window-container {
         background-color: #1f2937; /* dark:bg-gray-800 */
     }
+    #chat-header { background-color: #10b981; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    #chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; background-color: #f4f4f9; }
     .dark #chat-messages {
         background-color: #374151; /* dark:bg-gray-700 */
     }
+    .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+    .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+    .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+    .dark .bot-message {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+    #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
     .dark #chat-input-area {
         border-top-color: #4b5563; /* dark:border-gray-600 */
     }
+    #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
     .dark #chat-user-input {
         background-color: #4b5563; /* dark:bg-gray-600 */
         border-color: #4b5563;
         color: white;
     }
-    .dark .bot-message {
-        background-color: #4b5563; /* dark:bg-gray-600 */
-        color: #d1d5db; /* dark:text-gray-300 */
-    }
+    #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
 
 
     /* === AJUSTES RESPONSIVOS === */
@@ -225,6 +233,87 @@
         background-color: #4b5563; /* dark:hover:bg-gray-600 */
     }
 
+    /*aumentar o tamanho da fonte do site*/
+    .font-controls {
+    position: fixed;
+    top: 390px;
+    right: 10px;
+    z-index: 999;
+    background: #007bff;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    background: none; 
+    padding: 0; 
+    }
+
+    #toggleFontButtons {
+        /* Garante que o botão seja um círculo ou quadrado de tamanho fixo */
+        width: 40px; 
+        height: 40px;
+        line-height: 40px; /* Alinha o texto 'A' verticalmente */
+        padding: 0; /* Remove o padding que estava distorcendo o tamanho */
+        font-size: 18px !important; /* Aumenta a fonte para ficar mais visível */
+        text-align: center; /* Centraliza o texto 'A' */
+    }
+
+    /* Botões menores, acessíveis */
+    .font-controls button {
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    
+    /* Cor de fundo para o botão A principal */
+    background-color: #007bff; 
+    color: white; 
+    }
+    
+    /* Estilo para os botões A+, A, A- */
+    #fontButtons button {
+        background-color: #3f90ff; /* Um tom diferente ou o mesmo se preferir */
+    }
+
+
+    /* Esconde os botões até o clique */
+    #fontButtons.hidden {
+    display: none;
+    }
+
+    #fontButtons {
+    /* 2. Configura a posição do grupo de botões menores para ficar ACIMA */
+    position: absolute;
+    bottom: 100%; /* Move o elemento para 100% da sua altura acima do botão principal */
+    right: 0; /* Alinha o lado direito dos botões menores com o container principal */
+    
+    display: flex;
+    flex-direction: column-reverse; /* Inverte a ordem para que o A+ fique no topo */
+    gap: 3px;
+    margin-bottom: 5px; /* Adiciona uma pequena margem acima, para não colar no botão 'A' */
+    margin-top: 0; /* Remove a margem superior antiga */
+    }
+
+    /* Responsivo: se a tela for muito pequena, diminui ainda mais */
+    @media (max-width: 400px) {
+    /* Mantenha as alterações responsivas aqui */
+    .font-controls {
+        top: 55px;
+        right: 5px;
+        padding: 3;
+    }
+
+    .font-controls button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    #fontButtons {
+        gap: 2px;
+        margin-bottom: 4px;
+    }
+    }
+
 </style>
 <script>
     // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
@@ -236,12 +325,22 @@
 </script>
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900">
-   <!-- Leitor em Libras-->
+    <!-- Leitor em Libras -->
     <div vw="httpsAcess" class="enabled">
       <div vw-access-button class="active"></div>
       <div vw-plugin-wrapper>
         <div class="vw-plugin-top-wrapper"></div>
       </div>
+    </div>
+
+    <!--aumentar o tamanho da fonte do site!-->
+    <div class="font-controls">
+    <button id="toggleFontButtons" aria-label="Controle de fonte">A</button>
+    <div id="fontButtons" class="hidden">
+        <button onclick="alterarFonte(1)">A+</button>
+        <button onclick="alterarFonte(0)">A</button>
+        <button onclick="alterarFonte(-1)">A-</button>
+    </div>
     </div>
 
 <header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
@@ -262,7 +361,7 @@
         <a href="sobre.html"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
         
         <ul class="hidden md:flex space-x-8">
-            <li><a href="agendamento.html" class="nav-link text-green-600 font-medium border-b-2 border-green-600">AGENDAMENTO</a></li>
+            <li><a href="agendamento.html" class="nav-link text-green-600 dark:text-green-400 font-medium border-b-2 border-green-600">AGENDAMENTO</a></li>
             <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">COLETORES</a></li>
             <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">SOBRE</a></li>
             <li><a href="feedback.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">FEEDBACKS</a></li>
@@ -327,9 +426,11 @@
 
                 <form id="agendamentoForm" class="space-y-6">
                     <div>
-                      <i class="fas fa-at mr-2 text-green-600"></i>E-mail
-                      <input type="email" placeholder="E-mail" 
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                      <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <i class="fas fa-at mr-2 text-green-600 dark:text-green-400"></i>E-mail
+                      </label>
+                      <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required 
+                      class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 rounded-lg" />
                     </div>
                     
                     <div>
@@ -355,23 +456,23 @@
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="data-entrega" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                <i class="fas fa-calendar mr-2 text-green-600 dark:text-green-400"></i>Data
-                            </label>
-                            <input type="date" id="data-entrega" name="data-entrega" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg" style="color-scheme: dark;">
-                        </div>
-                        <div>
-                            <label for="horario" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                <i class="fas fa-clock mr-2 text-green-600 dark:text-green-400"></i>Horário
-                            </label>
-                            <input type="time" id="horario" name="horario" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg" style="color-scheme: dark;">
-                        </div>
-                    </div>
+    <div>
+        <label for="data-entrega" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <i class="fas fa-calendar mr-2 text-green-600 dark:text-green-400"></i>Data
+        </label>
+        <input type="date" id="data-entrega" name="data-entrega" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg">
+    </div>
+    <div>
+        <label for="horario" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <i class="fas fa-clock mr-2 text-green-600 dark:text-green-400"></i>Horário
+        </label>
+        <input type="time" id="horario" name="horario" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg">
+    </div>
+</div>
 
-                    <button type="submit" class="btn-hover w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-4 px-8 rounded-lg">
-                        <i class="fas fa-calendar-check mr-2"></i>Agendar Coleta
-                    </button>
+<button type="submit" class="btn-hover w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-4 px-8 rounded-lg">
+    <i class="fas fa-calendar-check mr-2"></i>Agendar Coleta
+</button>
                 </form>
             </div>
         </div>
@@ -397,7 +498,7 @@
             </div>
 
             <div class="text-left bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 space-y-2">
-                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Nome:</span><span id="protocoloNome" class="font-medium dark:text-white sm:text-right"></span></div>
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Tipo:</span><span id="protocoloNome" class="font-medium dark:text-white sm:text-right"></span></div>
                 <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Data:</span><span id="protocoloData" class="font-medium dark:text-white sm:text-right"></span></div>
                 <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Horário:</span><span id="protocoloHora" class="font-medium dark:text-white sm:text-right"></span></div>
                 <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Resíduo:</span><span id="protocoloResiduos" class="font-medium dark:text-white sm:text-right"></span></div>
@@ -414,25 +515,120 @@
     </div>
 </div>
 
+<div id="chat-window-container" style="display: none;">
+    <div id="chat-header">
+        <h3 class="font-bold">Assistente Virtual</h3>
+        <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div id="chat-messages" class="flex flex-col p-4 overflow-y-auto" style="flex-grow: 1;">
+        </div>
+    <div id="chat-input-area" class="flex p-4 border-t dark:border-gray-700">
+        <input type="text" id="chat-user-input" placeholder="Digite sua mensagem..." class="flex-grow border dark:border-gray-600 rounded-full py-2 px-4 focus:outline-none dark:bg-gray-600 dark:text-white">
+        <button id="chat-send-btn" class="ml-2 bg-green-600 text-white rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+<div id="chat-widget">
+    <button id="chat-button" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+    </button>
+</div>
 <footer class="bg-green-800 text-white py-12 text-center">
     <p>&copy; 2024 RTEC - Todos os direitos reservados</p>
     <p class="text-green-200 mt-2">Contribuindo para um futuro sustentável</p>
 </footer>
 
 <script>
+    // --- Funções do Chatbot ---
+    // (Definidas globalmente para serem acessadas pelo DOMContentLoaded e pelo onclick)
+    const chatWindowContainer = document.getElementById('chat-window-container');
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('chat-user-input');
+    const sendBtn = document.getElementById('chat-send-btn');
+    
+    function toggleChat() {
+        if (!chatWindowContainer) return;
+        if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
+            chatWindowContainer.style.display = 'flex';
+            if (chatMessages && chatMessages.children.length === 0) {
+                addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+            }
+        } else {
+            chatWindowContainer.style.display = 'none';
+        }
+    }
+    
+    function addMessage(message, sender) {
+       if (!chatMessages) return;
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+        messageElement.textContent = message;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+       if (!userInput) return;
+        const messageText = userInput.value.trim();
+        if (messageText === '') return;
+
+        addMessage(messageText, 'user');
+        userInput.value = '';
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: messageText })
+            });
+            if (!response.ok) throw new Error('Erro na comunicação com o servidor.');
+            const data = await response.json();
+            addMessage(data.reply, 'bot');
+        } catch (error) {
+            console.error('Erro:', error);
+            addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+        }
+    }
+</script>
+<script>
+    // --- SCRIPTS DA PÁGINA (Formulário, Menu, Botão de Tema, Chat) ---
     document.addEventListener('DOMContentLoaded', (event) => {
+        
+        // --- SCRIPT DO BOTÃO DE TEMA ---
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        const updateButtonIcon = () => {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+            } else {
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+            }
+        };
+        updateButtonIcon();
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                const isDarkMode = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                updateButtonIcon();
+                // Sincronização com 'themeToggle' não é necessária aqui, pois ele não existe
+            });
+        }
+        // --- FIM DO BOTÃO DE TEMA ---
+
+        // --- SCRIPT DO MENU MOBILE ---
         const menuBtn = document.getElementById('menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu-btn'); // Botão de fechar
+        const closeMenuBtn = document.getElementById('close-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        const menuOverlay = document.getElementById('menu-overlay'); // Overlay
+        const menuOverlay = document.getElementById('menu-overlay');
         
         if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) {
             const menuIcon = menuBtn.querySelector('i');
-
-            // Função para abrir o menu
             const openMobileMenu = () => {
                 mobileMenu.classList.remove('hidden');
-                setTimeout(() => mobileMenu.classList.add('active'), 10); // Delay para transição
+                setTimeout(() => mobileMenu.classList.add('active'), 10);
                 menuOverlay.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
                 if (menuIcon) {
@@ -440,8 +636,6 @@
                     menuIcon.classList.add('fa-times');
                 }
             };
-
-            // Função para fechar o menu
             const closeMobileMenu = () => {
                 mobileMenu.classList.remove('active');
                 mobileMenu.addEventListener('transitionend', () => {
@@ -456,9 +650,6 @@
                     menuIcon.classList.add('fa-bars');
                 }
             };
-
-            // --- LÓGICA DE CLIQUE ATUALIZADA ---
-            // Agora o botão de hambúrguer também fecha o menu
             menuBtn.addEventListener('click', () => {
                 if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
                     openMobileMenu();
@@ -466,12 +657,12 @@
                     closeMobileMenu();
                 }
             });
-
             closeMenuBtn.addEventListener('click', closeMobileMenu);
             menuOverlay.addEventListener('click', closeMobileMenu);
         } else {
             console.error("Erro: Elementos do menu mobile não encontrados.");
         }
+        // --- FIM DO MENU MOBILE ---
 
         // --- SCRIPT DO FORMULÁRIO E MODAL ---
         const agendamentoForm = document.getElementById('agendamentoForm');
@@ -481,8 +672,9 @@
             agendamentoForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const data = Object.fromEntries(new FormData(this));
-                if (!data['tipo-pessoa'] || !data['tipo-residuo'] || !data['data-entrega'] || !data.horario) {
-                    alert('Preencha todos os campos obrigatórios.');
+                // Validação para incluir o email
+                if (!data.email || !data['tipo-pessoa'] || !data['tipo-residuo'] || !data['data-entrega'] || !data.horario) {
+                    alert('Preencha todos os campos obrigatórios, incluindo o e-mail.');
                     return;
                 }
                 const selectedDate = new Date(data['data-entrega']);
@@ -490,6 +682,7 @@
                 if (selectedDate < today) { alert('Data inválida.'); return; }
 
                 document.getElementById('numeroProtocolo').innerText = Math.floor(100000 + Math.random()*900000);
+                // document.getElementById('protocoloEmail').innerText = data.email; // (Descomente se adicionar o campo 'protocoloEmail' no modal)
                 document.getElementById('protocoloNome').innerText = data['tipo-pessoa'];
                 document.getElementById('protocoloData').innerText = data['data-entrega'];
                 document.getElementById('protocoloHora').innerText = data.horario;
@@ -497,100 +690,65 @@
                 
                 const modal = document.getElementById('modalProtocolo');
                 modal.classList.remove('hidden');
-                modal.classList.add('flex'); // Adicionado para centralizar
+                modal.classList.add('flex');
                 
                 this.reset();
             });
         }
-
-        function imprimirProtocolo() { window.print(); }
+        // --- FIM DO FORMULÁRIO E MODAL ---
         
-        function fecharModalProtocolo() { 
-            const modal = document.getElementById('modalProtocolo');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex'); 
-        }
-        
-        function novoAgendamento() { 
-            const modal = document.getElementById('modalProtocolo');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // Torna as funções globais se forem chamadas de onclick no HTML
-        window.imprimirProtocolo = imprimirProtocolo;
-        window.fecharModalProtocolo = fecharModalProtocolo;
-        window.novoAgendamento = novoAgendamento;
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const themeToggleButton = document.getElementById('theme-toggle-button');
-        const themeToggleIcon = document.getElementById('theme-toggle-icon');
-
-        // Função para atualizar o ícone baseado no tema atual
-        const updateButtonIcon = () => {
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                // Se dark mode ativo (ou preferência do sistema), mostra a LUA
-                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
-            } else {
-                // Se light mode ativo, mostra o SOL
-                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+        // --- CÓDIGO DO CHATBOT (Listeners e Estado Inicial) ADICIONADO ---
+        if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+        if(userInput) userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
             }
-        };
-
-        // Atualiza o ícone ao carregar a página
-        updateButtonIcon();
-
-        // Adiciona o listener de clique ao botão
-        if (themeToggleButton) {
-            themeToggleButton.addEventListener('click', () => {
-                // Verifica se o modo escuro está ATIVO atualmente
-                const isDarkMode = document.documentElement.classList.toggle('dark');
-
-                // Salva a preferência no localStorage
-                if (isDarkMode) {
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    localStorage.setItem('theme', 'light');
-                }
-
-                // Atualiza o ícone do botão
-                updateButtonIcon();
-
-                // --- Sincronização Extra para a página de Configurações ---
-                // Se existir o switch na página config, atualiza ele também
-                const themeSwitch = document.getElementById('themeToggle');
-                if(themeSwitch) {
-                    themeSwitch.checked = isDarkMode;
-                }
-                // --- Fim da Sincronização ---
-            });
+        });
+        if (chatWindowContainer) {
+          chatWindowContainer.style.display = 'none';
         }
-
-        // --- Sincronização Extra (se o switch for mudado) ---
-        // Ouve mudanças no switch da página de configurações, se existir
-        const themeSwitch = document.getElementById('themeToggle');
-        if (themeSwitch) {
-            themeSwitch.addEventListener('change', () => {
-                // A lógica do switch já atualiza o localStorage e a classe HTML
-                // Apenas precisamos garantir que o botão do header reflete a mudança
-                updateButtonIcon();
-            });
-        }
-         // --- Fim da Sincronização ---
-
-        // (Cole aqui o restante do seu script JS que estava dentro do DOMContentLoaded,
-        // como a inicialização do menu mobile, chatbot, etc.)
-        // Exemplo:
-        // const menuBtn = document.getElementById('menu-btn');
-        // ... (resto do seu código JS específico da página)
+        // --- FIM DO CÓDIGO DO CHATBOT ---
 
     }); // Fim do DOMContentLoaded
+
+    // --- Funções Globais do Modal ---
+    function imprimirProtocolo() { window.print(); }
+    function fecharModalProtocolo() { 
+        const modal = document.getElementById('modalProtocolo');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex'); 
+    }
+    function novoAgendamento() { 
+        const modal = document.getElementById('modalProtocolo');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    // Torna as funções globais se forem chamadas de onclick no HTML
+    window.imprimirProtocolo = imprimirProtocolo;
+    window.fecharModalProtocolo = fecharModalProtocolo;
+    window.novoAgendamento = novoAgendamento;
+    // --- Fim das Funções Globais ---
+
+    // Tamanho da fonte
+let nivelFonte = 1;
+const tamanhos = [87.5, 100, 112.5, 125];
+
+function alterarFonte(nivel) {
+  if (nivel === 0) nivelFonte = 1;
+  else {
+    nivelFonte += nivel;
+    if (nivelFonte < 0) nivelFonte = 0;
+    if (nivelFonte > 3) nivelFonte = 3;
+  }
+  document.documentElement.style.fontSize = tamanhos[nivelFonte] + '%';
+}
+
+document.getElementById('toggleFontButtons').addEventListener('click', () => {
+  document.getElementById('fontButtons').classList.toggle('hidden');
+});
 </script>
 
 
- <!-- Leitor em Libras-->
  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');

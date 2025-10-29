@@ -234,14 +234,23 @@
     }
 
 /* --- INÍCIO: CSS CONTROLE DE FONTE --- */
-    .font-controls {
-        position: fixed;
-        top: 390px;
-        bottom: auto;
-        right: 10px;
-        z-index: 999;
-        padding: 0;
-    }
+/*aumentar o tamanho da fonte do site*/
+.font-controls {
+  position: fixed;
+  bottom: 460px; /* fica logo acima do VLibras */
+  right: 10px; /* alinhado com o botão do VLibras */
+  z-index: 999;
+  background: none;
+  padding: 0;
+}
+
+/* Responsivo: mantém a posição estável mesmo em telas pequenas */
+@media (max-width: 768px) {
+  .font-controls {
+    bottom: 90px; /* continua acima do VLibras */
+    right: 15px; /* ajusta levemente pro mobile */
+  }
+}
 
     #toggleFontButtons {
         width: 40px;
@@ -328,6 +337,66 @@
          }
     }
     /* --- FIM: CSS CONTROLE DE FONTE --- */
+
+    /* PRINT PROTOCOLO */
+
+    @media print {
+  /* Esconde tudo */
+  body * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Mostra só o modal e o conteúdo principal */
+  #modalProtocolo,
+  #modalProtocolo * {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Estilo do container impresso */
+  #modalProtocolo {
+    position: static !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Área central — o bloco bonito */
+  #modalProtocolo > div {
+    margin: 0 auto !important;
+    width: 90mm !important;
+    padding: 10mm !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    border: none !important;
+    text-align: center;
+  }
+
+  /* Remove partes inúteis */
+  #modalProtocolo button,
+  #modalProtocolo svg,
+  #modalProtocolo .space-y-3,
+  #modalProtocolo p.text-sm {
+    display: none !important;
+  }
+
+  /* Deixa o texto bem centralizado e limpo */
+  #modalProtocolo h3,
+  #modalProtocolo p,
+  #modalProtocolo span {
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+
+  /* Ajusta margens da página */
+  @page {
+    margin: 10mm;
+  }
+}
 
 </style>
 <script>

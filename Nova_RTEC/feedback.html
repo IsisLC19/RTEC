@@ -24,30 +24,24 @@
     body {
         font-family: 'Inter', sans-serif;
     }
-
     .gradient-bg {
         background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
     }
-
     .btn-hover:hover {
         transform: translateY(-2px);
         box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
     }
-
     .nav-link:hover {
         color: #10b981;
         transform: translateY(-1px);
     }
-
     .fade-in {
         animation: fadeIn 0.8s ease-out;
     }
-
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
     }
-
     .feedback-box {
       background: rgba(255, 255, 255, 0.95);
       padding: 2.5rem;
@@ -62,19 +56,17 @@
         background: rgba(31, 41, 55, 0.95); /* dark:bg-gray-800/95 */
         box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
-
     @media (min-width: 640px) {
         .feedback-box {
             width: 80%;
             padding: 2.5rem;
         }
     }
-     @media (min-width: 768px) {
+      @media (min-width: 768px) {
         .feedback-box {
             width: 100%;
         }
     }
-
     .stars i {
       font-size: 2rem;
       color: #ccc; /* light gray */
@@ -85,7 +77,6 @@
     .dark .stars i {
         color: #4b5563; /* dark:text-gray-600 */
     }
-
     .stars i:hover {
         transform: scale(1.15);
     }
@@ -96,8 +87,6 @@
     .dark .stars i.checked {
         color: #f59e0b; /* dark:text-amber-500 */
     }
-
-
     .rating-option {
       cursor: pointer;
       transition: all 0.2s;
@@ -107,11 +96,9 @@
       margin: 0 5px;
       text-align: center;
     }
-
     .rating-option:hover {
         transform: scale(1.1);
     }
-
     .recommend-rating .rating-option.selected {
       background-color: #e0f2f1; /* green-50 */
       border-color: #047857; /* green-700 */
@@ -122,8 +109,6 @@
         background-color: #064e3b; /* dark:bg-green-900 */
         border-color: #10b981; /* dark:border-green-500 */
     }
-
-
     .tag-option {
         padding: 8px 15px;
         border-radius: 20px;
@@ -143,8 +128,6 @@
         border-color: #4b5563; /* dark:border-gray-600 */
         color: #d1d5db; /* dark:text-gray-300 */
     }
-
-
     .tag-option:hover:not(.selected) {
         background-color: #e5e7eb; /* hover:bg-gray-200 */
     }
@@ -152,7 +135,6 @@
     .dark .tag-option:hover:not(.selected) {
         background-color: #4b5563; /* dark:hover:bg-gray-600 */
     }
-
     .best-tag.selected {
         background-color: #10b981; /* bg-green-500 */
         color: white;
@@ -164,8 +146,6 @@
         border-color: #047857; /* dark:border-green-700 */
         color: #d1fae5; /* dark:text-green-100 */
     }
-
-
     .worst-tag.selected {
         background-color: #ef4444; /* bg-red-500 */
         color: white;
@@ -177,12 +157,10 @@
         border-color: #b91c1c; /* dark:border-red-700 */
         color: #fee2e2; /* dark:text-red-100 */
     }
-
     .submit-button {
       background-color: #10b981;
       transition: all 0.3s;
     }
-
     /* Estilos do chatbot */
     #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
     #chat-button { background-color: #10b981; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 24px; }
@@ -191,14 +169,12 @@
     .dark #chat-window-container {
         background-color: #1f2937; /* dark:bg-gray-800 */
     }
-
     #chat-header { background-color: #10b981; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
     #chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; background-color: #f4f4f9; }
      /* ATUALIZADO: Chatbot dark mode */
     .dark #chat-messages {
         background-color: #374151; /* dark:bg-gray-700 */
     }
-
     .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
     .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
     .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
@@ -212,7 +188,6 @@
      .dark #chat-input-area {
         border-top-color: #4b5563; /* dark:border-gray-600 */
     }
-
     #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
      /* ATUALIZADO: Chatbot dark mode */
     .dark #chat-user-input {
@@ -221,41 +196,35 @@
         color: white;
     }
     #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
-
     @media (max-width: 420px) {
       #chat-window-container { width: calc(100vw - 20px); height: 70vh; right: 10px; bottom: 80px; }
       #chat-widget { right: 10px; bottom: 10px; }
       #chat-button { width: 50px; height: 50px; }
     }
-
     #mobile-menu { position: fixed; top: 0; right: 0; width: 80%; max-width: 300px; height: 100vh; background-color: rgba(255, 255, 255, 0.98); backdrop-filter: blur(8px); box-shadow: -8px 0 20px rgba(0,0,0,0.2); transform: translateX(100%); transition: transform 0.4s ease-out; z-index: 100; display: flex; flex-direction: column; }
     /* ATUALIZADO: Menu Mobile Dark Mode */
     .dark #mobile-menu {
         background-color: rgba(31, 41, 55, 0.98); /* dark:bg-gray-800/98 */
         border-left: 1px solid #374151; /* dark:border-gray-700 */
     }
-
     #mobile-menu.active { transform: translateX(0); }
     #mobile-menu-header { padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
     /* ATUALIZADO: Menu Mobile Dark Mode */
     .dark #mobile-menu-header {
         border-bottom-color: #374151; /* dark:border-gray-700 */
     }
-
     #mobile-menu .nav-list-mobile { padding: 1.5rem 1rem; flex-grow: 1; }
     #mobile-menu .nav-list-mobile li a { display: block; padding: 0.75rem 1rem; margin-bottom: 0.5rem; font-size: 1.1rem; font-weight: 500; color: #374151; border-radius: 0.5rem; transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease; position: relative; }
     /* ATUALIZADO: Menu Mobile Dark Mode */
     .dark #mobile-menu .nav-list-mobile li a {
         color: #d1d5db; /* dark:text-gray-300 */
     }
-
     #mobile-menu .nav-list-mobile li a:hover { background-color: #ecfdf5; color: #047857; transform: translateX(5px); }
      /* ATUALIZADO: Menu Mobile Dark Mode */
     .dark #mobile-menu .nav-list-mobile li a:hover {
         background-color: #374151; /* dark:bg-gray-700 */
         color: #34d399; /* dark:text-green-400 */
     }
-
     #mobile-menu .nav-list-mobile li .active-link-mobile { background-color: #d1fae5; color: #047857; font-weight: 700; border-left: 4px solid #10b981; padding-left: 1rem; }
     /* ATUALIZADO: Menu Mobile Dark Mode */
     .dark #mobile-menu .nav-list-mobile li .active-link-mobile {
@@ -263,14 +232,12 @@
         color: #6ee7b7; /* dark:text-green-300 */
         border-left-color: #10b981;
     }
-
     .mobile-menu-footer { padding: 1rem; margin-top: auto; border-top: 1px solid #e5e7eb; background-color: #f9fafb; }
      /* ATUALIZADO: Menu Mobile Dark Mode */
     .dark .mobile-menu-footer {
         border-top-color: #374151; /* dark:border-gray-700 */
         background-color: #1f2937; /* dark:bg-gray-800 */
     }
-
     .mobile-menu-footer .btn-mobile-login { display: block; width: 100%; text-align: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s ease; }
     .btn-mobile-primary { background-color: #10b981; color: white; }
     .btn-mobile-primary:hover { background-color: #059669; }
@@ -280,89 +247,84 @@
         background-color: #374151; /* dark:bg-gray-700 */
         color: #d1d5db; /* dark:text-gray-300 */
     }
-
     .btn-mobile-secondary:hover { background-color: #e5e7eb; }
     /* ATUALIZADO: Menu Mobile Dark Mode */
     .dark .btn-mobile-secondary:hover {
         background-color: #4b5563; /* dark:hover:bg-gray-600 */
     }
 
-    /*aumentar o tamanho da fonte do site*/
+    /* === CSS DO CONTROLE DE FONTE (LIMPO) === */
     .font-controls {
-    position: fixed;
-    top: 390px;
-    right: 10px;
-    z-index: 999;
-    background: #007bff;
-    padding: 5px;
-    border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
-    background: none; 
-    padding: 0; 
+        position: fixed;
+        top: 390px;
+        right: 10px;
+        z-index: 999;
     }
-
+    .font-controls button {
+        cursor: pointer;
+        border: none;
+        color: white;
+        text-align: center;
+        border-radius: 6px;
+        background-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
     #toggleFontButtons {
         width: 40px; 
         height: 40px;
-        line-height: 40px; /* Alinha o texto 'A' verticalmente */
-        padding: 0; /* Remove o padding que estava distorcendo o tamanho */
-        font-size: 18px !important; /* Aumenta a fonte para ficar mais visível */
-        text-align: center; /* Centraliza o texto 'A' */
+        line-height: 40px;
+        padding: 0;
+        font-size: 18px !important;
     }
-
-    /* Botões menores, acessíveis */
-    .font-controls button {
-    padding: 6px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff; 
-    color: white; 
+    #fontButtons {
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 3px;
+        margin-bottom: 5px;
+        /* Adicionado fundo com blur para legibilidade */
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(2px);
+        padding: 5px;
+        border-radius: 6px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
     }
-    
-    /* Estilo para os botões A+, A, A- */
+    .dark #fontButtons {
+        background: rgba(31, 41, 55, 0.8);
+    }
     #fontButtons button {
-        background-color: #3f90ff; /* Um tom diferente ou o mesmo se preferir */
+        padding: 6px 10px;
+        font-size: 14px;
+        background-color: #3f90ff;
+        width: 40px;
     }
-
-
-    /* Esconde os botões até o clique */
     #fontButtons.hidden {
-    display: none;
+        display: none;
     }
-
-    #fontButtons {
-    /* Configura a posição do grupo de botões menores para ficar ACIMA */
-    position: absolute;
-    bottom: 100%; /* Move o elemento para 100% da sua altura acima do botão principal */
-    right: 0; /* Alinha o lado direito dos botões menores com o container principal */
-    display: flex;
-    flex-direction: column-reverse; /* Inverte a ordem para que o A+ fique no topo */
-    gap: 3px;
-    margin-bottom: 5px; /* Adiciona uma pequena margem acima, para não colar no botão 'A' */
-    margin-top: 0; 
-    }
-
-    /* Responsivo: se a tela for muito pequena, diminui ainda mais */
     @media (max-width: 400px) {
-    /* Mantenha as alterações responsivas aqui */
-    .font-controls {
-        top: 350px;
-        right: 5px;
-        padding: 3;
+      .font-controls {
+          top: 350px;
+          right: 5px;
+      }
+      #toggleFontButtons {
+          width: 35px;
+          height: 35px;
+          line-height: 35px;
+          font-size: 16px !important;
+      }
+      #fontButtons button {
+          padding: 4px 8px;
+          font-size: 12px;
+          width: 35px;
+      }
+      #fontButtons {
+          gap: 2px;
+          margin-bottom: 4px;
+      }
     }
-
-    .font-controls button {
-        padding: 4px 8px;
-        font-size: 12px;
-    }
-
-    #fontButtons {
-        gap: 2px;
-        margin-bottom: 4px;
-    }
-    }
+    /* === FIM DO CSS DE FONTE === */
 </style>
 <script>
     // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
@@ -374,222 +336,216 @@
 </script>
 </head>
 <body class="min-h-screen gradient-bg flex flex-col">
-          <!-- Leitor em Libras-->
-          <div vw="httpsAcess" class="enabled">
-            <div vw-access-button class="active"></div>
-            <div vw-plugin-wrapper>
-              <div class="vw-plugin-top-wrapper"></div>
-            </div>
-          </div>
+    <div vw="httpsAcess" class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+          <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
 
-          <!--aumentar o tamanho da fonte do site!-->
-        <div class="font-controls">
+    <div class="font-controls">
         <button id="toggleFontButtons" aria-label="Controle de fonte">A</button>
         <div id="fontButtons" class="hidden">
             <button onclick="alterarFonte(1)">A+</button>
             <button onclick="alterarFonte(0)">A</button>
             <button onclick="alterarFonte(-1)">A-</button>
         </div>
-        </div>
-
-
-<header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
-<nav class="bg-gray-100 dark:bg-gray-700 py-2">
-    <div class="container mx-auto px-4 flex justify-end items-center space-x-6">
-        <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
-            <i class="fas fa-sun" id="theme-toggle-icon"></i>
-        </button>
-        <ul class="flex space-x-6 text-sm">
-            <li><a href="entrar.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Entrar</a></li>
-            <li><a href="cadastro.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Cadastre-se</a></li>
-        </ul>
     </div>
-    </nav>
 
-<nav class="py-4">
-    <div class="container mx-auto px-4 flex items-center justify-between">
-        <div class="flex-shrink-0">
-            <a href="sobre.html" class="block">
-                <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+    <header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
+        <nav class="bg-gray-100 dark:bg-gray-700 py-2">
+            <div class="container mx-auto px-4 flex justify-end items-center space-x-6">
+                <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
+                    <i class="fas fa-sun" id="theme-toggle-icon"></i>
+                </button>
+                <ul class="flex space-x-6 text-sm">
+                    <li><a href="entrar.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Entrar</a></li>
+                    <li><a href="cadastro.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Cadastre-se</a></li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="py-4">
+            <div class="container mx-auto px-4 flex items-center justify-between">
+                <div class="flex-shrink-0">
+                    <a href="sobre.html" class="block">
+                        <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+                    </a>
+                </div>
+                <ul class="hidden md:flex space-x-8">
+                    <li><a href="agendamento.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">AGENDAMENTO</a></li>
+                    <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">COLETORES</a></li>
+                    <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">SOBRE</a></li>
+                    <li><a href="feedback.html" class="nav-link text-green-600 dark:text-green-400 font-medium border-b-2 border-green-600">FEEDBACKS</a></li>
+                </ul>
+                <button id="menu-btn" class="md:hidden text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50 dark:hover:bg-gray-700">
+                    <i class="fas fa-bars fa-xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="mobile-menu" class="hidden">
+        <div id="mobile-menu-header">
+            <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
+            <button id="close-menu-btn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                <i class="fas fa-times fa-lg"></i>
+            </button>
+        </div>
+        <ul class="nav-list-mobile">
+            <li><a href="agendamento.html">AGENDAMENTO</a></li>
+            <li><a href="coletores.html">COLETORES</a></li>
+            <li><a href="sobre.html">SOBRE</a></li>
+            <li><a href="feedback.html" class="active-link-mobile">FEEDBACKS</a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
+                <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+            </a>
+            <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
+                <i class="fas fa-user-plus mr-2"></i>Cadastre-se
             </a>
         </div>
+    </div>
+    <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
 
-        <ul class="hidden md:flex space-x-8">
-            <li><a href="agendamento.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">AGENDAMENTO</a></li>
-            <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">COLETORES</a></li>
-            <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">SOBRE</a></li>
-            <li><a href="feedback.html" class="nav-link text-green-600 dark:text-green-400 font-medium border-b-2 border-green-600">FEEDBACKS</a></li>
-        </ul>
+    <main class="flex-grow flex items-center justify-center py-10 px-4">
+    <div class="feedback-box fade-in">
+        <h1 class="text-2xl sm:text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Sua Opinião Ajuda o Planeta!</h1>
 
-        <button id="menu-btn" class="md:hidden text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50 dark:hover:bg-gray-700">
-            <i class="fas fa-bars fa-xl"></i>
+        <form id="feedbackForm" class="space-y-8">
+
+            <div>
+                <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center sm:text-left text-gray-800 dark:text-gray-100">Qual nota você dá para a plataforma?</h2>
+                <div class="stars flex justify-center space-x-2 sm:space-x-3" id="star-rating">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+                <div class="rating-labels text-xs flex justify-between px-4 sm:px-10 mt-1">
+                    <span class="text-red-500 dark:text-red-400">Insatisfeito</span>
+                    <span class="text-green-600 dark:text-green-400">Excelente</span>
+                </div>
+            </div>
+
+            <hr class="border-gray-200 dark:border-gray-700 my-8">
+
+            <div class="recommend-rating">
+                <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center sm:text-left text-gray-800 dark:text-gray-100">Você recomendaria a RTEC a um amigo?</h2>
+                <div class="flex justify-center items-center space-x-8 sm:space-x-12">
+                    <div class="rating-option text-lg sm:text-xl font-bold text-green-700 dark:text-green-400" data-category="recomendar" data-value="sim" onclick="selectRating(this)">
+                        <i class="fas fa-thumbs-up fa-2x mb-1"></i>
+                        <p class="text-sm mt-1">SIM</p>
+                    </div>
+                    <div class="rating-option text-lg sm:text-xl font-bold text-red-700 dark:text-red-400" data-category="recomendar" data-value="nao" onclick="selectRating(this)">
+                        <i class="fas fa-thumbs-down fa-2x mb-1"></i>
+                        <p class="text-sm mt-1">NÃO</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-gray-200 dark:border-gray-700 my-8">
+
+            <div class="attribute-rating">
+                <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center sm:text-left text-gray-800 dark:text-gray-100">Destaque o que mais e o que menos chamou sua atenção <span class="text-gray-500 dark:text-gray-400 font-normal">(Opcional)</span>:</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="border dark:border-gray-600 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-left">
+                        <h3 class="text-lg font-bold mb-3 text-green-700 dark:text-green-400 text-center">O que você mais gostou:</h3>
+                        <div class="flex flex-col space-y-2" id="best-attribute">
+                            <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Design" onclick="selectTag(this)">Design Visual</button>
+                            <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Rapidez" onclick="selectTag(this)">Rapidez da Navegação</button>
+                            <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Informacao" onclick="selectTag(this)">Clareza das Info</button>
+                            <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Servico" onclick="selectTag(this)">Facilidade do Agendamento</button>
+                        </div>
+                    </div>
+                    <div class="border dark:border-gray-600 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-left">
+                        <h3 class="text-lg font-bold mb-3 text-red-700 dark:text-red-400 text-center">O que podemos melhorar:</h3>
+                        <div class="flex flex-col space-y-2" id="worst-attribute">
+                            <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Design" onclick="selectTag(this)">Design Visual</button>
+                            <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Rapidez" onclick="selectTag(this)">Rapidez da Navegação</button>
+                            <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Informacao" onclick="selectTag(this)">Clareza das Info</button>
+                            <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Servico" onclick="selectTag(this)">Facilidade do Agendamento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center pt-4">
+                <button type="submit" id="submitButton"
+                        class="submit-button text-white px-8 sm:px-10 py-3 rounded-full hover:bg-green-700 transition btn-hover font-bold text-base sm:text-lg shadow-md w-full sm:w-auto">
+                    <i class="fas fa-paper-plane mr-2"></i>Enviar Avaliação
+                </button>
+                <p id="submissionStatus" class="mt-4 text-sm font-medium text-gray-700 dark:text-gray-300 hidden"></p>
+            </div>
+        </form>
+    </div>
+    </main>
+    <div id="chat-window-container" style="display: none;">
+        <div id="chat-header">
+            <h3 class="font-bold">Assistente Virtual</h3>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="chat-messages" class="flex flex-col p-4 overflow-y-auto" style="flex-grow: 1;"></div>
+        <div id="chat-input-area" class="flex p-4 border-t dark:border-gray-700">
+            <input type="text" id="chat-user-input" placeholder="Digite sua mensagem..." class="flex-grow border dark:border-gray-600 rounded-full py-2 px-4 focus:outline-none dark:bg-gray-600 dark:text-white">
+            <button id="chat-send-btn" class="ml-2 bg-green-600 text-white rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    <div id="chat-widget">
+        <button id="chat-button" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
         </button>
     </div>
-</nav>
-</header>
 
-<div id="mobile-menu" class="hidden">
-<div id="mobile-menu-header">
-    <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
-    <button id="close-menu-btn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-        <i class="fas fa-times fa-lg"></i>
-    </button>
-</div>
-
-<ul class="nav-list-mobile">
-    <li><a href="agendamento.html">AGENDAMENTO</a></li>
-    <li><a href="coletores.html">COLETORES</a></li>
-    <li><a href="sobre.html">SOBRE</a></li>
-    <li><a href="feedback.html" class="active-link-mobile">FEEDBACKS</a></li>
-</ul>
-
-<div class="mobile-menu-footer">
-    <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
-        <i class="fas fa-sign-in-alt mr-2"></i>Entrar
-    </a>
-    <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
-        <i class="fas fa-user-plus mr-2"></i>Cadastre-se
-    </a>
-</div>
-</div>
-
-<div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
-
-<main class="flex-grow flex items-center justify-center py-10 px-4">
-<div class="feedback-box fade-in">
-    <h1 class="text-2xl sm:text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Sua Opinião Ajuda o Planeta!</h1>
-
-    <form id="feedbackForm" onsubmit="handleFeedback(event)" class="space-y-8">
-
-        <div>
-            <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center sm:text-left text-gray-800 dark:text-gray-100">Qual nota você dá para a plataforma?</h2>
-            <div class="stars flex justify-center space-x-2 sm:space-x-3" id="star-rating">
-                <i class="fas fa-star" data-value="1"></i>
-                <i class="fas fa-star" data-value="2"></i>
-                <i class="fas fa-star" data-value="3"></i>
-                <i class="fas fa-star" data-value="4"></i>
-                <i class="fas fa-star" data-value="5"></i>
-            </div>
-            <div class="rating-labels text-xs flex justify-between px-4 sm:px-10 mt-1">
-                <span class="text-red-500 dark:text-red-400">Insatisfeito</span>
-                <span class="text-green-600 dark:text-green-400">Excelente</span>
-            </div>
-        </div>
-
-        <hr class="border-gray-200 dark:border-gray-700 my-8">
-
-        <div class="recommend-rating">
-            <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center sm:text-left text-gray-800 dark:text-gray-100">Você recomendaria a RTEC a um amigo?</h2>
-            <div class="flex justify-center items-center space-x-8 sm:space-x-12">
-                <div class="rating-option text-lg sm:text-xl font-bold text-green-700 dark:text-green-400" data-category="recomendar" data-value="sim" onclick="selectRating(this)">
-                    <i class="fas fa-thumbs-up fa-2x mb-1"></i>
-                    <p class="text-sm mt-1">SIM</p>
+    <footer class="bg-green-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
+                         class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"
+                         class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-youtube text-2xl"></i>
+                    </a>
+                    <a href="https://fatecfrancodarocha.cps.sp.gov.br/" target="_blank" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fas fa-globe text-2xl"></i>
+                    </a>
                 </div>
-                <div class="rating-option text-lg sm:text-xl font-bold text-red-700 dark:text-red-400" data-category="recomendar" data-value="nao" onclick="selectRating(this)">
-                    <i class="fas fa-thumbs-down fa-2x mb-1"></i>
-                    <p class="text-sm mt-1">NÃO</p>
-                </div>
+                <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
+                <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
             </div>
         </div>
-
-        <hr class="border-gray-200 dark:border-gray-700 my-8">
-
-        <div class="attribute-rating">
-            <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center sm:text-left text-gray-800 dark:text-gray-100">Destaque o que mais e o que menos chamou sua atenção <span class="text-gray-500 dark:text-gray-400 font-normal">(Opcional)</span>:</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="border dark:border-gray-600 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-left">
-                  <h3 class="text-lg font-bold mb-3 text-green-700 dark:text-green-400 text-center">O que você mais gostou:</h3>
-                  <div class="flex flex-col space-y-2" id="best-attribute">
-                      <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Design" onclick="selectTag(this)">Design Visual</button>
-                      <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Rapidez" onclick="selectTag(this)">Rapidez da Navegação</button>
-                      <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Informacao" onclick="selectTag(this)">Clareza das Info</button>
-                      <button type="button" class="tag-option best-tag w-full" data-category="melhor" data-value="Servico" onclick="selectTag(this)">Facilidade do Agendamento</button>
-                  </div>
-              </div>
-
-              <div class="border dark:border-gray-600 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-left">
-                  <h3 class="text-lg font-bold mb-3 text-red-700 dark:text-red-400 text-center">O que podemos melhorar:</h3>
-                  <div class="flex flex-col space-y-2" id="worst-attribute">
-                      <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Design" onclick="selectTag(this)">Design Visual</button>
-                      <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Rapidez" onclick="selectTag(this)">Rapidez da Navegação</button>
-                      <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Informacao" onclick="selectTag(this)">Clareza das Info</button>
-                      <button type="button" class="tag-option worst-tag w-full" data-category="pior" data-value="Servico" onclick="selectTag(this)">Facilidade do Agendamento</button>
-                  </div>
-              </div>
-            </div>
-        </div>
-
-        <div class="text-center pt-4">
-            <button type="submit" id="submitButton"
-                    class="submit-button text-white px-8 sm:px-10 py-3 rounded-full hover:bg-green-700 transition btn-hover font-bold text-base sm:text-lg shadow-md w-full sm:w-auto">
-                <i class="fas fa-paper-plane mr-2"></i>Enviar Avaliação
-            </button>
-            <p id="submissionStatus" class="mt-4 text-sm font-medium text-gray-700 dark:text-gray-300 hidden">Obrigado pelo seu feedback! Ele foi registrado anonimamente.</p>
-        </div>
-    </form>
-</div>
-</main>
-
-<div id="chat-window-container">
-<div id="chat-header">
-    <h3 class="font-bold">Assistente Virtual</h3>
-    <button onclick="toggleChat()" class="text-white hover:text-gray-200">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
-<div id="chat-messages" class="flex flex-col">
-</div>
-<div id="chat-input-area">
-    <input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
-    <button id="chat-send-btn">
-        <i class="fas fa-paper-plane"></i>
-    </button>
-</div>
-</div>
-
-<div id="chat-widget">
-<button id="chat-button" onclick="toggleChat()">
-    <i class="fas fa-comments"></i>
-</button>
-</div>
-
-<footer class="bg-green-800 text-white py-12">
-    <div class="container mx-auto px-4">
-        <div class="text-center">
-            <div class="flex justify-center space-x-6 mb-6">
-                <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
-                     class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
-                    <i class="fab fa-instagram text-2xl"></i>
-                </a>
-                <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"
-                     class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
-                    <i class="fab fa-youtube text-2xl"></i>
-                </a>
-                <a href="https://fatecfrancodarocha.cps.sp.gov.br/" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
-                    <i class="fas fa-globe text-2xl"></i>
-                </a>
-            </div>
-            <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
-            <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
-        </div>
-    </div>
-</footer>
+    </footer>
 
 <script>
-    // Variáveis globais para armazenar as avaliações
+    // --- Variáveis Globais ---
     let generalRating = 0;
     let recommendRating = null;
     let bestAttributes = [];
     let worstAttributes = [];
+    let nivelFonte = 1;
+    const tamanhos = [87.5, 100, 112.5, 125];
 
+    // Elementos do DOM
+    const chatWindowContainer = document.getElementById('chat-window-container');
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('chat-user-input');
+    const sendBtn = document.getElementById('chat-send-btn');
+    const stars = document.querySelectorAll('#star-rating i');
+    const starContainer = document.getElementById('star-rating');
     const submissionStatus = document.getElementById('submissionStatus');
     const submitButton = document.getElementById('submitButton');
     const feedbackForm = document.getElementById('feedbackForm');
-    const stars = document.querySelectorAll('#star-rating i');
-    const starContainer = document.getElementById('star-rating');
 
-    // --- FUNÇÕES DE ESTRELAS ---
+    // --- FUNÇÕES DE FEEDBACK ---
+
     function updateStarVisual(rating) {
         stars.forEach((star, index) => {
             if (index < rating) {
@@ -599,6 +555,87 @@
             }
         });
     }
+
+    function selectRating(element) {
+        const value = element.getAttribute('data-value');
+        const parent = element.parentElement;
+        parent.querySelectorAll('.rating-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        element.classList.add('selected');
+        recommendRating = value; // Salva 'sim' ou 'nao'
+    }
+
+    function selectTag(element) {
+        const category = element.getAttribute('data-category');
+        const value = element.getAttribute('data-value'); // Salva 'Design', 'Rapidez', etc
+        const isSelected = element.classList.toggle('selected');
+
+        let targetArray;
+        if (category === 'melhor') {
+            targetArray = bestAttributes;
+        } else if (category === 'pior') {
+            targetArray = worstAttributes;
+        } else {
+            return;
+        }
+        
+        // Adiciona ou remove do array
+        if (isSelected) {
+            if (!targetArray.includes(value)) {
+                targetArray.push(value);
+            }
+        } else {
+            const index = targetArray.indexOf(value);
+            if (index > -1) {
+                targetArray.splice(index, 1);
+            }
+        }
+    }
+
+    // --- FUNÇÃO DE ENVIO (SIMULAÇÃO) ---
+    // Esta função NÃO envia para o banco, como solicitado ("somente no front").
+    function handleFeedback(event) {
+        event.preventDefault(); // Impede o recarregamento da página
+
+        // Validação
+        if (generalRating === 0) {
+            alert('Por favor, selecione uma nota (estrelas).');
+            return;
+        }
+        if (recommendRating === null) {
+            alert('Por favor, nos diga se você recomendaria a plataforma.');
+            return;
+        }
+
+        // Estado de "Carregando"
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
+        submitButton.disabled = true;
+
+        // --- Início da Simulação ---
+        console.log("--- Feedback Coletado (Simulação) ---");
+        console.log("1. Avaliação (avaliacao_estrelas):", generalRating);
+        console.log("2. Recomendar (recomendaria):", recommendRating);
+        console.log("3. Tags Positivas (tbl_tipotag_feedback):", bestAttributes);
+        console.log("4. Tags Negativas (tbl_tipotag_feedback):", worstAttributes);
+        console.log("-----------------------------------");
+
+        setTimeout(() => {
+            submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Avaliação Enviada!';
+            submitButton.classList.remove('submit-button');
+            submitButton.classList.add('bg-green-500'); // Muda a cor para indicar sucesso
+            submissionStatus.innerHTML = 'Obrigado pelo seu feedback!';
+            submissionStatus.classList.remove('hidden');
+        }, 1500);
+        // --- Fim da Simulação ---
+    }
+    
+    // Adiciona o listener ao formulário
+    if(feedbackForm) {
+        feedbackForm.addEventListener('submit', handleFeedback);
+    }
+    
+    // Adiciona listeners às estrelas
     stars.forEach(star => {
         star.addEventListener('click', () => {
             const value = parseInt(star.getAttribute('data-value'));
@@ -616,89 +653,7 @@
       });
     }
 
-    // --- FUNÇÕES DE RECOMENDAÇÃO ---
-    function selectRating(element) {
-        const value = element.getAttribute('data-value');
-        const parent = element.parentElement;
-
-        parent.querySelectorAll('.rating-option').forEach(opt => {
-            opt.classList.remove('selected');
-        });
-
-        element.classList.add('selected');
-        recommendRating = value;
-    }
-
-    // --- FUNÇÕES DE TAGS (MULTI-SELEÇÃO) ---
-    function selectTag(element) {
-        const category = element.getAttribute('data-category');
-        const value = element.getAttribute('data-value');
-
-        const isSelected = element.classList.toggle('selected');
-
-        if (category === 'melhor') {
-            if (isSelected) {
-                bestAttributes.push(value);
-            } else {
-                bestAttributes = bestAttributes.filter(attr => attr !== value);
-            }
-        } else if (category === 'pior') {
-            if (isSelected) {
-                worstAttributes.push(value);
-            } else {
-                worstAttributes = worstAttributes.filter(attr => attr !== value);
-            }
-        }
-    }
-
-    // --- FUNÇÃO DE ENVIO ---
-    function handleFeedback(event) {
-        event.preventDefault();
-
-        if (generalRating === 0) {
-            alert('Por favor, complete a Avaliação Geral (Estrelas).');
-            return;
-        }
-        if (recommendRating === null) {
-            alert('Por favor, complete a Intenção de Recomendar.');
-            return;
-        }
-
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
-        submitButton.disabled = true;
-
-        console.log("--- Feedback Coletado (Anônimo) ---");
-        console.log("1. Avaliação Geral (Estrelas):", generalRating);
-        console.log("2. Recomendar:", recommendRating);
-        console.log("3. O que você mais gostou:", bestAttributes);
-        console.log("4. O que podemos melhorar:", worstAttributes);
-        console.log("-----------------------------------");
-
-        setTimeout(() => {
-            submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Avaliação Enviada!';
-            submitButton.classList.remove('submit-button');
-            submitButton.classList.add('bg-green-500'); // Muda a cor para indicar sucesso
-            submissionStatus.innerHTML = 'Obrigado pelo seu feedback! Ele foi registrado anonimamente.';
-            submissionStatus.classList.remove('hidden');
-        }, 1500);
-    }
-
-    // Função para controlar a visibilidade do modal de FAQ (se existir)
-    function toggleFAQ() {
-        const faqModal = document.getElementById('faqModal');
-        if (faqModal) {
-          faqModal.classList.toggle('hidden');
-        }
-    }
-
-    // =======================================================
-    //         INÍCIO DO JAVASCRIPT DO CHATBOT
-    // =======================================================
-    const chatWindowContainer = document.getElementById('chat-window-container');
-    const chatMessages = document.getElementById('chat-messages');
-    const userInput = document.getElementById('chat-user-input');
-    const sendBtn = document.getElementById('chat-send-btn');
-
+    // --- FUNÇÕES DO CHATBOT ---
     function toggleChat() {
         if (!chatWindowContainer) return;
         if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
@@ -724,10 +679,8 @@
        if (!userInput) return;
         const messageText = userInput.value.trim();
         if (messageText === '') return;
-
         addMessage(messageText, 'user');
         userInput.value = '';
-
         try {
             const response = await fetch('http://127.0.0.1:5000/ask', {
                 method: 'POST',
@@ -743,163 +696,104 @@
         }
     }
 
-    // =======================================================
-    //     INÍCIO DO SCRIPT DO MENU MOBILE E CHATBOT LOAD
-    // =======================================================
-    document.addEventListener('DOMContentLoaded', () => {
+    // --- FUNÇÃO DE CONTROLE DE FONTE ---
+    function alterarFonte(nivel) {
+      if (nivel === 0) nivelFonte = 1;
+      else {
+          nivelFonte += nivel;
+          if (nivelFonte < 0) nivelFonte = 0;
+          if (nivelFonte > 3) nivelFonte = 3; // Corrigido de 4 para 3 (índices 0, 1, 2, 3)
+      }
+      document.documentElement.style.fontSize = tamanhos[nivelFonte] + '%';
+    }
 
-        // --- SCRIPT DO MENU HAMBURGER (ATUALIZADO) ---
+    // --- LÓGICA DO DOMCONTENTLOADED (Menu, Tema, Chat, Fonte) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- Tema ---
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        const updateButtonIcon = () => {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+            } else {
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+            }
+        };
+        updateButtonIcon();
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                const isDarkMode = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                updateButtonIcon();
+            });
+        }
+
+        // --- Menu Mobile ---
         const menuBtn = document.getElementById('menu-btn');
         const closeMenuBtn = document.getElementById('close-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuOverlay = document.getElementById('menu-overlay');
-
         if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) {
             const menuIcon = menuBtn.querySelector('i');
-
             const openMobileMenu = () => {
                 mobileMenu.classList.remove('hidden');
                 setTimeout(() => mobileMenu.classList.add('active'), 10);
                 menuOverlay.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
-                if(menuIcon) {
-                  menuIcon.classList.remove('fa-bars');
-                  menuIcon.classList.add('fa-times');
-                }
+                if(menuIcon) { menuIcon.classList.remove('fa-bars'); menuIcon.classList.add('fa-times'); }
             };
-
             const closeMobileMenu = () => {
                 mobileMenu.classList.remove('active');
                 mobileMenu.addEventListener('transitionend', () => {
-                    if (!mobileMenu.classList.contains('active')) {
-                        mobileMenu.classList.add('hidden');
-                    }
+                    if (!mobileMenu.classList.contains('active')) { mobileMenu.classList.add('hidden'); }
                 }, { once: true });
                 menuOverlay.classList.add('hidden');
                 document.body.style.overflow = '';
-                if(menuIcon) {
-                  menuIcon.classList.remove('fa-times');
-                  menuIcon.classList.add('fa-bars');
-                }
+                if(menuIcon) { menuIcon.classList.remove('fa-times'); menuIcon.classList.add('fa-bars'); }
             };
-
-            // Lógica de clique atualizada para toggle
             menuBtn.addEventListener('click', () => {
-               if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
-                   openMobileMenu();
-               } else {
-                   closeMobileMenu();
-               }
+                if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) { openMobileMenu(); } 
+                else { closeMobileMenu(); }
             });
             closeMenuBtn.addEventListener('click', closeMobileMenu);
             menuOverlay.addEventListener('click', closeMobileMenu);
         } else {
             console.error("Erro: Elementos do menu mobile não encontrados.");
         }
-        // --- FIM DO SCRIPT DO MENU ---
 
-        // --- CÓDIGO DO CHATBOT (Listeners e Estado Inicial) ---
+        // --- Chatbot (Listeners e Estado Inicial) ---
         if(sendBtn) sendBtn.addEventListener('click', sendMessage);
-        if(userInput) userInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+        if(userInput) userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') sendMessage();
         });
         if (chatWindowContainer) {
           chatWindowContainer.style.display = 'none';
         }
-        // --- FIM DO CÓDIGO DO CHATBOT ---
+
+        // --- Fonte ---
+        const toggleFontBtn = document.getElementById('toggleFontButtons');
+        const fontButtonsDiv = document.getElementById('fontButtons');
+        if (toggleFontBtn && fontButtonsDiv) {
+            toggleFontBtn.addEventListener('click', () => {
+                fontButtonsDiv.classList.toggle('hidden');
+            });
+            document.addEventListener('click', (e) => {
+                 const container = document.querySelector('.font-controls');
+                 if (container && !container.contains(e.target) && !fontButtonsDiv.classList.contains('hidden')) {
+                     fontButtonsDiv.classList.add('hidden');
+                 }
+            });
+        } else {
+             console.error("Erro: Botões de controle de fonte não encontrados.");
+        }
     });
 </script>
+
+
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const themeToggleButton = document.getElementById('theme-toggle-button');
-        const themeToggleIcon = document.getElementById('theme-toggle-icon');
-
-        // Função para atualizar o ícone baseado no tema atual
-        const updateButtonIcon = () => {
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                // Se dark mode ativo (ou preferência do sistema), mostra a LUA
-                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
-            } else {
-                // Se light mode ativo, mostra o SOL
-                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
-            }
-        };
-
-        // Atualiza o ícone ao carregar a página
-        updateButtonIcon();
-
-        // Adiciona o listener de clique ao botão
-        if (themeToggleButton) {
-            themeToggleButton.addEventListener('click', () => {
-                // Verifica se o modo escuro está ATIVO atualmente
-                const isDarkMode = document.documentElement.classList.toggle('dark');
-
-                // Salva a preferência no localStorage
-                if (isDarkMode) {
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    localStorage.setItem('theme', 'light');
-                }
-
-                // Atualiza o ícone do botão
-                updateButtonIcon();
-
-                // --- Sincronização Extra para a página de Configurações ---
-                // Se existir o switch na página config, atualiza ele também
-                const themeSwitch = document.getElementById('themeToggle');
-                if(themeSwitch) {
-                    themeSwitch.checked = isDarkMode;
-                }
-                // --- Fim da Sincronização ---
-            });
-        }
-
-        // --- Sincronização Extra (se o switch for mudado) ---
-        // Ouve mudanças no switch da página de configurações, se existir
-        const themeSwitch = document.getElementById('themeToggle');
-        if (themeSwitch) {
-            themeSwitch.addEventListener('change', () => {
-                // A lógica do switch já atualiza o localStorage e a classe HTML
-                // Apenas precisamos garantir que o botão do header reflete a mudança
-                updateButtonIcon();
-            });
-        }
-         // --- Fim da Sincronização ---
-
-        // (Cole aqui o restante do seu script JS que estava dentro do DOMContentLoaded,
-        // como a inicialização do menu mobile, chatbot, etc.)
-        // Exemplo:
-        // const menuBtn = document.getElementById('menu-btn');
-        // ... (resto do seu código JS específico da página)
-
-    }); // Fim do DOMContentLoaded
-
-       
-        // Tamanho da fonte
-        let nivelFonte = 1;
-        const tamanhos = [87.5, 100, 112.5, 125];
-
-        function alterarFonte(nivel) {
-        if (nivel === 0) nivelFonte = 1;
-        else {
-            nivelFonte += nivel;
-            if (nivelFonte < 0) nivelFonte = 0;
-            if (nivelFonte > 3) nivelFonte = 3;
-        }
-        document.documentElement.style.fontSize = tamanhos[nivelFonte] + '%';
-        }
-
-        document.getElementById('toggleFontButtons').addEventListener('click', () => {
-        document.getElementById('fontButtons').classList.toggle('hidden');
-        });
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
-
-   <!-- Leitor em Libras-->
- <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
 </body>
 </html>

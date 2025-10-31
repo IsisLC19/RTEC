@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar - RTEC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class', // <-- Esta é a linha mais importante
+    theme: {
+      extend: {
+        // (Você pode adicionar cores, etc. aqui no futuro)
+      }
+    }
+  }
+</script>
+<link rel="icon" href="logo.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="icon" href="img/logo.png" type="image/x-icon">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-bg {
+        background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+        min-height: 100vh;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    /* ATUALIZADO: Fundo do form dark mode */
+    .dark .form-container {
+        background: rgba(31, 41, 55, 0.95); /* dark:bg-gray-800/95 */
+        border-color: rgba(75, 85, 99, 0.5); /* dark:border-gray-600/50 */
+    }
+
+    .nav-link:hover {
+        color: #10b981;
+        transform: translateY(-1px);
+    }
+
+    .input-focus:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    .fade-in {
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Estilos do Chatbot --- */
+    #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+    #chat-button { background-color: #10b981; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 24px; }
+    #chat-window-container { position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; background-color: white; z-index: 1000; }
+     /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-window-container {
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+
+    #chat-header { background-color: #10b981; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    #chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; background-color: #f4f4f9; }
+     /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-messages {
+        background-color: #374151; /* dark:bg-gray-700 */
+    }
+
+    .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+    .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+    .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+    /* ATUALIZADO: Chatbot dark mode */
+     .dark .bot-message {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
+    #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+    /* ATUALIZADO: Chatbot dark mode */
+     .dark #chat-input-area {
+        border-top-color: #4b5563; /* dark:border-gray-600 */
+    }
+
+    #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+    /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-user-input {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        border-color: #4b5563;
+        color: white;
+    }
+    #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+
+    /* === AJUSTES RESPONSIVOS DO CHATBOT === */
+    @media (max-width: 420px) { /* Telas pequenas (celulares) */
+      #chat-window-container {
+        width: calc(100vw - 20px);
+        height: 70vh;
+        right: 10px;
+        bottom: 80px;
+      }
+      #chat-widget {
+        right: 10px;
+        bottom: 10px;
+      }
+      #chat-button {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    /* === ESTILIZAÇÃO DO MENU MOBILE (BASE) === */
+    #mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(8px);
+      box-shadow: -8px 0 20px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.4s ease-out;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu {
+        background-color: rgba(31, 41, 55, 0.98); /* dark:bg-gray-800/98 */
+        border-left: 1px solid #374151; /* dark:border-gray-700 */
+    }
+
+
+    #mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    #mobile-menu-header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu-header {
+        border-bottom-color: #374151; /* dark:border-gray-700 */
+    }
+
+    #mobile-menu .nav-list-mobile {
+      padding: 1.5rem 1rem;
+      flex-grow: 1;
+    }
+
+    #mobile-menu .nav-list-mobile li a {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #374151;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      position: relative;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a {
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
+    #mobile-menu .nav-list-mobile li a:hover {
+      background-color: #ecfdf5;
+      color: #047857;
+      transform: translateX(5px);
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li a:hover {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #34d399; /* dark:text-green-400 */
+    }
+
+    #mobile-menu .nav-list-mobile li .active-link-mobile {
+      background-color: #d1fae5;
+      color: #047857;
+      font-weight: 700;
+      border-left: 4px solid #10b981;
+      padding-left: 1rem;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark #mobile-menu .nav-list-mobile li .active-link-mobile {
+        background-color: #065f46; /* dark:bg-green-800 */
+        color: #6ee7b7; /* dark:text-green-300 */
+        border-left-color: #10b981;
+    }
+
+    /* ================================================= */
+    /* === NOVOS ESTILOS DO MENU MOBILE (ADICIONADOS) == */
+    /* ================================================= */
+    .mobile-menu-footer {
+      padding: 1rem;
+      margin-top: auto;
+      border-top: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .mobile-menu-footer {
+        border-top-color: #374151; /* dark:border-gray-700 */
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+
+    .mobile-menu-footer .btn-mobile-login {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-mobile-primary {
+      background-color: #10b981;
+      color: white;
+    }
+    .btn-mobile-primary:hover {
+      background-color: #059669;
+    }
+    .btn-mobile-secondary {
+      background-color: #f3f4f6;
+      color: #374151;
+      margin-top: 0.5rem;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
+    .btn-mobile-secondary:hover {
+      background-color: #e5e7eb;
+    }
+     /* ATUALIZADO: Menu Mobile Dark Mode */
+    .dark .btn-mobile-secondary:hover {
+        background-color: #4b5563; /* dark:hover:bg-gray-600 */
+    }
+
+
+     /*aumentar o tamanho da fonte do site*/
+    .font-controls {
+    position: fixed;
+    top: 390px;
+    right: 10px;
+    z-index: 999;
+    background: #007bff;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    background: none; 
+    padding: 0; 
+    }
+
+    #toggleFontButtons {
+        width: 40px; 
+        height: 40px;
+        line-height: 40px; /* Alinha o texto 'A' verticalmente */
+        padding: 0; /* Remove o padding que estava distorcendo o tamanho */
+        font-size: 18px !important; /* Aumenta a fonte para ficar mais visível */
+        text-align: center; /* Centraliza o texto 'A' */
+    }
+
+    /* Botões menores, acessíveis */
+    .font-controls button {
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; 
+    color: white; 
+    }
+    
+    /* Estilo para os botões A+, A, A- */
+    #fontButtons button {
+        background-color: #3f90ff; /* Um tom diferente ou o mesmo se preferir */
+    }
+
+
+    /* Esconde os botões até o clique */
+    #fontButtons.hidden {
+    display: none;
+    }
+
+    #fontButtons {
+    /* Configura a posição do grupo de botões menores para ficar ACIMA */
+    position: absolute;
+    bottom: 100%; /* Move o elemento para 100% da sua altura acima do botão principal */
+    right: 0; /* Alinha o lado direito dos botões menores com o container principal */
+    display: flex;
+    flex-direction: column-reverse; /* Inverte a ordem para que o A+ fique no topo */
+    gap: 3px;
+    margin-bottom: 5px; /* Adiciona uma pequena margem acima, para não colar no botão 'A' */
+    margin-top: 0; 
+    }
+
+    /* Responsivo: se a tela for muito pequena, diminui ainda mais */
+    @media (max-width: 400px) {
+    /* Mantenha as alterações responsivas aqui */
+    .font-controls {
+        top: 350px;
+        right: 5px;
+        padding: 3;
+    }
+
+    .font-controls button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    #fontButtons {
+        gap: 2px;
+        margin-bottom: 4px;
+    }
+    }
+</style>
+<script>
+    // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+      <!-- Leitor em Libras-->
+          <div vw="httpsAcess" class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+              <div class="vw-plugin-top-wrapper"></div>
+            </div>
+          </div>
+
+           <!--aumentar o tamanho da fonte do site!-->
+            <div class="font-controls">
+            <button id="toggleFontButtons" aria-label="Controle de fonte">A</button>
+            <div id="fontButtons" class="hidden">
+                <button onclick="alterarFonte(1)">A+</button>
+                <button onclick="alterarFonte(0)">A</button>
+                <button onclick="alterarFonte(-1)">A-</button>
+            </div>
+            </div>
+
+<header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
+<nav class="bg-gray-100 dark:bg-gray-700 py-2">
+    <div class="container mx-auto px-4 flex justify-end items-center space-x-6">
+        <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
+            <i class="fas fa-sun" id="theme-toggle-icon"></i>
+        </button>
+        <ul class="flex space-x-6 text-sm">
+            <li><a href="entrar.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Entrar</a></li>
+            <li><a href="cadastro.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Cadastre-se</a></li>
+        </ul>
+    </div>
+    </nav>
+
+<nav class="py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+        <div class="flex-shrink-0"><a href="sobre.html" class="block"><img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto"></a></div>
+
+        <ul class="hidden md:flex space-x-8">
+            <li><a href="agendamento.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">AGENDAMENTO</a></li>
+            <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">COLETORES</a></li>
+            <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">SOBRE</a></li>
+            <li><a href="feedback.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">FEEDBACKS</a></li>
+        </ul>
+
+        <button id="menu-btn" class="md:hidden text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50 dark:hover:bg-gray-700">
+            <i class="fas fa-bars fa-xl"></i>
+        </button>
+    </div>
+</nav>
+</header>
+
+<div id="mobile-menu" class="hidden">
+<div id="mobile-menu-header">
+    <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
+    <button id="close-menu-btn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+        <i class="fas fa-times fa-lg"></i>
+    </button>
+</div>
+
+<ul class="nav-list-mobile">
+    <li><a href="agendamento.html">AGENDAMENTO</a></li>
+    <li><a href="coletores.html">COLETORES</a></li>
+    <li><a href="sobre.html">SOBRE</a></li>
+    <li><a href="feedback.html">FEEDBACKS</a></li>
+</ul>
+
+<div class="mobile-menu-footer">
+    <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
+        <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+    </a>
+    <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
+        <i class="fas fa-user-plus mr-2"></i>Cadastre-se
+    </a>
+</div>
+</div>
+
+<div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
+
+<main class="flex-grow flex items-center justify-center py-10 px-4 gradient-bg">
+        <div class="form-container rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md fade-in">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-2">Bem-vindo de volta!</h2>
+                <p class="text-gray-600 dark:text-gray-300">Entre na sua conta para continuar</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-6">
+                <div class="space-y-4">
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
+                        <input
+                            type="email"
+                            placeholder="Seu e-mail"
+                            required
+                            class="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 input-focus"
+                            id="emailInput" >
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
+                        <input
+                            type="password"
+                            placeholder="Sua senha"
+                            required
+                            class="w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 input-focus"
+                            id="passwordInput"
+                        >
+                        <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+        
+                <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-3 rounded-xl transition-all duration-300 btn-hover focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Entrar
+                </button>
+            </form>
+
+            <div class="text-right">
+        <a href="recuperar_senha.html" class="text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors duration-200">
+            Esqueci minha senha?
+        </a>
+    </div>
+            <div class="text-center mt-6">
+                <p class="text-gray-600 dark:text-gray-300">
+                    Não tem uma conta?
+                    <a href="cadastro.html" class="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-semibold transition-colors duration-300">
+                        Cadastre-se aqui
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="chat-window-container">
+        <div id="chat-header">
+            <h3 class="font-bold">Assistente Virtual</h3>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-200"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="chat-messages" class="flex flex-col"></div>
+        <div id="chat-input-area">
+            <input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
+            <button id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <div id="chat-widget">
+        <button id="chat-button" onclick="toggleChat()"><i class="fas fa-comments"></i></button>
+    </div>
+
+    <footer class="bg-green-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank" class="text-white hover:text-green-300 transition transform hover:scale-110"><i class="fab fa-instagram text-2xl"></i></a>
+                    <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank" class="text-white hover:text-green-300 transition transform hover:scale-110"><i class="fab fa-youtube text-2xl"></i></a>
+                    <a href="https://fatecfrancodarocha.cps.sp.gov.br/" class="text-white hover:text-green-300 transition transform hover:scale-110"><i class="fas fa-globe text-2xl"></i></a>
+                </div>
+                <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
+                <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Função para o olho da senha
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.className = 'fas fa-eye';
+            }
+        }
+
+        // Função de Login
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+
+            const button = event.target.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Entrando...';
+            button.disabled = true;
+
+            const users = [
+                { email: "funcionario@gmail.com", password: "1234", redirect: "funcionario.html", role: "funcionario" },
+                { email: "monitor@gmail.com", password: "5678", redirect: "monitoria.html", role: "monitor" }
+            ];
+
+            setTimeout(() => {
+                const user = users.find(u => u.email === email && u.password === password);
+
+                if (user) {
+                    alert('Login realizado com sucesso! Redirecionando...');
+                    localStorage.setItem("usuarioLogado", "true");
+                    localStorage.setItem("userRole", user.role);
+                    window.location.href = user.redirect;
+                } else {
+                    alert('Usuário ou senha incorretos!');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }
+            }, 1500);
+        }
+
+        // =======================================================
+        //               CÓDIGO DO CHATBOT
+        // =======================================================
+        const chatWindowContainer = document.getElementById('chat-window-container');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('chat-user-input');
+        const sendBtn = document.getElementById('chat-send-btn');
+
+        function toggleChat() {
+            if (!chatWindowContainer) return;
+            if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
+                chatWindowContainer.style.display = 'flex';
+                if (chatMessages && chatMessages.children.length === 0) {
+                    addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+                }
+            } else {
+                chatWindowContainer.style.display = 'none';
+            }
+        }
+
+        function addMessage(message, sender) {
+            if (!chatMessages) return;
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            if (!userInput) return;
+            const messageText = userInput.value.trim();
+            if (messageText === '') return;
+
+            addMessage(messageText, 'user');
+            userInput.value = '';
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: messageText })
+                });
+
+                if (!response.ok) throw new Error('Erro na comunicação com o servidor.');
+
+                const data = await response.json();
+                addMessage(data.reply, 'bot');
+
+            } catch (error) {
+                console.error('Erro:', error);
+                addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+            }
+        }
+
+        // =======================================================
+        //     INÍCIO DO SCRIPT DO MENU MOBILE E CHATBOT LOAD
+        // =======================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- SCRIPT DO MENU HAMBURGER (ATUALIZADO) ---
+            const menuBtn = document.getElementById('menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOverlay = document.getElementById('menu-overlay');
+
+            if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) {
+                const menuIcon = menuBtn.querySelector('i');
+
+                const openMobileMenu = () => {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => mobileMenu.classList.add('active'), 10);
+                    menuOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    if(menuIcon) {
+                      menuIcon.classList.remove('fa-bars');
+                      menuIcon.classList.add('fa-times');
+                    }
+                };
+
+                const closeMobileMenu = () => {
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.addEventListener('transitionend', () => {
+                        if (!mobileMenu.classList.contains('active')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }, { once: true });
+                    menuOverlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    if(menuIcon) {
+                      menuIcon.classList.remove('fa-times');
+                      menuIcon.classList.add('fa-bars');
+                    }
+                };
+
+                // Lógica de clique atualizada para toggle
+                menuBtn.addEventListener('click', () => {
+                   if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
+                       openMobileMenu();
+                   } else {
+                       closeMobileMenu();
+                   }
+                });
+                closeMenuBtn.addEventListener('click', closeMobileMenu);
+                menuOverlay.addEventListener('click', closeMobileMenu);
+            } else {
+                console.error("Erro: Elementos do menu mobile não encontrados.");
+            }
+            // --- FIM DO SCRIPT DO MENU ---
+
+            // --- CÓDIGO DO CHATBOT (Listeners e Estado Inicial) ---
+            if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+            if(userInput) userInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            if (chatWindowContainer) {
+              chatWindowContainer.style.display = 'none';
+            }
+            // --- FIM DO CÓDIGO DO CHATBOT ---
+        });
+
+    
+        document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        // Função para atualizar o ícone baseado no tema atual
+        const updateButtonIcon = () => {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                // Se dark mode ativo (ou preferência do sistema), mostra a LUA
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+            } else {
+                // Se light mode ativo, mostra o SOL
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+            }
+        };
+
+        // Atualiza o ícone ao carregar a página
+        updateButtonIcon();
+
+        // Adiciona o listener de clique ao botão
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                // Verifica se o modo escuro está ATIVO atualmente
+                const isDarkMode = document.documentElement.classList.toggle('dark');
+
+                // Salva a preferência no localStorage
+                if (isDarkMode) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+
+                // Atualiza o ícone do botão
+                updateButtonIcon();
+
+                // --- Sincronização Extra para a página de Configurações ---
+                // Se existir o switch na página config, atualiza ele também
+                const themeSwitch = document.getElementById('themeToggle');
+                if(themeSwitch) {
+                    themeSwitch.checked = isDarkMode;
+                }
+                // --- Fim da Sincronização ---
+            });
+        }
+
+        // --- Sincronização Extra (se o switch for mudado) ---
+        // Ouve mudanças no switch da página de configurações, se existir
+        const themeSwitch = document.getElementById('themeToggle');
+        if (themeSwitch) {
+            themeSwitch.addEventListener('change', () => {
+                // A lógica do switch já atualiza o localStorage e a classe HTML
+                // Apenas precisamos garantir que o botão do header reflete a mudança
+                updateButtonIcon();
+            });
+        }
+         // --- Fim da Sincronização ---
+
+        // (Cole aqui o restante do seu script JS que estava dentro do DOMContentLoaded,
+        // como a inicialização do menu mobile, chatbot, etc.)
+        // Exemplo:
+        // const menuBtn = document.getElementById('menu-btn');
+        // ... (resto do seu código JS específico da página)
+
+    }); // Fim do DOMContentLoaded
+
+    // Tamanho da fonte
+let nivelFonte = 1;
+const tamanhos = [87.5, 100, 112.5, 125];
+
+function alterarFonte(nivel) {
+  if (nivel === 0) nivelFonte = 1;
+  else {
+    nivelFonte += nivel;
+    if (nivelFonte < 0) nivelFonte = 0;
+    if (nivelFonte > 3) nivelFonte = 3;
+  }
+  document.documentElement.style.fontSize = tamanhos[nivelFonte] + '%';
+}
+
+document.getElementById('toggleFontButtons').addEventListener('click', () => {
+  document.getElementById('fontButtons').classList.toggle('hidden');
+});
+</script>
+
+    <!-- Leitor de Libras -->
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>

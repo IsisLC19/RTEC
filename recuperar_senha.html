@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recuperar Senha - RTEC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class', // <-- Esta é a linha mais importante
+    theme: {
+      extend: {
+        // (Você pode adicionar cores, etc. aqui no futuro)
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="icon" href="img/logo.png" type="image/x-icon">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-bg {
+        background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    }
+
+    .info-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+     /* ATUALIZADO: Card hover dark mode */
+    .dark .info-card:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+
+    .help-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    .help-btn:hover {
+        transform: scale(1.1);
+    }
+
+    /* Estilos adicionais para o chatbot */
+    #chat-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    #chat-button {
+        background-color: #10b981;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        font-size: 24px;
+    }
+    #chat-window-container {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        width: 350px;
+        height: 500px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 15px;
+        overflow: hidden;
+        display: flex; /* DEVE SER 'flex' quando VISÍVEL */
+        flex-direction: column;
+        background-color: white;
+        z-index: 1000;
+    }
+     /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-window-container {
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+
+    #chat-header {
+        background-color: #10b981;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chat-messages {
+        flex-grow: 1;
+        padding: 1rem;
+        overflow-y: auto;
+        background-color: #f4f4f9;
+    }
+    /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-messages {
+        background-color: #374151; /* dark:bg-gray-700 */
+    }
+
+    .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+    .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+    .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+    /* ATUALIZADO: Chatbot dark mode */
+     .dark .bot-message {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+
+    #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+    /* ATUALIZADO: Chatbot dark mode */
+     .dark #chat-input-area {
+        border-top-color: #4b5563; /* dark:border-gray-600 */
+    }
+
+    #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+    /* ATUALIZADO: Chatbot dark mode */
+    .dark #chat-user-input {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        border-color: #4b5563;
+        color: white;
+    }
+    #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+
+
+/*aumentar o tamanho da fonte do site*/
+    .font-controls {
+    position: fixed;
+    top: 390px;
+    right: 10px;
+    z-index: 999;
+    background: #007bff;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    background: none; 
+    padding: 0; 
+    }
+
+    #toggleFontButtons {
+        width: 40px; 
+        height: 40px;
+        line-height: 40px; /* Alinha o texto 'A' verticalmente */
+        padding: 0; /* Remove o padding que estava distorcendo o tamanho */
+        font-size: 18px !important; /* Aumenta a fonte para ficar mais visível */
+        text-align: center; /* Centraliza o texto 'A' */
+    }
+
+    /* Botões menores, acessíveis */
+    .font-controls button {
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; 
+    color: white; 
+    }
+    
+    /* Estilo para os botões A+, A, A- */
+    #fontButtons button {
+        background-color: #3f90ff; /* Um tom diferente ou o mesmo se preferir */
+    }
+
+
+    /* Esconde os botões até o clique */
+    #fontButtons.hidden {
+    display: none;
+    }
+
+    #fontButtons {
+    /* Configura a posição do grupo de botões menores para ficar ACIMA */
+    position: absolute;
+    bottom: 100%; /* Move o elemento para 100% da sua altura acima do botão principal */
+    right: 0; /* Alinha o lado direito dos botões menores com o container principal */
+    display: flex;
+    flex-direction: column-reverse; /* Inverte a ordem para que o A+ fique no topo */
+    gap: 3px;
+    margin-bottom: 5px; /* Adiciona uma pequena margem acima, para não colar no botão 'A' */
+    margin-top: 0; 
+    }
+
+    /* Responsivo: se a tela for muito pequena, diminui ainda mais */
+    @media (max-width: 400px) {
+    /* Mantenha as alterações responsivas aqui */
+    .font-controls {
+        top: 350px;
+        right: 5px;
+        padding: 3;
+    }
+
+    .font-controls button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    #fontButtons {
+        gap: 2px;
+        margin-bottom: 4px;
+    }
+    }
+
+</style>
+<script>
+    // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900">
+     <!-- Leitor em Libras-->
+    <div vw="httpsAcess" class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+
+    <!--aumentar o tamanho da fonte do site!-->
+    <div class="font-controls">
+    <button id="toggleFontButtons" aria-label="Controle de fonte">A</button>
+    <div id="fontButtons" class="hidden">
+        <button onclick="alterarFonte(1)">A+</button>
+        <button onclick="alterarFonte(0)">A</button>
+        <button onclick="alterarFonte(-1)">A-</button>
+    </div>
+    </div>
+
+    <header class="bg-white dark:bg-gray-800 shadow-lg">
+<nav class="bg-gray-100 dark:bg-gray-700 py-2">
+    <div class="container mx-auto px-4 flex justify-end items-center space-x-6">
+        <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
+            <i class="fas fa-sun" id="theme-toggle-icon"></i>
+        </button>
+        <ul class="flex space-x-6 text-sm">
+            <li><a href="entrar.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Entrar</a></li>
+            <li><a href="cadastro.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Cadastre-se</a></li>
+        </ul>
+    </div>
+    </nav>
+
+        <nav class="py-4">
+            <div class="container mx-auto px-4 flex items-center justify-between">
+                <div class="flex-shrink-0">
+                    <a href="sobre.html" class="block">
+                        <img src="img/logo.png" alt="Logo da Empresa" class="h-12 w-auto">
+                    </a>
+                </div>
+
+                <ul class="hidden md:flex space-x-8">
+                    <li><a href="agendamento.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">AGENDAMENTO</a></li>
+                    <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">COLETORES</a></li>
+                    <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">SOBRE</a></li>
+                    <li><a href="feedback.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition-all duration-300">FEEDBACKS</a></li>
+                </ul>
+                </div>
+        </nav>
+    </header>
+
+    <!-- === RECUPERAR SENHA (OTP) === -->
+<main class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4">Recuperar Senha 🔐</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 text-center">
+      Digite seu e-mail e confirme com o código que enviaremos. Sem link — tudo na mesma página.
+    </p>
+
+    <!-- STEP 1: pedir email/telefone -->
+    <form id="stepEmail" class="space-y-4">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">E-mail cadastrado</label>
+      <input id="recEmail" type="email" required
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="seu@email.com">
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg">
+        Enviar código
+      </button>
+    </form>
+
+    <!-- STEP 2: inserir código OTP -->
+    <form id="stepOTP" class="hidden space-y-4">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Código (6 dígitos)</label>
+      <input id="otpCode" type="text" inputmode="numeric" maxlength="6"
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="123456">
+      <button id="verifyBtn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
+        Verificar código
+      </button>
+      <div class="flex justify-between text-xs">
+        <button id="resendBtn" type="button" class="text-green-600 hover:underline">Reenviar código</button>
+        <span id="otpCountdown" class="text-gray-500 dark:text-gray-300"> </span>
+      </div>
+    </form>
+
+    <!-- STEP 3: definir nova senha -->
+    <form id="stepReset" class="hidden space-y-4">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nova senha</label>
+      <input id="newPass" type="password" minlength="6" required
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="nova senha">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Confirme a nova senha</label>
+      <input id="confirmPass" type="password" minlength="6" required
+        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+        placeholder="repita a senha">
+      <button id="resetBtn" type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg">
+        Redefinir senha
+      </button>
+    </form>
+
+    <div id="feedbackMsg" class="mt-4 text-center text-sm hidden"></div>
+
+    <p class="text-center text-gray-600 dark:text-gray-300 mt-6">
+      <a href="entrar.html" class="text-green-600 hover:underline">Voltar para login</a>
+    </p>
+  </div>
+</main>
+
+
+
+
+<div id="chat-window-container">
+        <div id="chat-header">
+            <h3 class="font-bold">Assistente Virtual</h3>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="chat-messages" class="flex flex-col">
+        </div>
+        <div id="chat-input-area">
+            <input type="text" id="chat-user-input" placeholder="Digite sua mensagem...">
+            <button id="chat-send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="chat-widget">
+        <button id="chat-button" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+
+
+    <footer class="bg-green-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="https://www.instagram.com/fatecfrancodarocha/" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-youtube text-2xl"></i>
+                    </a>
+                    <a href="https://fatecfrancodarocha.cps.sp.gov.br/" class="text-white hover:text-green-300 transition-colors duration-300 transform hover:scale-110">
+                        <i class="fas fa-globe text-2xl"></i>
+                    </a>
+                </div>
+                <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
+                <p class="text-green-200 mt-2">Contribuindo para um futuro mais sustentável</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+
+        // Função para controlar a visibilidade do seu modal de FAQ
+        function toggleFAQ() {
+            // Assuming you might add a FAQ modal later
+            const faqModal = document.getElementById('faqModal');
+             if (faqModal) {
+                 faqModal.classList.toggle('hidden');
+             }
+        }
+
+
+        // =======================================================
+        //          INÍCIO DO JAVASCRIPT DO CHATBOT
+        // =======================================================
+
+        // Elementos da interface do chat
+        const chatWindowContainer = document.getElementById('chat-window-container');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('chat-user-input');
+        const sendBtn = document.getElementById('chat-send-btn');
+
+
+        // FUNÇÃO ALTERADA: Agora faz o TOGGLE (abrir/fechar)
+        function toggleChat() {
+             if (!chatWindowContainer) return; // Protection
+            // Verifica se a janela está FECHADA (display: none ou vazio)
+            if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
+                // Abre a janela para 'flex'
+                chatWindowContainer.style.display = 'flex';
+
+                // Adiciona mensagem inicial apenas se for a primeira vez
+                if (chatMessages && chatMessages.children.length === 0) {
+                    addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+                }
+            } else {
+                // Se estiver ABERTA, fecha definindo o display para 'none'
+                chatWindowContainer.style.display = 'none';
+            }
+        }
+
+
+        // Função para adicionar uma mensagem na janela do chat
+        function addMessage(message, sender) {
+             if (!chatMessages) return; // Protection
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            // Rolar para a última mensagem
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Função para enviar mensagem ao backend
+        async function sendMessage() {
+            if (!userInput) return; // Protection
+            const messageText = userInput.value.trim();
+            if (messageText === '') return;
+
+            // Exibe a mensagem do usuário na tela
+            addMessage(messageText, 'user');
+            userInput.value = '';
+
+            try {
+                // Envia a mensagem para o servidor Flask
+                const response = await fetch('http://127.0.0.1:5000/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: messageText })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro na comunicação com o servidor.');
+                }
+
+                const data = await response.json();
+                // Exibe a resposta do bot na tela
+                addMessage(data.reply, 'bot');
+
+            } catch (error) {
+                console.error('Erro:', error);
+                addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+            }
+        }
+
+        // Event Listeners para o input e botão de envio
+        if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+        if(userInput) userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Define o estado inicial do chat para FECHADO (display: none)
+        document.addEventListener('DOMContentLoaded', () => {
+             if (chatWindowContainer) {
+                 chatWindowContainer.style.display = 'none';
+             }
+        });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        // Função para atualizar o ícone baseado no tema atual
+        const updateButtonIcon = () => {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                // Se dark mode ativo (ou preferência do sistema), mostra a LUA
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+            } else {
+                // Se light mode ativo, mostra o SOL
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+            }
+        };
+
+        // Atualiza o ícone ao carregar a página
+        updateButtonIcon();
+
+        // Adiciona o listener de clique ao botão
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                // Verifica se o modo escuro está ATIVO atualmente
+                const isDarkMode = document.documentElement.classList.toggle('dark');
+
+                // Salva a preferência no localStorage
+                if (isDarkMode) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+
+                // Atualiza o ícone do botão
+                updateButtonIcon();
+
+                // --- Sincronização Extra para a página de Configurações ---
+                // Se existir o switch na página config, atualiza ele também
+                const themeSwitch = document.getElementById('themeToggle');
+                if(themeSwitch) {
+                    themeSwitch.checked = isDarkMode;
+                }
+                // --- Fim da Sincronização ---
+            });
+        }
+
+        // --- Sincronização Extra (se o switch for mudado) ---
+        // Ouve mudanças no switch da página de configurações, se existir
+        const themeSwitch = document.getElementById('themeToggle');
+        if (themeSwitch) {
+            themeSwitch.addEventListener('change', () => {
+                // A lógica do switch já atualiza o localStorage e a classe HTML
+                // Apenas precisamos garantir que o botão do header reflete a mudança
+                updateButtonIcon();
+            });
+        }
+         // --- Fim da Sincronização ---
+
+        // (Cole aqui o restante do seu script JS que estava dentro do DOMContentLoaded,
+        // como a inicialização do menu mobile, chatbot, etc.)
+        // Exemplo:
+        // const menuBtn = document.getElementById('menu-btn');
+        // ... (resto do seu código JS específico da página)
+
+    }); // Fim do DOMContentLoaded
+
+    // Tamanho da fonte
+let nivelFonte = 1;
+const tamanhos = [87.5, 100, 112.5, 125];
+
+function alterarFonte(nivel) {
+  if (nivel === 0) nivelFonte = 1;
+  else {
+    nivelFonte += nivel;
+    if (nivelFonte < 0) nivelFonte = 0;
+    if (nivelFonte > 3) nivelFonte = 3;
+  }
+  document.documentElement.style.fontSize = tamanhos[nivelFonte] + '%';
+}
+
+document.getElementById('toggleFontButtons').addEventListener('click', () => {
+  document.getElementById('fontButtons').classList.toggle('hidden');
+});
+
+// RECUPERAÇÃO DE SENHA
+
+/*
+  CONFIG:
+  - SIMULATE true: gera código local (útil pra protótipo).
+  - SIMULATE false: faz fetch para o backend nos endpoints:
+      POST /send-otp  { email }
+      POST /verify-otp { email, code }
+      POST /reset-password { email, newPassword, (maybe) tokenFromVerify }
+*/
+const SIMULATE = true; // muda pra false quando tiver backend
+const CODE_TTL_SECONDS = 600; // 10 minutos
+
+const stepEmail = document.getElementById('stepEmail');
+const stepOTP = document.getElementById('stepOTP');
+const stepReset = document.getElementById('stepReset');
+const feedback = document.getElementById('feedbackMsg');
+const recEmail = document.getElementById('recEmail');
+const otpCode = document.getElementById('otpCode');
+const newPass = document.getElementById('newPass');
+const confirmPass = document.getElementById('confirmPass');
+const resendBtn = document.getElementById('resendBtn');
+const otpCountdown = document.getElementById('otpCountdown');
+
+let currentEmail = '';
+let localCode = null;
+let codeExpireAt = null;
+let countdownTimer = null;
+
+function showMsg(text, type='info') {
+  feedback.textContent = text;
+  feedback.classList.remove('hidden');
+  feedback.className = 'mt-4 text-center text-sm';
+  if (type === 'error') feedback.classList.add('text-red-500');
+  else if (type === 'success') feedback.classList.add('text-green-500');
+  else feedback.classList.add('text-blue-500');
+}
+
+// helpers UI
+function goTo(step) {
+  stepEmail.classList.add('hidden');
+  stepOTP.classList.add('hidden');
+  stepReset.classList.add('hidden');
+  feedback.classList.add('hidden');
+  if (step === 1) stepEmail.classList.remove('hidden');
+  if (step === 2) stepOTP.classList.remove('hidden');
+  if (step === 3) stepReset.classList.remove('hidden');
+}
+
+// countdown for resend
+function startCountdown(ttl) {
+  clearInterval(countdownTimer);
+  let remaining = ttl;
+  otpCountdown.textContent = `Expira em ${formatTime(remaining)}`;
+  countdownTimer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(countdownTimer);
+      otpCountdown.textContent = '';
+      resendBtn.disabled = false;
+      resendBtn.classList.remove('opacity-50');
+    } else {
+      otpCountdown.textContent = `Expira em ${formatTime(remaining)}`;
+      resendBtn.disabled = true;
+      resendBtn.classList.add('opacity-50');
+    }
+  }, 1000);
+}
+
+function formatTime(s) {
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  return `${m}m ${sec}s`;
+}
+
+// simulate functions (local)
+function generateLocalCode() {
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  localCode = code;
+  codeExpireAt = Date.now() + CODE_TTL_SECONDS * 1000;
+  return code;
+}
+
+function isLocalCodeValid(code) {
+  if (!localCode) return false;
+  if (Date.now() > codeExpireAt) return false;
+  return String(code) === String(localCode);
+}
+
+// event: send code
+stepEmail.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = recEmail.value.trim();
+  if (!email) { showMsg('Coloca um e-mail válido aí.', 'error'); return; }
+  currentEmail = email;
+  showMsg('Enviando código...', 'info');
+
+  if (SIMULATE) {
+    const code = generateLocalCode();
+    console.log('Código gerado (simulado):', code);
+    showMsg(`Código enviado (simulado). Código: ${code} — só visível no console (dev).`, 'success');
+    goTo(2);
+    startCountdown(CODE_TTL_SECONDS);
+    return;
+  }
+
+  // produção: chama backend
+  try {
+    const res = await fetch('/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Erro ao enviar código');
+    showMsg('Código enviado para seu e-mail.', 'success');
+    goTo(2);
+    startCountdown(CODE_TTL_SECONDS);
+  } catch (err) {
+    console.error(err);
+    showMsg('Erro ao enviar código. Tenta de novo.', 'error');
+  }
+});
+
+// resend
+resendBtn.addEventListener('click', async () => {
+  if (!currentEmail) { showMsg('Primeiro insira o e-mail.', 'error'); return; }
+  showMsg('Reenviando código...', 'info');
+  if (SIMULATE) {
+    const code = generateLocalCode();
+    console.log('Código reenviado (simulado):', code);
+    showMsg('Código reenviado (simulado). Checa o console.', 'success');
+    startCountdown(CODE_TTL_SECONDS);
+    return;
+  }
+  try {
+    const res = await fetch('/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentEmail, resend: true })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Erro ao reenviar');
+    showMsg('Código reenviado.', 'success');
+    startCountdown(CODE_TTL_SECONDS);
+  } catch (err) {
+    console.error(err);
+    showMsg('Erro ao reenviar código.', 'error');
+  }
+});
+
+// event: verify code
+stepOTP.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const code = otpCode.value.trim();
+  if (!code || code.length < 6) { showMsg('Insira o código de 6 dígitos.', 'error'); return; }
+
+  if (SIMULATE) {
+    if (isLocalCodeValid(code)) {
+      showMsg('Código válido. Pode redefinir a senha.', 'success');
+      goTo(3);
+    } else {
+      showMsg('Código inválido ou expirado.', 'error');
+    }
+    return;
+  }
+
+  // produção: chama verify
+  try {
+    const res = await fetch('/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentEmail, code })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Código inválido');
+    showMsg('Código verificado. Redefina sua senha.', 'success');
+    goTo(3);
+  } catch (err) {
+    console.error(err);
+    showMsg('Código inválido ou expirado.', 'error');
+  }
+});
+
+// event: reset password
+stepReset.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const p1 = newPass.value;
+  const p2 = confirmPass.value;
+  if (!p1 || p1.length < 6) { showMsg('Senha deve ter pelo menos 6 caracteres.', 'error'); return; }
+  if (p1 !== p2) { showMsg('As senhas não batem.', 'error'); return; }
+
+  showMsg('Redefinindo senha...', 'info');
+  if (SIMULATE) {
+    // só pra dev: "reset" local
+    localCode = null;
+    showMsg('Senha redefinida (simulada). Vai pro login.', 'success');
+    setTimeout(() => { window.location.href = 'entrar.html'; }, 1200);
+    return;
+  }
+
+  try {
+    const res = await fetch('/reset-password', {
+    method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentEmail, newPassword: p1 })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Erro ao resetar senha');
+    showMsg('Senha redefinida com sucesso. Redirecionando...', 'success');
+    setTimeout(() => { window.location.href = 'entrar.html'; }, 1200);
+  } catch (err) {
+    console.error(err);
+    showMsg('Erro ao redefinir senha.', 'error');
+  }
+});
+
+</script>
+
+ <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>

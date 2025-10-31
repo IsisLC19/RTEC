@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendamento de Coleta - RTEC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init({
+        publicKey:"4g-zOx6kZsPzplL3F"
+      });
+    })();
+  </script>
+
+  <script>
+  tailwind.config = {
+    darkMode: 'class', // <-- Esta é a linha mais importante
+    theme: {
+      extend: {
+        // (Você pode adicionar cores, etc. aqui no futuro)
+      }
+    }
+  }
+</script>
+  
+<link rel="icon" href="img/logo.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    /* ... (Todo o seu CSS permanece o mesmo) ... */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%); }
+    .form-container {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+    }
+    .dark .form-container {
+        background: rgba(31, 41, 55, 0.95); /* dark:bg-gray-800/95 */
+    }
+    .input-focus:focus { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(16,185,129,0.4); }
+    .nav-link:hover { color: #10b981; transform: translateY(-1px); }
+    .success-message { display: none; animation: slideIn 0.5s ease-out; }
+    @keyframes slideIn { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { animation: fadeIn 0.8s ease-out; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+    #chat-button {
+        background-color: #10b981; color: white; width: 60px; height: 60px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 24px;
+    }
+    #chat-window-container {
+        position: fixed; bottom: 100px; right: 20px; width: 350px; height: 500px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 15px; overflow: hidden;
+        display: flex; flex-direction: column; background-color: white; z-index: 1000;
+    }
+    .dark #chat-window-container {
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+    #chat-header { background-color: #10b981; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    #chat-messages { flex-grow: 1; padding: 1rem; overflow-y: auto; background-color: #f4f4f9; }
+    .dark #chat-messages {
+        background-color: #374151; /* dark:bg-gray-700 */
+    }
+    .message { margin-bottom: 10px; padding: 8px 12px; border-radius: 18px; max-width: 80%; }
+    .user-message { background-color: #10b981; color: white; align-self: flex-end; margin-left: auto; }
+    .bot-message { background-color: #e9e9eb; color: black; align-self: flex-start; }
+    .dark .bot-message {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+    #chat-input-area { display: flex; padding: 1rem; border-top: 1px solid #ccc; }
+    .dark #chat-input-area {
+        border-top-color: #4b5563; /* dark:border-gray-600 */
+    }
+    #chat-user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 15px; padding: 10px; }
+    .dark #chat-user-input {
+        background-color: #4b5563; /* dark:bg-gray-600 */
+        border-color: #4b5563;
+        color: white;
+    }
+    #chat-send-btn { background-color: #10b981; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+    @media (max-width: 420px) { /* Telas pequenas (celulares) */
+      #chat-window-container {
+        width: calc(100vw - 20px);
+        height: 70vh;
+        right: 10px;
+        bottom: 80px;
+      }
+      #chat-widget {
+        right: 10px;
+        bottom: 10px;
+      }
+      #chat-button {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    #mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(8px);
+      box-shadow: -8px 0 20px rgba(0,0,0,0.2);
+      transform: translateX(100%);
+      transition: transform 0.4s ease-out;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+    .dark #mobile-menu {
+        background-color: rgba(31, 41, 55, 0.98); /* dark:bg-gray-800/98 */
+        border-left: 1px solid #374151; /* dark:border-gray-700 */
+    }
+    #mobile-menu.active {
+      transform: translateX(0);
+    }
+    #mobile-menu-header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .dark #mobile-menu-header {
+        border-bottom-color: #374151; /* dark:border-gray-700 */
+    }
+    #mobile-menu .nav-list-mobile {
+      padding: 1.5rem 1rem;
+      flex-grow: 1;
+    }
+    #mobile-menu .nav-list-mobile li a {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #374151;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      position: relative;
+    }
+    .dark #mobile-menu .nav-list-mobile li a {
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+    #mobile-menu .nav-list-mobile li a:hover {
+      background-color: #ecfdf5;
+      color: #047857;
+      transform: translateX(5px);
+    }
+    .dark #mobile-menu .nav-list-mobile li a:hover {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #34d399; /* dark:text-green-400 */
+    }
+    #mobile-menu .nav-list-mobile li .active-link-mobile {
+      background-color: #d1fae5;
+      color: #047857;
+      font-weight: 700;
+      border-left: 4px solid #10b981;
+      padding-left: 1rem;
+    }
+    .dark #mobile-menu .nav-list-mobile li .active-link-mobile {
+        background-color: #065f46; /* dark:bg-green-800 */
+        color: #6ee7b7; /* dark:text-green-300 */
+        border-left-color: #10b981;
+    }
+    .mobile-menu-footer {
+      padding: 1rem;
+      margin-top: auto;
+      border-top: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+    .dark .mobile-menu-footer {
+        border-top-color: #374151; /* dark:border-gray-700 */
+        background-color: #1f2937; /* dark:bg-gray-800 */
+    }
+    .mobile-menu-footer .btn-mobile-login {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-mobile-primary {
+      background-color: #10b981;
+      color: white;
+    }
+    .btn-mobile-primary:hover {
+      background-color: #059669;
+    }
+    .btn-mobile-secondary {
+      background-color: #f3f4f6;
+      color: #374151;
+      margin-top: 0.5rem;
+    }
+    .dark .btn-mobile-secondary {
+        background-color: #374151; /* dark:bg-gray-700 */
+        color: #d1d5db; /* dark:text-gray-300 */
+    }
+    .btn-mobile-secondary:hover {
+      background-color: #e5e7eb;
+    }
+    .dark .btn-mobile-secondary:hover {
+        background-color: #4b5563; /* dark:hover:bg-gray-600 */
+    }
+.font-controls {
+  position: fixed;
+  bottom: 460px;
+  right: 10px;
+  z-index: 999;
+  background: none;
+  padding: 0;
+}
+@media (max-width: 768px) {
+  .font-controls {
+    bottom: 90px;
+    right: 15px;
+  }
+}
+    #toggleFontButtons {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0;
+        font-size: 18px !important;
+        text-align: center;
+        border-radius: 6px;
+        cursor: pointer;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    #fontButtons button {
+        padding: 6px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        background-color: #3f90ff;
+        color: white;
+        width: 40px;
+        text-align: center;
+    }
+    #fontButtons.hidden {
+        display: none;
+    }
+    #fontButtons {
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        display: flex;
+        flex-direction: column-reverse; /* A+ no topo */
+        gap: 3px;
+        margin-bottom: 5px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(2px);
+        padding: 5px;
+        border-radius: 6px;
+    }
+      .dark #fontButtons {
+        background: rgba(31, 41, 55, 0.8);
+      }
+    @media (max-width: 400px) {
+        .font-controls {
+              top: 350px;
+              bottom: auto;
+              right: 5px;
+              padding: 0;
+         }
+        #toggleFontButtons {
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            font-size: 16px !important;
+              border-radius: 6px;
+        }
+        #fontButtons button {
+            padding: 4px 8px;
+            font-size: 12px;
+            width: 35px;
+        }
+        #fontButtons {
+            gap: 2px;
+            margin-bottom: 4px;
+              background: rgba(255, 255, 255, 0.9);
+              backdrop-filter: blur(2px);
+              padding: 5px;
+              border-radius: 6px;
+              box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+         .dark #fontButtons {
+            background: rgba(31, 41, 55, 0.9);
+         }
+    }
+    @media print {
+      body * {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      #modalProtocolo,
+      #modalProtocolo * {
+        display: block !important;
+        visibility: visible !important;
+      }
+      #modalProtocolo {
+        position: static !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+      }
+      #modalProtocolo > div {
+        margin: 0 auto !important;
+        width: 90mm !important;
+        padding: 10mm !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        border: none !important;
+        text-align: center;
+      }
+      #modalProtocolo button,
+      #modalProtocolo svg,
+      #modalProtocolo .space-y-3,
+      #modalProtocolo p.text-sm {
+        display: none !important;
+      }
+      #modalProtocolo h3,
+      #modalProtocolo p,
+      #modalProtocolo span {
+        text-align: center !important;
+        margin: 0 auto !important;
+      }
+      @page {
+        margin: 10mm;
+      }
+    }
+</style>
+<script>
+    // Este script aplica o tema (claro ou escuro) antes mesmo da página carregar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div vw="httpsAcess" class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+
+<header class="bg-white dark:bg-gray-800 shadow-lg relative z-50">
+<nav class="bg-gray-100 dark:bg-gray-700 py-2">
+    <div class="container mx-auto px-4 flex justify-end items-center space-x-6">
+        <button id="theme-toggle-button" aria-label="Toggle light/dark theme" class="text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 focus:outline-none transition-colors duration-200 text-lg">
+            <i class="fas fa-sun" id="theme-toggle-icon"></i>
+        </button>
+        <ul class="flex space-x-6 text-sm">
+            <li><a href="entrar.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Entrar</a></li>
+            <li><a href="cadastro.html" class="nav-link text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">Cadastre-se</a></li>
+        </ul>
+    </div>
+    </nav>
+
+<nav class="py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+        <a href="sobre.html"><img src="img/logo.png" alt="Logo" class="h-12 w-auto"></a>
+
+        <ul class="hidden md:flex space-x-8">
+            <li><a href="agendamento.html" class="nav-link text-green-600 dark:text-green-400 font-medium border-b-2 border-green-600">AGENDAMENTO</a></li>
+            <li><a href="coletores.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">COLETORES</a></li>
+            <li><a href="sobre.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">SOBRE</a></li>
+            <li><a href="feedback.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400">FEEDBACKS</a></li>
+        </ul>
+
+        <button id="menu-btn" class="md:hidden text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 focus:outline-none p-2 rounded-md transition-colors duration-200 hover:bg-green-50 dark:hover:bg-gray-700">
+            <i class="fas fa-bars fa-xl"></i>
+        </button>
+    </div>
+</nav>
+</header>
+
+<div id="mobile-menu" class="hidden">
+<div id="mobile-menu-header">
+    <img src="img/logo.png" alt="Logo RTEC" class="h-10 w-auto">
+    <button id="close-menu-btn" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+        <i class="fas fa-times fa-lg"></i>
+    </button>
+</div>
+
+<ul class="nav-list-mobile">
+    <li><a href="agendamento.html" class="active-link-mobile">AGENDAMENTO</a></li>
+    <li><a href="coletores.html">COLETORES</a></li>
+    <li><a href="sobre.html">SOBRE</a></li>
+    <li><a href="feedback.html">FEEDBACKS</a></li>
+</ul>
+
+<div class="mobile-menu-footer">
+    <a href="entrar.html" class="btn-mobile-login btn-mobile-primary">
+        <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+    </a>
+    <a href="cadastro.html" class="btn-mobile-login btn-mobile-secondary">
+        <i class="fas fa-user-plus mr-2"></i>Cadastre-se
+    </a>
+</div>
+</div>
+
+<div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
+
+<main class="gradient-bg min-h-screen py-12">
+    <div class="container mx-auto px-4">
+
+        <div class="text-center mb-12 fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">Agendamento de Coleta</h1>
+            <p class="text-lg md:text-xl text-white opacity-90">Agende sua coleta de resíduos de forma rápida e fácil</p>
+        </div>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="form-container rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 fade-in">
+
+                <div class="mb-6 text-center bg-green-50 dark:bg-gray-700 border border-green-200 dark:border-gray-600 text-green-800 dark:text-gray-300 py-3 px-2 rounded-lg">
+                    <p class="font-semibold text-lg dark:text-white">📍 Local da Coleta:</p>
+                    <p class="text-sm sm:text-base">Rodovia Luiz Salomão Chama, 240 - Vila Ramos, Franco da Rocha - SP - CEP: 07857-050</p>
+                </div>
+
+                <div id="successMessage" class="success-message bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded-lg mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Agendamento realizado com sucesso! Você receberá uma confirmação em breve.</span>
+                    </div>
+                </div>
+
+                <form id="agendamentoForm" class="space-y-6">
+                    <div>
+                        <label for="email_usuario_agendamento" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-at mr-2 text-green-600 dark:text-green-400"></i>E-mail
+                        </label>
+                        <input type="email" id="email_usuario_agendamento" name="email_usuario_agendamento" placeholder="seuemail@exemplo.com" required
+                        class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 rounded-lg" />
+                    </div>
+
+                    <div>
+                        <label for="tipo_pessoa" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-user mr-2 text-green-600 dark:text-green-400"></i>Eu sou
+                        </label>
+                        <select id="tipo_pessoa" name="tipo_pessoa" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 rounded-lg">
+                            <option value="">Selecione uma opção</option>
+                            <option value="coletor">Coletor</option>
+                            <option value="doador">Doador</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="id_tipo_residuo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-recycle mr-2 text-green-600 dark:text-green-400"></i>Tipo de Resíduo
+                        </label>
+                        <select id="id_tipo_residuo" name="id_tipo_residuo" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 rounded-lg">
+                            <option value="">Selecione o tipo de resíduo</option>
+                            <option value="1">Eletrônico</option>
+                            <option value="2">Reciclável</option>
+                        </select>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="data_agendada" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-calendar mr-2 text-green-600 dark:text-green-400"></i>Data
+                            </label>
+                            <input type="date" id="data_agendada" name="data_agendada" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg">
+                        </div>
+                        <div>
+                            <label for="hora_agendada" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-clock mr-2 text-green-600 dark:text-green-400"></i>Horário
+                            </label>
+                            <input type="time" id="hora_agendada" name="hora_agendada" required class="input-focus w-full px-4 py-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-lg">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-hover w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-4 px-8 rounded-lg">
+                        <i class="fas fa-calendar-check mr-2"></i>Agendar Coleta
+                    </button>
+                </form>
+                </div>
+        </div>
+    </div>
+</main>
+
+<div id="modalProtocolo" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+    <button onclick="fecharModalProtocolo()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full">
+        <div class="p-6 md:p-8 text-center">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Coleta Agendada!</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Seu protocolo de identificação:</p>
+
+            <div class="bg-green-50 dark:bg-gray-700 border-2 border-green-200 dark:border-gray-600 rounded-lg p-4 mb-6">
+                <div class="text-sm text-gray-600 dark:text-gray-300 mb-1">Protocolo:</div>
+                <div id="numeroProtocolo" class="text-2xl font-bold text-green-600 font-mono"></div>
+            </div>
+
+            <div class="text-left bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 space-y-2">
+                
+                <div class="flex flex-col sm:flex-row sm:justify-between">
+                    <span class="text-gray-600 dark:text-gray-300">Email:</span>
+                    <span id="protocoloEmail" class="font-medium dark:text-white sm:text-right"></span>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Tipo:</span><span id="protocoloNome" class="font-medium dark:text-white sm:text-right"></span></div>
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Data:</span><span id="protocoloData" class="font-medium dark:text-white sm:text-right"></span></div>
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Horário:</span><span id="protocoloHora" class="font-medium dark:text-white sm:text-right"></span></div>
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300">Resíduo:</span><span id="protocoloResiduos" class="font-medium dark:text-white sm:text-right"></span></div>
+
+                <div class="flex flex-col sm:flex-row sm:justify-between"><span class="text-gray-600 dark:text-gray-300 shrink-0">Local:</span><span class="font-medium dark:text-white sm:text-right">Rodovia Luiz Salomão Chama, 240 - Vila Ramos, Franco da Rocha </span></div>
+            </div>
+
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">⚠️ Anote ou tire foto deste protocolo.</p>
+            <div class="space-y-3">
+                <button onclick="imprimirProtocolo()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg">🖨️ Imprimir</button>
+                <button onclick="novoAgendamento()" class="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white font-semibold py-3 px-4 rounded-lg">➕ Novo</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="chat-window-container" style="display: none;">
+<div id="chat-header">
+        <h3 class="font-bold">Assistente Virtual</h3>
+        <button onclick="toggleChat()" class="text-white hover:text-gray-200">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div id="chat-messages" class="flex flex-col p-4 overflow-y-auto" style="flex-grow: 1;">
+      </div>
+    <div id="chat-input-area" class="flex p-4 border-t dark:border-gray-700">
+        <input type="text" id="chat-user-input" placeholder="Digite sua mensagem..." class="flex-grow border dark:border-gray-600 rounded-full py-2 px-4 focus:outline-none dark:bg-gray-600 dark:text-white">
+        <button id="chat-send-btn" class="ml-2 bg-green-600 text-white rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+<div id="chat-widget">
+<button id="chat-button" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+    </button>
+</div>
+<footer class="bg-green-800 text-white py-12">
+<div class="container mx-auto px-4">
+        <div class="text-center"> <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://www.instagram.com/fatecfrancodarocha/" target="_blank"
+                    class="text-white hover:text-green-300 transition transform hover:scale-110">
+                    <i class="fab fa-instagram text-2xl"></i>
+                </a>
+                <a href="https://www.youtube.com/channel/UC27-29XnRg7iFKYb2e9o4_A" target="_blank"
+                    class="text-white hover:text-green-300 transition transform hover:scale-110">
+                    <i class="fab fa-youtube text-2xl"></i>
+                </a>
+                <a href="https://fatecfrancodarocha.cps.sp.gov.br/" target="_blank" class="text-white hover:text-green-300 transition transform hover:scale-110">
+                    <i class="fas fa-globe text-2xl"></i>
+                </a>
+            </div>
+            <p class="text-lg">&copy; 2024 RTEC - Todos os direitos reservados</p>
+            <p class="text-green-200 mt-2">Contribuindo para um futuro sustentável</p>
+        </div>
+    </div>
+</footer>
+
+<div class="font-controls">
+<button id="toggleFontButtons" aria-label="Controle de fonte">A</button>
+    <div id="fontButtons" class="hidden">
+        <button onclick="alterarFonte(1)">A+</button>
+        <button onclick="alterarFonte(0)">A</button>
+        <button onclick="alterarFonte(-1)">A-</button>
+    </div>
+</div>
+
+<script>
+    // --- Funções do Chatbot ---
+    // (Permanecem as mesmas)
+    const chatWindowContainer = document.getElementById('chat-window-container');
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('chat-user-input');
+    const sendBtn = document.getElementById('chat-send-btn');
+
+    function toggleChat() {
+        if (!chatWindowContainer) return;
+        if (chatWindowContainer.style.display === 'none' || chatWindowContainer.style.display === '') {
+            chatWindowContainer.style.display = 'flex';
+            if (chatMessages && chatMessages.children.length === 0) {
+                addMessage('Olá! Sou seu assistente virtual. Como posso ajudar?', 'bot');
+            }
+        } else {
+            chatWindowContainer.style.display = 'none';
+        }
+    }
+    function addMessage(message, sender) {
+       if (!chatMessages) return;
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+        messageElement.textContent = message;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    async function sendMessage() {
+       if (!userInput) return;
+        const messageText = userInput.value.trim();
+        if (messageText === '') return;
+        addMessage(messageText, 'user');
+        userInput.value = '';
+        try {
+            const response = await fetch('http://127.0.0.1:5000/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: messageText })
+            });
+            if (!response.ok) throw new Error('Erro na comunicação com o servidor.');
+            const data = await response.json();
+            addMessage(data.reply, 'bot');
+        } catch (error) {
+            console.error('Erro:', error);
+            addMessage('Não foi possível obter uma resposta do servidor. Tente novamente.', 'bot');
+        }
+    }
+
+    // --- SCRIPTS DA PÁGINA (Formulário, Menu, Botão de Tema, Chat, Controle Fonte) ---
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        // --- SCRIPT DO BOTÃO DE TEMA ---
+        // (Permanece o mesmo)
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        const updateButtonIcon = () => {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon';
+            } else {
+                if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun';
+            }
+        };
+        updateButtonIcon();
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                const isDarkMode = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                updateButtonIcon();
+            });
+        }
+
+        // --- SCRIPT DO MENU MOBILE ---
+        // (Permanece o mesmo)
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+        if (menuBtn && mobileMenu && closeMenuBtn && menuOverlay) {
+            const menuIcon = menuBtn.querySelector('i');
+            const openMobileMenu = () => {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => mobileMenu.classList.add('active'), 10);
+                menuOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-times');
+                }
+            };
+            const closeMobileMenu = () => {
+                mobileMenu.classList.remove('active');
+                mobileMenu.addEventListener('transitionend', () => {
+                    if (!mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }, { once: true });
+                menuOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
+            };
+            menuBtn.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('hidden') || !mobileMenu.classList.contains('active')) {
+                    openMobileMenu();
+                } else {
+                    closeMobileMenu();
+                }
+            });
+            closeMenuBtn.addEventListener('click', closeMobileMenu);
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        } else {
+            console.error("Erro: Elementos do menu mobile não encontrados.");
+        }
+
+        
+        // ========================================================
+        // INÍCIO DO SCRIPT DO FORMULÁRIO (COM NOMES CORRIGIDOS)
+        // ========================================================
+        const agendamentoForm = document.getElementById('agendamentoForm');
+        if (agendamentoForm) {
+            
+            // CORREÇÃO: Pegando o input de data pelo ID correto 'data_agendada'
+            // O seu código original estava pegando 'data-entrega'
+            const dataInput = document.getElementById('data_agendada');
+            if (dataInput) {
+                dataInput.min = new Date().toISOString().split('T')[0];
+            } else {
+                console.error("Input de data 'data_agendada' não encontrado.");
+            }
+
+
+            agendamentoForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Pega os dados do formulário
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries()); // Converte para objeto
+
+                // CORREÇÃO: Validação usando os 'names' corretos do banco
+                // (O seu código original usava 'data.email', 'data-entrega', etc.)
+                if (!data.email_usuario_agendamento || !data.tipo_pessoa || !data.id_tipo_residuo || !data.data_agendada || !data.hora_agendada) {
+                    alert('Preencha todos os campos obrigatórios.');
+                    return;
+                }
+                
+                // CORREÇÃO: Verificação de data usando o 'name' correto
+                // Adiciona 'T00:00:00' para evitar problemas de fuso horário na comparação
+                const selectedDate = new Date(data.data_agendada + 'T00:00:00');
+                const today = new Date(); 
+                today.setHours(0,0,0,0);
+                
+                if (selectedDate < today) { 
+                    alert('Data inválida. Selecione uma data a partir de hoje.'); 
+                    return; 
+                }
+
+                // --- Simulação de envio (Como estava no seu código original) ---
+                
+                // Gerar protocolo falso
+                const protocoloFalso = "RTEC" + Math.floor(100000 + Math.random()*900000);
+                
+                // Pegar o TEXTO do resíduo (ex: "Eletrônico") para exibir no modal
+                const residuoSelect = document.getElementById('id_tipo_residuo');
+                const residuoTexto = residuoSelect.options[residuoSelect.selectedIndex].text;
+                
+                // Formata a data para exibição PT-BR (ex: 30/10/2025)
+                const dataFormatada = selectedDate.toLocaleDateString('pt-BR');
+
+                // CORREÇÃO: Preencher modal com os dados dos campos corretos
+                document.getElementById('numeroProtocolo').innerText = protocoloFalso;
+                document.getElementById('protocoloEmail').innerText = data.email_usuario_agendamento;
+                document.getElementById('protocoloNome').innerText = data.tipo_pessoa === 'doador' ? 'Doador' : 'Coletor'; // Deixa o texto bonito
+                document.getElementById('protocoloData').innerText = dataFormatada; // Usa a data formatada
+                document.getElementById('protocoloHora').innerText = data.hora_agendada;
+                document.getElementById('protocoloResiduos').innerText = residuoTexto; // Usa o texto
+                // --- Fim da Simulação ---
+
+
+                const modal = document.getElementById('modalProtocolo');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+
+                this.reset();
+            });
+        }
+        // ========================================================
+        // FIM DO SCRIPT DO FORMULÁRIO
+        // ========================================================
+
+
+        // --- CÓDIGO DO CHATBOT (Listeners e Estado Inicial) ---
+        // (Permanece o mesmo)
+        if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+        if(userInput) userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        if (chatWindowContainer) {
+          chatWindowContainer.style.display = 'none';
+        }
+
+        // --- SCRIPT CONTROLE DE FONTE ---
+        // (Permanece o mesmo)
+        const toggleFontBtn = document.getElementById('toggleFontButtons');
+        const fontButtonsDiv = document.getElementById('fontButtons');
+        if (toggleFontBtn && fontButtonsDiv) {
+            toggleFontBtn.addEventListener('click', () => {
+                fontButtonsDiv.classList.toggle('hidden');
+            });
+             // Opcional: Fechar se clicar fora
+            document.addEventListener('click', (e) => {
+                 const container = document.querySelector('.font-controls');
+                 if (container && !container.contains(e.target) && !fontButtonsDiv.classList.contains('hidden')) {
+                     fontButtonsDiv.classList.add('hidden');
+                 }
+            });
+        } else {
+             console.error("Erro: Botões de controle de fonte não encontrados.");
+        }
+
+    }); // Fim do DOMContentLoaded
+
+    // --- Funções Globais do Modal ---
+    // (Permanecem as mesmas)
+    function imprimirProtocolo() { window.print(); }
+    function fecharModalProtocolo() {
+        const modal = document.getElementById('modalProtocolo');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    function novoAgendamento() {
+        const modal = document.getElementById('modalProtocolo');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    window.imprimirProtocolo = imprimirProtocolo;
+    window.fecharModalProtocolo = fecharModalProtocolo;
+    window.novoAgendamento = novoAgenSdamento;
+
+    // --- FUNÇÃO GLOBAL CONTROLE DE FONTE ---
+    // (Permanece a mesma)
+    let nivelFonte = 1; // Nível inicial (100%)
+    const tamanhos = [87.5, 100, 112.5, 125]; // %, correspondendo a A-, A, A+, A++
+    function alterarFonte(nivel) {
+      if (nivel === 0) { // Botão 'A' reseta para o padrão
+        nivelFonte = 1;
+      } else {
+        nivelFonte += nivel;
+        if (nivelFonte < 0) nivelFonte = 0;
+        if (nivelFonte > tamanhos.length - 1) nivelFonte = tamanhos.length - 1;
+      }
+      document.documentElement.style.fontSize = tamanhos[nivelFonte] + '%';
+    }
+</script>
+
+
+ <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>
+
